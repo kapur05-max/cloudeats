@@ -1,11 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7F925QFD7J"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-7F925QFD7J');
+</script>
+
 <meta name="google-site-verification" content="ju2KIHCjcNTgRGv3TwI8Q-qjDy2fmpBrE1OG6twhC-c" />
 
 <title>Cloud Eats | Discover Cloud Kitchens & Vegan Food Brands</title>
 
 <meta name="description" content="Cloud Eats connects customers with independent cloud kitchens and plant-based food brands. Register your kitchen, discover new food brands or become a delivery driver.">
+
+<meta name="keywords" content="cloud kitchens UK, ghost kitchens UK, vegan food brands, plant based delivery, cloud kitchen platform, London cloud kitchens">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -127,7 +139,7 @@ margin:20px;
 <header>
 
 <div class="logo">
-<img src="https://i.postimg.cc/SsL7Lmst/Cloud-Eats-Logo.png">
+<img src="https://i.postimg.cc/SsL7Lmst/Cloud-Eats-Logo.png" alt="Cloud Eats logo">
 </div>
 
 <nav>
@@ -166,7 +178,8 @@ Join Cloud Eats and share your food with the world.
 
 <div class="section" id="kitchens">
 
-<h2 id="kitchenCount">Cloud Kitchens on Cloud Eats</h2>
+<h2>Cloud Kitchens in the UK</h2>
+<h3 id="kitchenCount">Kitchens Available</h3>
 
 <div id="kitchen-list"></div>
 
@@ -307,7 +320,7 @@ container.innerHTML+=`
 
 <div class="card">
 
-<img src="${image}">
+<img src="${image}" alt="Vegan food dish">
 
 <h3>${kitchen["Business Name"]}</h3>
 
