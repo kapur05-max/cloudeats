@@ -290,9 +290,9 @@ data=data.filter(k=>k["City"]===city);
 
 document.getElementById("kitchenCount").innerText=data.length+" Kitchens Available";
 
-data.forEach(kitchen=>{
+data.forEach((kitchen,index)=>{
 
-let image="https://source.unsplash.com/400x300/?vegan,food,tofu,vegetables";
+let image="https://picsum.photos/400/300?random="+(index+1);
 
 container.innerHTML+=`
 
