@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 
@@ -23,7 +22,7 @@ align-items:center;
 }
 
 .logo img{
-height:60px;
+height:90px;
 }
 
 nav a{
@@ -37,16 +36,22 @@ font-weight:bold;
 background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd');
 background-size:cover;
 background-position:center;
-padding:120px 20px;
+padding:140px 20px;
 text-align:center;
 color:white;
 }
 
 .hero h1{
+font-size:42px;
 background:rgba(0,0,0,0.5);
-padding:20px;
+padding:25px;
 display:inline-block;
 border-radius:10px;
+}
+
+.hero p{
+font-size:20px;
+font-weight:bold;
 }
 
 .section{
@@ -115,8 +120,8 @@ text-align:center;
 <nav>
 <a href="#">Home</a>
 <a href="#kitchens">Browse Kitchens</a>
-<a href="#join">Add Kitchen</a>
-<a href="#drivers">Drivers</a>
+<a href="#join">Register Kitchen</a>
+<a href="#drivers">Driver Registration</a>
 <a href="#contact">Contact</a>
 </nav>
 
@@ -126,7 +131,7 @@ text-align:center;
 
 <h1>Discover the Next Generation of Food Brands</h1>
 
-<p style="font-weight: bold; color: white;">
+<p>
 Turn your kitchen into a food brand.<br>
 Join Cloud Eats and share your food with the world.
 </p>
@@ -164,9 +169,7 @@ Join Cloud Eats and share your food with the world.
 Free to register your kitchen<br>
 Only 10% commission per order<br>
 No monthly fees<br><br>
-
 After approval you will be able to submit menu photos.
-
 </p>
 
 <a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform">
@@ -204,29 +207,6 @@ src="https://www.google.com/maps?q=London,UK&output=embed">
 
 </div>
 
-<div class="section">
-
-<h2>Coming Soon</h2>
-
-<p>
-Leeds<br>
-Bristol<br>
-Glasgow
-</p>
-
-</div>
-
-<div class="section">
-
-<h2>Privacy & Data Protection</h2>
-
-<p>
-Cloud Eats collects information from kitchens and drivers for verification and platform operations.
-All data is handled according to UK GDPR.
-</p>
-
-</div>
-
 <div class="section" id="contact">
 
 <h2>Contact</h2>
@@ -243,24 +223,25 @@ support@cloudeats.co.uk
 
 <p>© 2026 Cloud Eats Ltd</p>
 
-<p>
-Cloud Eats is a discovery platform connecting customers with independent food businesses. 
-All food preparation, safety and delivery responsibilities remain with the kitchen partner.
-</p>
-
 </footer>
 
 <script>
 
 const sheetID="1l6mrXQOZaj82TMWa2kY3Ara0gSjZ0dI2K_lKyG9Pld8";
+let kitchensData=[];
 
-fetch(`https://opensheet.elk.sh/${sheetID}/Form%20Responses%201`)
-.then(res=>res.json())
-.then(data=>{
+function displayKitchens(city){
 
 let container=document.getElementById("kitchen-list");
+container.innerHTML="";
 
-data.forEach(kitchen=>{
+let filtered=kitchensData;
+
+if(city!=="all"){
+filtered=kitchensData.filter(k=>k["City"]===city);
+}
+
+filtered.forEach(kitchen=>{
 
 container.innerHTML+=`
 
@@ -281,293 +262,20 @@ container.innerHTML+=`
 
 });
 
-});
-
-</script>
-
-</body>
-</html><!DOCTYPE html>
-
-<html>
-<head>
-
-<title>Cloud Eats</title>
-
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#eaf6ff;
 }
-
-header{
-background:#0b3d91;
-color:white;
-padding:15px 30px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.logo img{
-height:60px;
-}
-
-nav a{
-color:white;
-margin-left:20px;
-text-decoration:none;
-font-weight:bold;
-}
-
-.hero{
-background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd');
-background-size:cover;
-background-position:center;
-padding:120px 20px;
-text-align:center;
-color:white;
-}
-
-.hero h1{
-background:rgba(0,0,0,0.5);
-padding:20px;
-display:inline-block;
-border-radius:10px;
-}
-
-.section{
-padding:50px 20px;
-text-align:center;
-}
-
-.card{
-background:white;
-display:inline-block;
-width:260px;
-margin:20px;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 4px 10px rgba(0,0,0,0.1);
-}
-
-.card img{
-width:100%;
-height:160px;
-object-fit:cover;
-}
-
-.badge{
-background:#0b3d91;
-color:white;
-padding:5px 8px;
-border-radius:6px;
-font-size:12px;
-display:inline-block;
-margin:4px;
-}
-
-.plant{
-background:green;
-}
-
-button{
-background:#0b3d91;
-color:white;
-padding:12px 20px;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
-
-footer{
-background:#0b3d91;
-color:white;
-padding:30px;
-text-align:center;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-<img src="https://i.postimg.cc/SsL7Lmst/Cloud-Eats-Logo.png">
-</div>
-
-<nav>
-<a href="#">Home</a>
-<a href="#kitchens">Browse Kitchens</a>
-<a href="#join">Add Kitchen</a>
-<a href="#drivers">Drivers</a>
-<a href="#contact">Contact</a>
-</nav>
-
-</header>
-
-<div class="hero">
-
-<h1>Discover the Next Generation of Food Brands</h1>
-
-<p style="font-weight: bold; color: white;">
-Turn your kitchen into a food brand.<br>
-Join Cloud Eats and share your food with the world.
-</p>
-
-</div>
-
-<div class="section">
-
-<h2>Select City</h2>
-
-<select id="cityFilter">
-
-<option value="all">All Cities</option>
-<option value="London">London</option>
-<option value="Manchester">Manchester</option>
-<option value="Birmingham">Birmingham</option>
-
-</select>
-
-</div>
-
-<div class="section" id="kitchens">
-
-<h2>Cloud Kitchens on Cloud Eats</h2>
-
-<div id="kitchen-list"></div>
-
-</div>
-
-<div class="section" id="join">
-
-<h2>Join Cloud Eats</h2>
-
-<p>
-Free to register your kitchen<br>
-Only 10% commission per order<br>
-No monthly fees<br><br>
-
-After approval you will be able to submit menu photos.
-
-</p>
-
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform">
-<button>Register Kitchen</button>
-</a>
-
-</div>
-
-<div class="section" id="drivers">
-
-<h2>Become a Driver</h2>
-
-<p>
-Drivers must upload driving licence, proof of address and right to work.
-</p>
-
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform">
-<button>Apply to Drive</button>
-</a>
-
-</div>
-
-<div class="section">
-
-<h2>Delivery Cities</h2>
-
-<iframe
-width="90%"
-height="350"
-style="border:0"
-loading="lazy"
-allowfullscreen
-src="https://www.google.com/maps?q=London,UK&output=embed">
-</iframe>
-
-</div>
-
-<div class="section">
-
-<h2>Coming Soon</h2>
-
-<p>
-Leeds<br>
-Bristol<br>
-Glasgow
-</p>
-
-</div>
-
-<div class="section">
-
-<h2>Privacy & Data Protection</h2>
-
-<p>
-Cloud Eats collects information from kitchens and drivers for verification and platform operations.
-All data is handled according to UK GDPR.
-</p>
-
-</div>
-
-<div class="section" id="contact">
-
-<h2>Contact</h2>
-
-<p>Email:
-<a href="mailto:support@cloudeats.co.uk">
-support@cloudeats.co.uk
-</a>
-</p>
-
-</div>
-
-<footer>
-
-<p>© 2026 Cloud Eats Ltd</p>
-
-<p>
-Cloud Eats is a discovery platform connecting customers with independent food businesses. 
-All food preparation, safety and delivery responsibilities remain with the kitchen partner.
-</p>
-
-</footer>
-
-<script>
-
-const sheetID="1l6mrXQOZaj82TMWa2kY3Ara0gSjZ0dI2K_lKyG9Pld8";
 
 fetch(`https://opensheet.elk.sh/${sheetID}/Form%20Responses%201`)
 .then(res=>res.json())
 .then(data=>{
 
-let container=document.getElementById("kitchen-list");
-
-data.forEach(kitchen=>{
-
-container.innerHTML+=`
-
-<div class="card">
-
-<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c">
-
-<h3>${kitchen["Kitchen Name"]}</h3>
-
-<p>${kitchen["City"]}</p>
-
-<span class="badge">Cloud Kitchen</span>
-<span class="badge plant">Plant-Based Verified</span>
-
-</div>
-
-`;
+kitchensData=data;
+displayKitchens("all");
 
 });
+
+document.getElementById("cityFilter").addEventListener("change",function(){
+
+displayKitchens(this.value);
 
 });
 
