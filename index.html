@@ -265,8 +265,6 @@ Cloud Eats does not operate kitchens or prepare food.
 
 <script>
 
-const sheetID="1l6mrXQOZaj82TMWa2kY3Ara0gSjZ0dI2K_lKyG9Pld8";
-
 let kitchensData=[];
 
 const demoKitchens=[
@@ -277,12 +275,20 @@ const demoKitchens=[
 {City:"Birmingham","Business Name":"Veggie Spice Kitchen","Cuisine Type":"Vegan Indian","Kitchen Type":"Dark Kitchen"}
 ];
 
+const veganImages=[
+"https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
+"https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
+"https://images.unsplash.com/photo-1490645935967-10de6ba17061",
+"https://images.unsplash.com/photo-1505253716362-afaea1d3d1af",
+"https://images.unsplash.com/photo-1478145046317-39f10e56b5e9"
+];
+
 function displayKitchens(city){
 
 let container=document.getElementById("kitchen-list");
 container.innerHTML="";
 
-let data=kitchensData.length>0?kitchensData:demoKitchens;
+let data=demoKitchens;
 
 if(city!=="all"){
 data=data.filter(k=>k["City"]===city);
@@ -292,7 +298,7 @@ document.getElementById("kitchenCount").innerText=data.length+" Kitchens Availab
 
 data.forEach((kitchen,index)=>{
 
-let image="https://picsum.photos/400/300?random="+(index+1);
+let image=veganImages[index % veganImages.length];
 
 container.innerHTML+=`
 
@@ -300,7 +306,7 @@ container.innerHTML+=`
 
 <img src="${image}">
 
-<h3>${kitchen["Business Name"]||kitchen["Business Type"]}</h3>
+<h3>${kitchen["Business Name"]}</h3>
 
 <p>${kitchen["Cuisine Type"]} • ${kitchen["City"]}</p>
 
@@ -317,12 +323,7 @@ container.innerHTML+=`
 
 }
 
-fetch(`https://opensheet.elk.sh/${sheetID}/Form%20Responses%201`)
-.then(res=>res.json())
-.then(data=>{
-kitchensData=data;
 displayKitchens("all");
-});
 
 document.getElementById("cityFilter").addEventListener("change",function(){
 displayKitchens(this.value);
