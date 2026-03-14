@@ -270,11 +270,11 @@ const sheetID="1l6mrXQOZaj82TMWa2kY3Ara0gSjZ0dI2K_lKyG9Pld8";
 let kitchensData=[];
 
 const demoKitchens=[
-{City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Indian","Kitchen Type":"Cloud Kitchen","Image":"https://images.unsplash.com/photo-1604908176997-125f25cc6f3d"},
-{City:"London","Business Name":"Midnight Pasta Lab","Cuisine Type":"Italian","Kitchen Type":"Dark Kitchen","Image":"https://images.unsplash.com/photo-1525755662778-989d0524087e"},
-{City:"London","Business Name":"Green Leaf Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Ghost Kitchen","Image":"https://images.unsplash.com/photo-1546069901-ba9599a7e63c"},
-{City:"Manchester","Business Name":"Northern Noodles","Cuisine Type":"Asian","Kitchen Type":"Cloud Kitchen","Image":"https://images.unsplash.com/photo-1562967914-608f82629710"},
-{City:"Birmingham","Business Name":"Spice Route Kitchen","Cuisine Type":"Indian","Kitchen Type":"Dark Kitchen","Image":"https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4"}
+{City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Cloud Kitchen"},
+{City:"London","Business Name":"Green Garden Kitchen","Cuisine Type":"Plant Based","Kitchen Type":"Ghost Kitchen"},
+{City:"London","Business Name":"Tofu Street Kitchen","Cuisine Type":"Asian Vegan","Kitchen Type":"Dark Kitchen"},
+{City:"Manchester","Business Name":"Northern Vegan Kitchen","Cuisine Type":"Healthy Bowls","Kitchen Type":"Cloud Kitchen"},
+{City:"Birmingham","Business Name":"Veggie Spice Kitchen","Cuisine Type":"Vegan Indian","Kitchen Type":"Dark Kitchen"}
 ];
 
 function displayKitchens(city){
@@ -292,7 +292,7 @@ document.getElementById("kitchenCount").innerText=data.length+" Kitchens Availab
 
 data.forEach(kitchen=>{
 
-let image=kitchen["Upload Food Image"]||kitchen["Image"];
+let image="https://source.unsplash.com/400x300/?vegan,food,tofu,vegetables";
 
 container.innerHTML+=`
 
