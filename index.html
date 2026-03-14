@@ -265,8 +265,6 @@ Cloud Eats does not operate kitchens or prepare food.
 
 <script>
 
-let kitchensData=[];
-
 const demoKitchens=[
 {City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Cloud Kitchen"},
 {City:"London","Business Name":"Green Garden Kitchen","Cuisine Type":"Plant Based","Kitchen Type":"Ghost Kitchen"},
@@ -277,8 +275,8 @@ const demoKitchens=[
 
 const veganImages=[
 "https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-"https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
 "https://images.unsplash.com/photo-1490645935967-10de6ba17061",
+"https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
 "https://images.unsplash.com/photo-1505253716362-afaea1d3d1af",
 "https://images.unsplash.com/photo-1478145046317-39f10e56b5e9"
 ];
@@ -291,7 +289,7 @@ container.innerHTML="";
 let data=demoKitchens;
 
 if(city!=="all"){
-data=data.filter(k=>k["City"]===city);
+data=data.filter(k=>k.City===city);
 }
 
 document.getElementById("kitchenCount").innerText=data.length+" Kitchens Available";
