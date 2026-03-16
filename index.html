@@ -235,36 +235,6 @@ Discover takeaway restaurants, independent chefs and food brands operating from 
 
 </div>
 
-<div class="section" id="join">
-
-<h2>Join Cloud Eats</h2>
-
-<p>
-Free to register your kitchen<br>
-Only 10% commission per order<br>
-No monthly fees
-</p>
-
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform">
-<button>Register Kitchen</button>
-</a>
-
-</div>
-
-<div class="section" id="drivers">
-
-<h2>Become a Driver</h2>
-
-<p>
-Drivers must upload driving licence, proof of address and right to work.
-</p>
-
-<a href="https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform">
-<button>Apply to Drive</button>
-</a>
-
-</div>
-
 <div class="section">
 
 <h2>Frequently Asked Questions</h2>
@@ -283,6 +253,48 @@ Yes, many chefs start a home kitchen business by registering with their local co
 
 </div>
 
+<!-- SEO Sections Added -->
+
+<div class="section">
+
+<h2>Cloud Kitchen UK</h2>
+
+<p>
+A cloud kitchen UK is a delivery-only kitchen designed for online food orders. Many chefs and food entrepreneurs are launching cloud kitchen businesses without opening traditional restaurants. CloudEats helps chefs start a cloud kitchen, upload menus and grow a food brand through delivery and takeaway.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Ghost Kitchen UK</h2>
+
+<p>
+A ghost kitchen UK is a professional kitchen where food brands prepare meals for delivery platforms. Many modern food startups operate ghost kitchens to reach customers without dine-in restaurants. CloudEats connects ghost kitchens with customers looking for exciting takeaway food brands.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Dark Kitchen UK</h2>
+
+<p>
+Dark kitchen UK businesses focus entirely on delivery and takeaway food. Restaurants and food entrepreneurs use dark kitchens to expand their brands quickly. CloudEats helps chefs launch dark kitchens and connect with customers across London, Manchester and other UK cities.
+</p>
+
+</div>
+
+<div class="section">
+
+<h2>Home Kitchen Business</h2>
+
+<p>
+Starting a home kitchen business allows chefs to prepare and sell meals from their home kitchen. Many UK food entrepreneurs start small food brands from home before expanding into cloud kitchens or ghost kitchens. CloudEats helps home chefs showcase their food and reach customers online.
+</p>
+
+</div>
+
 <div class="section">
 
 <h2>Coming Soon Cities</h2>
@@ -295,95 +307,4 @@ Glasgow
 
 </div>
 
-<div class="section" id="contact">
-
-<h2>Contact</h2>
-
-<p>Email:
-<a href="mailto:support@cloudeats.co.uk">
-support@cloudeats.co.uk
-</a>
-</p>
-
-</div>
-
-<footer>
-
-<p>© 2026 Cloud Eats Ltd</p>
-
-<p>
-Cloud Eats is a discovery platform connecting customers with independent food businesses.
-All food preparation, food safety and delivery responsibilities remain with the kitchen partner.
-Cloud Eats does not operate kitchens or prepare food.
-</p>
-
-</footer>
-
-<script>
-
-const demoKitchens=[
-{City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Cloud Kitchen"},
-{City:"London","Business Name":"Green Garden Kitchen","Cuisine Type":"Plant Based","Kitchen Type":"Ghost Kitchen"},
-{City:"London","Business Name":"Tofu Street Kitchen","Cuisine Type":"Asian Vegan","Kitchen Type":"Dark Kitchen"},
-{City:"Manchester","Business Name":"Northern Vegan Kitchen","Cuisine Type":"Healthy Bowls","Kitchen Type":"Cloud Kitchen"},
-{City:"Birmingham","Business Name":"Veggie Spice Kitchen","Cuisine Type":"Vegan Indian","Kitchen Type":"Dark Kitchen"}
-];
-
-const veganImages=[
-"https://images.unsplash.com/photo-1546069901-ba9599a7e63c",
-"https://images.unsplash.com/photo-1490645935967-10de6ba17061",
-"https://images.unsplash.com/photo-1512621776951-a57141f2eefd",
-"https://images.unsplash.com/photo-1505253716362-afaea1d3d1af",
-"https://images.unsplash.com/photo-1478145046317-39f10e56b5e9"
-];
-
-function displayKitchens(city){
-
-let container=document.getElementById("kitchen-list");
-container.innerHTML="";
-
-let data=demoKitchens;
-
-if(city!=="all"){
-data=data.filter(k=>k.City===city);
-}
-
-document.getElementById("kitchenCount").innerText=data.length+" Kitchens Available";
-
-data.forEach((kitchen,index)=>{
-
-let image=veganImages[index % veganImages.length];
-
-container.innerHTML+=`
-
-<div class="card">
-
-<img src="${image}" alt="Cloud kitchen takeaway food dish">
-
-<h3>${kitchen["Business Name"]}</h3>
-
-<p>${kitchen["Cuisine Type"]} • ${kitchen["City"]}</p>
-
-<span class="badge">${kitchen["Kitchen Type"]}</span>
-<span class="badge">Verified Kitchen</span>
-
-<p style="font-size:12px;color:#666;">Menu coming soon</p>
-
-</div>
-
-`;
-
-});
-
-}
-
-displayKitchens("all");
-
-document.getElementById("cityFilter").addEventListener("change",function(){
-displayKitchens(this.value);
-});
-
-</script>
-
-</body>
-</html>
+<div class="section" id
