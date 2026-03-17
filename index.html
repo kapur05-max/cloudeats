@@ -50,7 +50,7 @@ font-weight:bold;
 }
 
 .hero{
-background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd');
+background-image:url('https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=1600');
 background-size:cover;
 background-position:center;
 padding:170px 20px;
@@ -139,7 +139,7 @@ margin:20px;
 <header>
 
 <div class="logo">
-<img src="https://i.postimg.cc/SsL7Lmst/Cloud-Eats-Logo.png" alt="CloudEats cloud kitchen platform logo">
+<img src="https://i.postimg.cc/SsL7Lmst/Cloud-Eats-Logo.png" alt="CloudEats logo">
 </div>
 
 <nav>
@@ -178,6 +178,8 @@ Turn your kitchen into a food brand or discover amazing home chefs, cloud kitche
 <option value="Birmingham">Birmingham</option>
 </select>
 
+<p style="margin-top:10px;color:#555;">More cities coming soon...</p>
+
 </div>
 
 <div class="section" id="kitchens">
@@ -195,116 +197,115 @@ Turn your kitchen into a food brand or discover amazing home chefs, cloud kitche
 
 <div class="steps">
 
-<div class="step">
-<h3>1</h3>
-<p>Register your kitchen</p>
-</div>
-
-<div class="step">
-<h3>2</h3>
-<p>Upload your menu</p>
-</div>
-
-<div class="step">
-<h3>3</h3>
-<p>Receive orders</p>
-</div>
-
-<div class="step">
-<h3>4</h3>
-<p>Grow your food brand</p>
-</div>
+<div class="step"><h3>1</h3><p>Register your kitchen</p></div>
+<div class="step"><h3>2</h3><p>Upload your menu</p></div>
+<div class="step"><h3>3</h3><p>Receive orders</p></div>
+<div class="step"><h3>4</h3><p>Grow your food brand</p></div>
 
 </div>
 
 </div>
 
 <div class="section">
-
 <h2>Cloud Kitchen UK</h2>
 <p>A cloud kitchen UK is a delivery-only kitchen designed for online food orders. CloudEats helps chefs launch cloud kitchens and food brands without opening a traditional restaurant.</p>
-
 </div>
 
 <div class="section">
-
 <h2>Ghost Kitchen UK</h2>
 <p>Ghost kitchens allow food brands to operate delivery-first restaurants. CloudEats helps chefs run ghost kitchens and reach customers across the UK.</p>
-
 </div>
 
 <div class="section">
-
 <h2>Dark Kitchen UK</h2>
 <p>Dark kitchens focus entirely on takeaway and food delivery. Many restaurants expand their brands using dark kitchens.</p>
-
 </div>
 
 <div class="section">
-
 <h2>Home Kitchen Business</h2>
 <p>Starting a home kitchen business allows chefs to cook from home and sell meals online while building their own food brand.</p>
-
 </div>
 
 <div class="section" id="join">
-
 <h2>Join Cloud Eats</h2>
-
-<p>
-Free to register your kitchen<br>
-Only 10% commission per order<br>
-No monthly fees
-</p>
-
+<p>Free to register your kitchen<br>Only 10% commission per order<br>No monthly fees</p>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform">
 <button>Register Kitchen</button>
 </a>
-
 </div>
 
 <div class="section" id="delivery">
-
 <h2>Food Delivery with CloudEats</h2>
-
-<p>
-CloudEats is a food delivery platform connecting customers with home kitchens, cloud kitchens, dark kitchens, ghost kitchens, and takeaways across London, Birmingham, and Manchester.
-</p>
-
-<p>
-Delivery services will be available as kitchens and drivers join and go live on the platform.
-</p>
-
+<p>CloudEats is a food delivery platform connecting customers with home kitchens, cloud kitchens, dark kitchens, ghost kitchens, and takeaways across London, Birmingham, and Manchester.</p>
+<p>Delivery services will be available as kitchens and drivers join and go live on the platform.</p>
 </div>
 
 <div class="section" id="drivers">
-
 <h2>Become a Driver</h2>
-
-<p>
-Drivers must upload driving licence, proof of address and right to work.
-</p>
-
+<p>Drivers must upload driving licence, proof of address and right to work.</p>
 <a href="https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform">
 <button>Apply to Drive</button>
 </a>
-
 </div>
 
 <footer>
-
 <p>© 2026 Cloud Eats Ltd</p>
-
 <p>
 Cloud Eats is a discovery platform connecting customers with independent food businesses.
 All food preparation, food safety and delivery responsibilities remain with the kitchen partner.
 Cloud Eats does not operate kitchens or prepare food.
 </p>
-
 </footer>
 
 <script>
-// (same script as before — keep unchanged)
+
+const demoKitchens=[
+{City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Cloud Kitchen"},
+{City:"London","Business Name":"Green Garden Kitchen","Cuisine Type":"Plant Based","Kitchen Type":"Ghost Kitchen"},
+{City:"London","Business Name":"Tofu Street Kitchen","Cuisine Type":"Asian Vegan","Kitchen Type":"Dark Kitchen"},
+{City:"Manchester","Business Name":"Northern Vegan Kitchen","Cuisine Type":"Healthy Bowls","Kitchen Type":"Cloud Kitchen"},
+{City:"Birmingham","Business Name":"Veggie Spice Kitchen","Cuisine Type":"Vegan Indian","Kitchen Type":"Dark Kitchen"}
+];
+
+const veganImages=[
+"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800",
+"https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=800",
+"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+"https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800",
+"https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?w=800"
+];
+
+function displayKitchens(city){
+let container=document.getElementById("kitchen-list");
+container.innerHTML="";
+let data=demoKitchens;
+
+if(city!=="all"){data=data.filter(k=>k.City===city);}
+
+document.getElementById("kitchenCount").innerText=data.length+" Kitchens Available";
+
+data.forEach((kitchen,index)=>{
+let image=veganImages[index % veganImages.length];
+
+container.innerHTML+=`
+<div class="card">
+<img src="${image}" alt="Food dish">
+<h3>${kitchen["Business Name"]}</h3>
+<p>${kitchen["Cuisine Type"]} • ${kitchen["City"]}</p>
+<span class="badge">${kitchen["Kitchen Type"]}</span>
+<span class="badge">Verified Kitchen</span>
+<p style="font-size:12px;color:#666;">Menu coming soon</p>
+</div>
+`;
+});
+}
+
+displayKitchens("all");
+
+document.getElementById("cityFilter").addEventListener("change",function(){
+displayKitchens(this.value);
+});
+
 </script>
 
 </body>
