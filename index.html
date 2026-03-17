@@ -110,40 +110,21 @@ Turn your kitchen into a food brand or discover amazing home chefs, cloud kitche
 
 <div class="section">
 <h2>Select City</h2>
-<select>
-<option>London</option>
-<option>Manchester</option>
-<option>Birmingham</option>
+
+<select id="cityFilter">
+<option value="all">All Cities</option>
+<option value="London">London</option>
+<option value="Manchester">Manchester</option>
+<option value="Birmingham">Birmingham</option>
 </select>
 
 <p>More cities coming soon: Bristol, Leeds, Glasgow</p>
 </div>
 
 <div class="section" id="kitchens">
-
 <h2>Cloud Kitchens in the UK</h2>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800" alt="Vegan wrap">
-<h3>Urban Bowl Kitchen</h3>
-<p>Vegan • London</p>
-<span class="badge">Cloud Kitchen</span>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800" alt="Vegan salad">
-<h3>Green Garden Kitchen</h3>
-<p>Plant Based • London</p>
-<span class="badge">Ghost Kitchen</span>
-</div>
-
-<div class="card">
-<img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" alt="Vegan bowl">
-<h3>Tofu Street Kitchen</h3>
-<p>Asian Vegan • London</p>
-<span class="badge">Dark Kitchen</span>
-</div>
-
+<h3 id="kitchenCount"></h3>
+<div id="kitchen-list"></div>
 </div>
 
 <div class="section">
@@ -166,22 +147,6 @@ Turn your kitchen into a food brand or discover amazing home chefs, cloud kitche
 <p>Starting a home kitchen business allows chefs to cook from home and sell meals online while building their own food brand.</p>
 </div>
 
-<div class="section" id="join">
-<h2>Join Cloud Eats</h2>
-<p>Free to register your kitchen<br>Only 10% commission per order<br>No monthly fees</p>
-</div>
-
-<div class="section" id="delivery">
-<h2>Food Delivery with CloudEats</h2>
-<p>CloudEats is a food delivery platform connecting customers with home kitchens, cloud kitchens, dark kitchens, ghost kitchens, and takeaways across London, Birmingham, and Manchester.</p>
-<p>Delivery services will be available as kitchens and drivers join and go live on the platform.</p>
-</div>
-
-<div class="section" id="drivers">
-<h2>Become a Driver</h2>
-<p>Drivers must upload driving licence, proof of address and right to work.</p>
-</div>
-
 <footer>
 <p>© 2026 Cloud Eats Ltd</p>
 <p>
@@ -190,6 +155,57 @@ All food preparation, food safety and delivery responsibilities remain with the 
 Cloud Eats does not operate kitchens or prepare food.
 </p>
 </footer>
+
+<script>
+
+const demoKitchens=[
+{City:"London","Business Name":"Urban Bowl Kitchen","Cuisine Type":"Vegan","Kitchen Type":"Cloud Kitchen"},
+{City:"London","Business Name":"Green Garden Kitchen","Cuisine Type":"Plant Based","Kitchen Type":"Ghost Kitchen"},
+{City:"London","Business Name":"Tofu Street Kitchen","Cuisine Type":"Asian Vegan","Kitchen Type":"Dark Kitchen"},
+{City:"Manchester","Business Name":"Northern Vegan Kitchen","Cuisine Type":"Healthy Bowls","Kitchen Type":"Cloud Kitchen"},
+{City:"Birmingham","Business Name":"Veggie Spice Kitchen","Cuisine Type":"Vegan Indian","Kitchen Type":"Dark Kitchen"}
+];
+
+const veganImages=[
+"https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=800",
+"https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800",
+"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800",
+"https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=800",
+"https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=800"
+];
+
+function displayKitchens(city){
+let container=document.getElementById("kitchen-list");
+container.innerHTML="";
+let data=demoKitchens;
+
+if(city!=="all"){
+data=data.filter(k=>k.City===city);
+}
+
+document.getElementById("kitchenCount").innerText=data.length+" Kitchens Available";
+
+data.forEach((kitchen,index)=>{
+let image=veganImages[index];
+
+container.innerHTML+=`
+<div class="card">
+<img src="${image}">
+<h3>${kitchen["Business Name"]}</h3>
+<p>${kitchen["Cuisine Type"]} • ${kitchen["City"]}</p>
+<span class="badge">${kitchen["Kitchen Type"]}</span>
+</div>
+`;
+});
+}
+
+displayKitchens("all");
+
+document.getElementById("cityFilter").addEventListener("change",function(){
+displayKitchens(this.value);
+});
+
+</script>
 
 </body>
 </html>
