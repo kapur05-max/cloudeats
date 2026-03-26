@@ -35,6 +35,12 @@ font-weight:bold;
 font-size:14px;
 }
 
+nav .order-btn{
+background:#ff9800;
+padding:8px 14px;
+border-radius:6px;
+}
+
 .hero{
 background-image:
 linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
@@ -50,16 +56,28 @@ color:white;
 font-size:38px;
 }
 
+.hero .tagline{
+font-size:30px;
+font-weight:bold;
+margin-top:15px;
+}
+
 .hero p{
-font-size:20px;
+font-size:24px;
 margin-top:12px;
 }
 
 .bold-line{
 font-weight:bold;
-font-size:20px;
-max-width:900px;
+font-size:24px;
+max-width:950px;
 margin:15px auto;
+}
+
+.highlight-orange{
+color:#ff9800;
+font-weight:bold;
+font-size:22px;
 }
 
 .section{
@@ -123,10 +141,10 @@ font-size:14px;
 
 <nav>
 <a href="#">Home</a>
-<a href="#orderFood">Order Food</a>
+<a href="#orderFood" class="order-btn">Order Food</a>
 <a href="#kitchens">Browse Kitchens</a>
 <a href="#findKitchen">Find a Kitchen</a>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfIJU2HIzt2gg6PRgf_gtedNDDXqUVXHQ0FHehVkyMQ55Jztw/viewform" target="_blank">List Your Kitchen</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header" target="_blank">List Your Kitchen</a>
 <a href="#flowers">Order Flowers</a>
 <a href="#sellFlowers">Sell Flowers</a>
 <a href="#drivers">Drive with CloudEats</a>
@@ -138,7 +156,9 @@ font-size:14px;
 
 <h1>CloudEats – Food Delivery Platform for Local & Cloud Kitchens</h1>
 
-<p>A marketplace for independent kitchens.</p>
+<div class="tagline">
+A marketplace for independent kitchens.
+</div>
 
 <p class="bold-line">
 CloudEats is a food delivery platform connecting customers with home kitchens, cloud kitchens, dark kitchens, ghost kitchens and tiffin services across the UK.
@@ -148,7 +168,7 @@ CloudEats is a food delivery platform connecting customers with home kitchens, c
 Order from home chefs, cloud kitchens, and tiffin services — or list your kitchen and grow your food business.
 </p>
 
-<p>
+<p class="highlight-orange">
 Ordering will be available as kitchens go live on the platform.
 </p>
 
@@ -161,11 +181,11 @@ Ordering will be available as kitchens go live on the platform.
 We are currently onboarding local kitchens in London, Birmingham, and Manchester.
 </p>
 
-<p><strong>
+<p class="highlight-orange">
 Ordering will be available as kitchens go live on the platform.
-</strong></p>
+</p>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfIJU2HIzt2gg6PRgf_gtedNDDXqUVXHQ0FHehVkyMQ55Jztw/viewform" target="_blank">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header" target="_blank">
 <button>👨‍🍳 List Your Kitchen</button>
 </a>
 
@@ -196,7 +216,7 @@ Whether you're running a commercial kitchen or looking to start a food business,
 You can also find available kitchen spaces or list your own commercial kitchen for rent.
 </p>
 
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfIJU2HIzt2gg6PRgf_gtedNDDXqUVXHQ0FHehVkyMQ55Jztw/viewform" target="_blank">
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header" target="_blank">
 <button>List Your Kitchen</button>
 </a>
 
@@ -230,26 +250,6 @@ You can also find available kitchen spaces or list your own commercial kitchen f
 <a href="https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform" target="_blank">
 <button>Apply to Drive</button>
 </a>
-</div>
-
-<div class="section">
-<h2>Cloud Kitchen UK</h2>
-<p>CloudEats helps chefs launch cloud kitchens and food brands without opening a restaurant.</p>
-</div>
-
-<div class="section">
-<h2>Ghost Kitchen UK</h2>
-<p>Run delivery-first restaurants and reach customers across the UK.</p>
-</div>
-
-<div class="section">
-<h2>Dark Kitchen UK</h2>
-<p>Expand food businesses with delivery-focused kitchen models.</p>
-</div>
-
-<div class="section">
-<h2>Home Kitchen Business</h2>
-<p>Start cooking from home and build your own food brand.</p>
 </div>
 
 <div class="section">
