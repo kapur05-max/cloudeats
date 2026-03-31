@@ -1,4 +1,4 @@
-So this is all I put on github, correct ? <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 
@@ -17,7 +17,6 @@ background:#eaf6ff;
 color:#222;
 }
 
-/* NAVBAR */
 header{
 background:#0b3d91;
 color:white;
@@ -43,7 +42,6 @@ padding:10px 16px;
 border-radius:20px;
 }
 
-/* HERO */
 .hero{
 background-image:
 linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
@@ -66,7 +64,6 @@ font-size:18px;
 margin-top:15px;
 }
 
-/* SEARCH */
 .search-box{
 margin-top:25px;
 }
@@ -94,7 +91,6 @@ font-weight:600;
 margin-top:15px;
 }
 
-/* GET STARTED */
 .get-started{
 text-align:center;
 padding:40px 20px;
@@ -121,13 +117,11 @@ transition:0.3s;
 transform:translateY(-5px);
 }
 
-/* SECTION (FIXED GAP) */
 .section{
 padding:40px 20px;
 text-align:center;
 }
 
-/* CARDS */
 .card{
 background:white;
 display:inline-block;
@@ -154,7 +148,6 @@ margin:6px;
 display:inline-block;
 }
 
-/* FOOTER */
 footer{
 background:#0b3d91;
 color:white;
@@ -186,10 +179,9 @@ line-height:1.6;
 </nav>
 </header>
 
-<!-- HERO -->
 <div class="hero">
 <h1>
-CloudEats is a food delivery platform connecting customers with Cloud Kitchens, dark kitchens, ghost kitchens, home kitchens, commercial kitchens and tiffin services across the UK.
+CloudEats is a food delivery platform connecting customers with Cloud Kitchens, dark kitchens, ghost kitchens, home kitchens, independent kitchens, commercial kitchens and tiffin services across the UK.
 </h1>
 
 <p>Discover food from modern kitchen businesses near you.</p>
@@ -204,44 +196,43 @@ Ordering will be available as kitchens go live on the platform.
 </p>
 </div>
 
-<!-- GET STARTED -->
 <div class="get-started">
 <h2>Get started with CloudEats</h2>
 <div class="get-cards">
-<div class="get-card" onclick="showMessage()">🍽 Order Food</div>
-<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header','_blank')">🏪 List Your Kitchen</div>
-<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform','_blank')">🚗 Drive with CloudEats</div>
+<div class="get-card" onclick="showMessage()"> Order Food</div>
+<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header','_blank')"> List Your Kitchen</div>
+<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform','_blank')"> Drive with CloudEats</div>
 </div>
 </div>
-  
-  <!-- COMMERCIAL KITCHENS -->
+
 <div class="section">
-
-<h2>Commercial Kitchens & Kitchen Spaces</h2>
-
-<p>
-Whether you're running a commercial kitchen or looking to start a food business, CloudEats helps you reach more customers and grow your brand.
-</p>
+<h2>Start or Grow Your Food Business</h2>
 
 <p>
-You can also list your commercial kitchen for rent or find available kitchen spaces across the UK.
+Join CloudEats to reach more customers, advertise your kitchen, and grow your brand — with low commission (only 10–15%), helping you keep more of what you earn.
+We also support commercial kitchen advertising and rental opportunities.
 </p>
 
-<p><strong>CloudEats focuses on plant-based food offerings across the platform.</strong></p>
+<p> <strong>Advertise your kitchen</strong><br>
+Get discovered by customers and grow your orders</p>
 
+<p> <strong>Commercial kitchen exposure</strong><br>
+List and promote your kitchen space to other food businesses</p>
+
+<p> <strong>Kitchen rental opportunities</strong><br>
+Connect with businesses looking for kitchen space</p>
 </div>
 
-<!-- KITCHEN TYPES -->
 <div class="section">
 <h2>Kitchen Types Explained</h2>
 <p><strong>Cloud Kitchen:</strong> Delivery-only kitchen for online orders.</p>
 <p><strong>Dark Kitchen:</strong> Kitchen designed for delivery & takeaway.</p>
 <p><strong>Ghost Kitchen:</strong> Multiple brands from one kitchen.</p>
 <p><strong>Home Kitchen:</strong> Food business run from home.</p>
+<p><strong>Independent Kitchen:</strong> A food business run by an individual or small team, operating outside of large restaurant chains.</p>
 <p><strong>Commercial Kitchen:</strong> Professional shared kitchen space.</p>
 </div>
 
-<!-- CITY FILTER -->
 <div class="section">
 <h2>Select City</h2>
 <select id="cityFilter">
@@ -253,72 +244,43 @@ You can also list your commercial kitchen for rent or find available kitchen spa
 <p>More cities coming soon: Bristol, Liverpool, Glasgow</p>
 </div>
 
-<!-- KITCHENS -->
 <div class="section" id="kitchens">
 <h2>Browse Kitchens</h2>
 <p><strong>Menu coming soon — kitchens are currently onboarding.</strong></p>
 <h3>5 Kitchens Available</h3>
 
-<div class="card" data-city="London">
-<img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg">
-<p>Urban Bowl Kitchen<br>Healthy • London</p>
-<span class="badge">Cloud Kitchen</span>
-</div>
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg"><p>Urban Bowl Kitchen<br>Healthy • London</p><span class="badge">Cloud Kitchen</span></div>
 
-<div class="card" data-city="London">
-<img src="https://images.pexels.com/photos/1435907/pexels-photo-1435907.jpeg">
-<p>Green Garden Kitchen<br>Plant Based • London</p>
-<span class="badge">Ghost Kitchen</span>
-</div>
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1435907/pexels-photo-1435907.jpeg"><p>Green Garden Kitchen<br>Plant Based • London</p><span class="badge">Ghost Kitchen</span></div>
 
-<div class="card" data-city="London">
-<img src="https://images.pexels.com/photos/1211887/pexels-photo-1211887.jpeg">
-<p>Tofu Street Kitchen<br>Asian • London</p>
-<span class="badge">Dark Kitchen</span>
-</div>
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1211887/pexels-photo-1211887.jpeg"><p>Tofu Street Kitchen<br>Asian • London</p><span class="badge">Dark Kitchen</span></div>
 
-<div class="card" data-city="Manchester">
-<img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg">
-<p>Northern Kitchen<br>Bowls • Manchester</p>
-<span class="badge">Cloud Kitchen</span>
-</div>
+<div class="card" data-city="Manchester"><img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg"><p>Northern Kitchen<br>Bowls • Manchester</p><span class="badge">Cloud Kitchen</span></div>
 
-<div class="card" data-city="Birmingham">
-<img src="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg">
-<p>Spice Kitchen<br>Indian • Birmingham</p>
-<span class="badge">Dark Kitchen</span>
-</div>
+<div class="card" data-city="Birmingham"><img src="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg"><p>Spice Kitchen<br>Indian • Birmingham</p><span class="badge">Dark Kitchen</span></div>
 
 </div>
 
-<!-- FLOWERS -->
 <div class="section" id="flowers">
 <h2>Flowers</h2>
 <p><strong>CloudEats also does flower deliveries.</strong></p>
 <p style="font-size:18px; font-weight:600;">Making your moments special.</p>
 <p>Florists are onboarding — flower delivery will be available soon.</p>
 
-<button onclick="showFlowerMessage()" style="background:#ff4081; border-radius:25px; padding:12px 22px;">
-🌸 Order Flowers
-</button>
+<button onclick="showFlowerMessage()" style="background:#ff4081; border-radius:25px; padding:12px 22px;"> Order Flowers</button>
 
 <br><br>
 
 <a href="https://docs.google.com/forms/d/e/1FAIpQLSfx5UZWz0f4teYjTN-SZNCanxMCWIxAoaRPu2aB-HoWPE8eLg/viewform" target="_blank">
-<button style="border-radius:25px; padding:12px 22px;">
-🌸 Register as a Florist
-</button>
+<button style="border-radius:25px; padding:12px 22px;"> Register as a Florist</button>
 </a>
 </div>
 
-<!-- MAP -->
 <div class="section">
 <h2>Our Coverage Area</h2>
-<iframe src="https://maps.google.com/maps?q=London&t=&z=6&ie=UTF8&iwloc=&output=embed"
-width="100%" height="400"></iframe>
+<iframe src="https://maps.google.com/maps?q=London&t=&z=6&ie=UTF8&iwloc=&output=embed" width="100%" height="400"></iframe>
 </div>
 
-<!-- CONTACT -->
 <div class="section" id="contact">
 <h2>Contact</h2>
 <p>support@cloudeats.co.uk</p>
@@ -336,20 +298,17 @@ Data Protection & Privacy<br>
 Cloud Eats is committed to protecting your personal data in accordance with UK data protection laws.
 </p>
 
+<p><em>CloudEats is a vegan-only platform. All food prepared and sold must be plant-based.</em></p>
+
 <p>© 2026 Cloud Eats Ltd</p>
+
 <p>Follow us: Instagram | LinkedIn</p>
 </footer>
 
 <script>
-function showMessage(){
-alert("Kitchens are onboarding and the platform will be live soon.");
-}
+function showMessage(){alert("Kitchens are onboarding and the platform will be live soon.");}
+function showFlowerMessage(){alert("Florists are getting onboarded.");}
 
-function showFlowerMessage(){
-alert("Florists are getting onboarded.");
-}
-
-/* FILTER */
 document.getElementById("cityFilter").addEventListener("change", function(){
 let selected = this.value;
 let cards = document.querySelectorAll(".card");
