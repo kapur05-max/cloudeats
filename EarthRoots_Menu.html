@@ -12,7 +12,8 @@
   .tag{color:#D9B44A;font-size:22px;margin:8px 0 20px}
   .badges{display:flex;flex-wrap:wrap;gap:10px}
   .badge{background:#fff;color:#1F5B39;padding:10px 14px;border-radius:24px;font-weight:bold}
-  .badge.address{border-bottom:3px solid #C0392B}
+  .badge.address{border-bottom:3px solid #C0392B;display:flex;align-items:center;gap:6px}
+  .pin-icon{color:#C0392B;font-weight:bold}
   main{max-width:1200px;margin:30px auto;display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:0 20px}
   section h2{color:#B8860B;border-bottom:3px solid #D9B44A;padding-bottom:8px}
   .card{display:flex;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12);margin-bottom:22px}
@@ -43,7 +44,6 @@
   .checkout{display:block;width:100%;text-align:center;background:#1F5B39;color:#fff;border:none;text-decoration:none;padding:14px;border-radius:24px;margin-top:20px;font-size:16px;font-weight:bold;cursor:pointer}
   .checkout:disabled{background:#9bb3a7;cursor:not-allowed}
   .empty-msg{color:#777}
-  /* Checkout modal */
   .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:16px;z-index:50}
   .overlay.open{display:flex}
   .modal{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:26px;max-height:90vh;overflow-y:auto}
@@ -66,7 +66,7 @@
   <h1>Ntriwaa Earth & Roots</h1>
   <div class="tag">Plant‑Powered African Flavours with Soul</div>
   <div class="badges">
-    <div class="badge address">Home Kitchen Serving Camberwell & Surrounding Areas</div>
+    <div class="badge address"><span class="pin-icon">📍</span> Home Kitchen Serving Camberwell & Surrounding Areas SE5</div>
     <div class="badge">Tuesday–Friday | 12 PM–8 PM</div>
     <div class="badge">100% Plant‑Based</div>
     <div class="badge">Freshly Prepared to Order</div>
@@ -149,4 +149,147 @@
     </div>
 
     <h2>Earth Sides</h2>
-    <div
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Jollof Rice</h3>
+        <div class="price">£9.99</div>
+        <div class="qty">
+          <button onclick="changeQty('side1',-1)">-</button>
+          <strong id="qty-side1">1</strong>
+          <button onclick="changeQty('side1',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side1','Jollof Rice',9.99)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Vegetable Fried Rice</h3>
+        <div class="price">£9.95</div>
+        <div class="qty">
+          <button onclick="changeQty('side2',-1)">-</button>
+          <strong id="qty-side2">1</strong>
+          <button onclick="changeQty('side2',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side2','Vegetable Fried Rice',9.95)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Fried Yam</h3>
+        <div class="price">£4.50</div>
+        <div class="qty">
+          <button onclick="changeQty('side3',-1)">-</button>
+          <strong id="qty-side3">1</strong>
+          <button onclick="changeQty('side3',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side3','Fried Yam',4.50)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Fried Plantain</h3>
+        <div class="price">£4.00</div>
+        <div class="qty">
+          <button onclick="changeQty('side4',-1)">-</button>
+          <strong id="qty-side4">1</strong>
+          <button onclick="changeQty('side4',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side4','Fried Plantain',4.00)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Steamed Vegetables</h3>
+        <div class="price">£3.95</div>
+        <div class="qty">
+          <button onclick="changeQty('side5',-1)">-</button>
+          <strong id="qty-side5">1</strong>
+          <button onclick="changeQty('side5',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side5','Steamed Vegetables',3.95)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Loaded Salad</h3>
+        <div class="price">£4.50</div>
+        <div class="qty">
+          <button onclick="changeQty('side6',-1)">-</button>
+          <strong id="qty-side6">1</strong>
+          <button onclick="changeQty('side6',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side6','Loaded Salad',4.50)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="photo-placeholder">Photo coming soon</div>
+      <div class="info">
+        <h3>Homemade Green Chilli Sauce</h3>
+        <div class="price">£1.00</div>
+        <div class="qty">
+          <button onclick="changeQty('side7',-1)">-</button>
+          <strong id="qty-side7">1</strong>
+          <button onclick="changeQty('side7',1)">+</button>
+        </div>
+        <button class="add" onclick="addToBasket('side7','Homemade Green Chilli Sauce',1.00)">+ ADD TO BASKET</button>
+      </div>
+    </div>
+
+  </section>
+
+  <aside>
+    <h3>Your Basket</h3>
+    <ul id="basketItems"></ul>
+    <p class="empty-msg" id="emptyMsg">Your basket is empty.</p>
+    <button class="checkout" id="checkoutBtn" disabled>Checkout (coming soon)</button>
+  </aside>
+</main>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+function changeQty(id, delta){
+  const el = document.getElementById('qty-' + id);
+  if(!el) return;
+  let val = parseInt(el.textContent, 10) || 0;
+  val = Math.max(0, val + delta);
+  el.textContent = val;
+}
+
+function addToBasket(id, name, price){
+  const qtyEl = document.getElementById('qty-' + id);
+  const qty = qtyEl ? parseInt(qtyEl.textContent, 10) : 0;
+  if(qty === 0){
+    alert(name + ' quantity is set to 0, so nothing was added.');
+    return;
+  }
+  alert(qty + ' x ' + name + ' — basket and checkout are coming soon!');
+}
+
+function openLightbox(src){
+  document.getElementById('lightboxImg').src = src;
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+}
+</script>
+
+</body>
+</html>
