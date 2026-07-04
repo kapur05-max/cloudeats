@@ -260,12 +260,55 @@
     <h3>Your Basket</h3>
     <ul id="basketItems"></ul>
     <p class="empty-msg" id="emptyMsg">Your basket is empty.</p>
-    <button class="checkout" id="checkoutBtn" disabled>Checkout (coming soon)</button>
+    <button class="checkout" id="checkoutBtn" disabled onclick="openCheckout()">Checkout</button>
   </aside>
 </main>
 
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <img id="lightboxImg" src="" alt="">
+</div>
+
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <div id="checkoutFormWrap">
+      <h3>Checkout</h3>
+      <form id="checkoutForm" onsubmit="submitOrder(event)">
+        <label for="custName">Full name</label>
+        <input type="text" id="custName" required>
+
+        <label for="custPhone">Phone number</label>
+        <input type="tel" id="custPhone" required>
+
+        <label for="fulfillMethod">Delivery or pickup?</label>
+        <select id="fulfillMethod" onchange="toggleAddressField()">
+          <option value="Delivery">Delivery</option>
+          <option value="Pickup">Pickup</option>
+        </select>
+
+        <div id="addressField">
+          <label for="custAddress">Delivery address</label>
+          <input type="text" id="custAddress" placeholder="Street, postcode">
+        </div>
+
+        <label for="custNotes">Delivery notes (optional)</label>
+        <textarea id="custNotes" rows="2" placeholder="e.g. leave at door, allergies"></textarea>
+
+        <div class="summary" id="orderSummary"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+          <button type="submit" class="btn-confirm">Send order</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="confirm-screen" id="confirmScreen" style="display:none;">
+      <div class="tick">✓</div>
+      <h3>Order ready to send</h3>
+      <p>Your email app should now open with your order details filled in. Please hit send there to complete your order request — the kitchen will confirm with you directly.</p>
+      <button class="btn-confirm" style="width:100%;" onclick="newOrder()">Start a new order</button>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -277,14 +320,152 @@ function changeQty(id, delta){
   el.textContent = val;
 }
 
+let basket = {};
+
 function addToBasket(id, name, price){
   const qtyEl = document.getElementById('qty-' + id);
   const qty = qtyEl ? parseInt(qtyEl.textContent, 10) : 0;
   if(qty === 0){
-    alert(name + ' quantity is set to 0, so nothing was added.');
+    delete basket[id];
+    renderBasket();
+    alert(name + ' quantity is set to 0, so it has been removed from your basket.');
     return;
   }
-  alert(qty + ' x ' + name + ' — basket and checkout are coming soon!');
+  basket[id] = { name: name, price: price, qty: qty };
+  renderBasket();
+}
+
+function removeFromBasket(id){
+  delete basket[id];
+  renderBasket();
+}
+
+function renderBasket(){
+  const list = document.getElementById('basketItems');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  list.innerHTML = '';
+
+  const ids = Object.keys(basket);
+  if(ids.length === 0){
+    emptyMsg.style.display = 'block';
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Checkout';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+  let total = 0;
+  ids.forEach(function(id){
+    const item = basket[id];
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="line-name">' + item.qty + ' x ' + item.name + '</span>' +
+      '<span>£' + lineTotal.toFixed(2) + '</span>' +
+      '<button class="remove" onclick="removeFromBasket(\'' + id + '\')" aria-label="Remove">✕</button>';
+    list.appendChild(li);
+  });
+
+  checkoutBtn.disabled = false;
+  checkoutBtn.textContent = 'Checkout — £' + total.toFixed(2);
+}
+
+function toggleAddressField(){
+  const method = document.getElementById('fulfillMethod').value;
+  const addressField = document.getElementById('addressField');
+  const addressInput = document.getElementById('custAddress');
+  if(method === 'Delivery'){
+    addressField.style.display = 'block';
+    addressInput.required = true;
+  } else {
+    addressField.style.display = 'none';
+    addressInput.required = false;
+  }
+}
+
+function renderSummary(){
+  const summaryEl = document.getElementById('orderSummary');
+  let rows = '';
+  let total = 0;
+  Object.values(basket).forEach(function(item){
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    rows += '<div><span>' + item.qty + ' x ' + item.name + '</span><span>£' + lineTotal.toFixed(2) + '</span></div>';
+  });
+  rows += '<div style="font-weight:bold;border-top:1px solid #ccc;margin-top:6px;padding-top:6px;"><span>Total</span><span>£' + total.toFixed(2) + '</span></div>';
+  summaryEl.innerHTML = rows;
+}
+
+function openCheckout(){
+  if(Object.keys(basket).length === 0) return;
+  renderSummary();
+  document.getElementById('checkoutOverlay').classList.add('open');
+}
+
+function closeCheckout(){
+  document.getElementById('checkoutOverlay').classList.remove('open');
+}
+
+function submitOrder(e){
+  e.preventDefault();
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const method = document.getElementById('fulfillMethod').value;
+  const address = document.getElementById('custAddress').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+
+  if(!name || !phone || (method === 'Delivery' && !address)){
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const items = Object.values(basket).map(function(item){
+    return {
+      name: item.name,
+      price_pence: Math.round(item.price * 100),
+      qty: item.qty
+    };
+  });
+
+  const submitBtn = document.querySelector('#checkoutForm .btn-confirm');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Redirecting to payment...';
+
+  fetch('https://cloudeats-backend.onrender.com/api/checkout/earth-roots', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: items,
+      customer: { name: name, phone: phone, method: method, address: address, notes: notes }
+    })
+  })
+  .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+  .then(function(result){
+    if(result.ok && result.data.url){
+      window.location.href = result.data.url;
+    } else {
+      alert('Could not start checkout: ' + (result.data.error || 'Please try again.'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send order';
+    }
+  })
+  .catch(function(err){
+    alert('Network error, please try again: ' + err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send order';
+  });
+}
+
+function newOrder(){
+  basket = {};
+  renderBasket();
+  closeCheckout();
+  document.getElementById('checkoutForm').reset();
+  toggleAddressField();
+  document.getElementById('checkoutFormWrap').style.display = 'block';
+  document.getElementById('confirmScreen').style.display = 'none';
 }
 
 function openLightbox(src){
