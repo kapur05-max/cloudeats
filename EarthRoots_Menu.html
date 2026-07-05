@@ -288,6 +288,13 @@
         <div id="addressField">
           <label for="custAddress">Delivery address</label>
           <input type="text" id="custAddress" placeholder="Street, postcode">
+
+          <label for="deliveryZone">How far is your address from Camberwell SE5?</label>
+          <select id="deliveryZone" onchange="renderSummary()">
+            <option value="200">Nearby — under 2 miles (£2.00)</option>
+            <option value="300">Standard — 2 to 4 miles (£3.00)</option>
+            <option value="450">Further out — 4+ miles (£4.50)</option>
+          </select>
         </div>
 
         <label for="custNotes">Delivery notes (optional)</label>
@@ -382,10 +389,20 @@ function toggleAddressField(){
     addressField.style.display = 'none';
     addressInput.required = false;
   }
+  if(document.getElementById('checkoutOverlay').classList.contains('open')){
+    renderSummary();
+  }
+}
+
+function getDeliveryFeePence(){
+  const method = document.getElementById('fulfillMethod').value;
+  if(method !== 'Delivery') return 0;
+  return parseInt(document.getElementById('deliveryZone').value, 10) || 0;
 }
 
 function renderSummary(){
   const summaryEl = document.getElementById('orderSummary');
+  const method = document.getElementById('fulfillMethod').value;
   let rows = '';
   let total = 0;
   Object.values(basket).forEach(function(item){
@@ -393,6 +410,12 @@ function renderSummary(){
     total += lineTotal;
     rows += '<div><span>' + item.qty + ' x ' + item.name + '</span><span>£' + lineTotal.toFixed(2) + '</span></div>';
   });
+  if(method === 'Delivery'){
+    const feePence = getDeliveryFeePence();
+    const feePounds = feePence / 100;
+    total += feePounds;
+    rows += '<div><span>Delivery fee</span><span>£' + feePounds.toFixed(2) + '</span></div>';
+  }
   rows += '<div style="font-weight:bold;border-top:1px solid #ccc;margin-top:6px;padding-top:6px;"><span>Total</span><span>£' + total.toFixed(2) + '</span></div>';
   summaryEl.innerHTML = rows;
 }
@@ -438,7 +461,8 @@ function submitOrder(e){
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       items: items,
-      customer: { name: name, phone: phone, method: method, address: address, notes: notes }
+      customer: { name: name, phone: phone, method: method, address: address, notes: notes },
+      delivery_fee_pence: getDeliveryFeePence()
     })
   })
   .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
