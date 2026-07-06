@@ -27,6 +27,7 @@
   .add{background:#D9B44A;color:#222;border:none;padding:12px 18px;border-radius:24px;font-weight:bold;cursor:pointer}
   .add:hover{background:#c9a43e}
   .served-with{font-size:13px;color:#5a5a5a;margin:4px 0 10px}
+  .allergen-note{font-size:12px;color:#8a6d00;background:#fff8e1;padding:6px 10px;border-radius:6px;margin:6px 0;display:inline-block;}
   .gallery{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
   .gallery img{width:64px;height:64px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
   .gallery img:hover{border-color:#D9B44A}
@@ -79,6 +80,12 @@
   </button>
 </div>
 
+<div style="max-width:700px;margin:0 auto;padding:0 20px 10px;text-align:center;">
+  <p style="font-size:13px;color:#8a6d00;background:#fff8e1;padding:10px 14px;border-radius:8px;">
+    ⚠️ <strong>Allergen information shown below is preliminary</strong>, based on ingredients listed in each description, and has not yet been fully confirmed by the kitchen. If you have a food allergy or intolerance, please contact the kitchen directly before ordering: <strong>support@cloudeats.co.uk</strong>
+  </p>
+</div>
+
 <main>
   <section>
     <h2>Earth Bowls</h2>
@@ -89,6 +96,7 @@
         <h3>Coconut Creamy Tofu Bowl</h3>
         <p>Silky tofu simmered in a rich coconut sauce with butternut squash, carrots and sweet peppers.</p>
         <p class="served-with">Served with: Jollof Rice, Vegetable Fried Rice, Boiled Rice or Fried Yam</p>
+        <p class="allergen-note">⚠️ Likely contains: Soya (tofu). Full allergen info to be confirmed by the kitchen.</p>
         <div class="price">£14.98</div>
         <div class="qty">
           <button onclick="changeQty('bowl1',-1)">-</button>
@@ -105,6 +113,7 @@
         <h3>Honey Glazed Tofu Supreme</h3>
         <p>Golden tofu glazed in a sweet and savoury vegan glaze.</p>
         <p class="served-with">Served with: Jollof Rice, Vegetable Fried Rice or Fried Plantain</p>
+        <p class="allergen-note">⚠️ Likely contains: Soya (tofu). Glaze ingredients to be confirmed by the kitchen.</p>
         <div class="price">£15.98</div>
         <div class="qty">
           <button onclick="changeQty('bowl2',-1)">-</button>
@@ -129,6 +138,7 @@
       <div class="info">
         <h3>Smoky Roots Wrap</h3>
         <p>Smoky tofu, crunchy vegetables and fresh chilli sauce wrapped in a toasted tortilla.</p>
+        <p class="allergen-note">⚠️ Likely contains: Soya (tofu), Gluten (tortilla). Full allergen info to be confirmed by the kitchen.</p>
         <div class="price">£10.50</div>
         <div class="qty">
           <button onclick="changeQty('wrap1',-1)">-</button>
@@ -144,6 +154,7 @@
       <div class="info">
         <h3>Golden Crunch Wrap</h3>
         <p>Crispy butternut squash, fresh salad and house herbal green sauce wrapped in a soft tortilla.</p>
+        <p class="allergen-note">⚠️ Likely contains: Gluten (tortilla). Sauce ingredients to be confirmed by the kitchen.</p>
         <div class="price">£10.80</div>
         <div class="qty">
           <button onclick="changeQty('wrap2',-1)">-</button>
@@ -160,6 +171,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Jollof Rice</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£9.99</div>
         <div class="qty">
           <button onclick="changeQty('side1',-1)">-</button>
@@ -174,6 +186,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Vegetable Fried Rice</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£9.95</div>
         <div class="qty">
           <button onclick="changeQty('side2',-1)">-</button>
@@ -188,6 +201,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Fried Yam</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£4.50</div>
         <div class="qty">
           <button onclick="changeQty('side3',-1)">-</button>
@@ -202,6 +216,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Fried Plantain</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£4.00</div>
         <div class="qty">
           <button onclick="changeQty('side4',-1)">-</button>
@@ -216,6 +231,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Steamed Vegetables</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£3.95</div>
         <div class="qty">
           <button onclick="changeQty('side5',-1)">-</button>
@@ -230,6 +246,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Loaded Salad</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£4.50</div>
         <div class="qty">
           <button onclick="changeQty('side6',-1)">-</button>
@@ -244,6 +261,7 @@
       <div class="photo-placeholder">Photo coming soon</div>
       <div class="info">
         <h3>Homemade Green Chilli Sauce</h3>
+        <p class="allergen-note">⚠️ Allergen info to be confirmed by the kitchen.</p>
         <div class="price">£1.00</div>
         <div class="qty">
           <button onclick="changeQty('side7',-1)">-</button>
