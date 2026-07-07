@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmed | CloudEats</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  body{font-family:'Inter', sans-serif;margin:0;background:#eaf6ff;color:#222;}
+  header{background:#0b3d91;color:white;padding:15px 40px;text-align:center;}
+  header img{height:80px;}
+  .wrap{max-width:600px;margin:40px auto;padding:0 20px;}
+  .card{background:#fff;border-radius:16px;padding:32px;box-shadow:0 4px 14px rgba(0,0,0,0.08);text-align:center;}
+  .tick{font-size:56px;color:#00c853;margin-bottom:10px;}
+  h1{font-size:24px;margin:0 0 8px;color:#0b3d91;}
+  .order-number{color:#666;font-size:14px;margin-bottom:24px;}
+  .status-badge{display:inline-block;padding:8px 18px;border-radius:20px;font-weight:600;font-size:13px;margin-bottom:24px;}
+  .status-badge.paid{background:#e6f7ec;color:#1f5b39;}
+  .status-badge.pending{background:#fff8e1;color:#8a6d00;}
+  .details{text-align:left;background:#F6F2E8;border-radius:10px;padding:18px;margin:20px 0;}
+  .details h3{margin:0 0 10px;font-size:15px;color:#0b3d91;}
+  .item-row{display:flex;justify-content:space-between;font-size:14px;padding:4px 0;}
+  .total-row{display:flex;justify-content:space-between;font-weight:700;border-top:1px solid #ddd;margin-top:8px;padding-top:8px;}
+  .meta{font-size:13px;color:#555;text-align:left;line-height:1.6;margin-top:16px;}
+  .home-link{display:inline-block;margin-top:24px;background:#00c853;color:white;padding:12px 28px;border-radius:24px;text-decoration:none;font-weight:600;}
+  .loading, .error{color:#666;padding:40px 0;}
+  .error{color:#c0392b;}
+</style>
+</head>
+<body>
+
+<header>
+<img src="https://i.postimg.cc/K8THwMtq/Cloud-Eats-Logo-New.png" alt="CloudEats">
+</header>
+
+<div class="wrap">
+  <div class="card" id="content">
+    <p class="loading">Loading your order confirmation...</p>
+  </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const sessionId = params.get('session_id');
+const contentEl = document.getElementById('content');
+
+async function loadConfirmation(attempt){
+  if(!sessionId){
+    contentEl.innerHTML = '<p class="error">No order reference found. If you just completed a payment, please check your email or contact support@cloudeats.co.uk.</p>';
+    return;
+  }
+  try{
+    const res = await fetch('https://cloudeats-backend.onrender.com/api/order-confirmation?session_id=' + encodeURIComponent(sessionId));
+    if(res.status === 404 && attempt < 5){
+      // Order might not be recorded yet, retry shortly
+      setTimeout(() => loadConfirmation(attempt + 1), 1500);
+      return;
+    }
+    if(!res.ok){
+      contentEl.innerHTML = '<p class="error">We could not find this order. If you believe this is an error, please contact support@cloudeats.co.uk.</p>';
+      return;
+    }
+    const order = await res.json();
+    render(order);
+  }catch(err){
+    contentEl.innerHTML = '<p class="error">Something went wrong loading your confirmation. Please contact support@cloudeats.co.uk with any questions.</p>';
+  }
+}
+
+function render(order){
+  const items = JSON.parse(order.items_json);
+  const isPaid = order.payment_status === 'paid';
+  const total = (order.total_pence / 100).toFixed(2);
+  const deliveryFee = (order.delivery_fee_pence / 100).toFixed(2);
+  const created = new Date(order.created_at).toLocaleString('en-GB');
+
+  let itemRows = items.map(i => {
+    const lineTotal = (i.price_pence * i.qty / 100).toFixed(2);
+    return `<div class="item-row"><span>${i.qty} x ${i.name}</span><span>£${lineTotal}</span></div>`;
+  }).join('');
+
+  if(order.delivery_fee_pence > 0){
+    itemRows += `<div class="item-row"><span>Delivery fee</span><span>£${deliveryFee}</span></div>`;
+  }
+
+  contentEl.innerHTML = `
+    <div class="tick">${isPaid ? '✓' : '⏳'}</div>
+    <h1>${isPaid ? 'Order Confirmed!' : 'Payment Processing'}</h1>
+    <p class="order-number">Order #${order.id} — ${order.kitchen_name}</p>
+    <span class="status-badge ${isPaid ? 'paid' : 'pending'}">${isPaid ? 'Payment received' : 'Confirming payment...'}</span>
+
+    <div class="details">
+      <h3>Order Summary</h3>
+      ${itemRows}
+      <div class="total-row"><span>Total</span><span>£${total}</span></div>
+    </div>
+
+    <div class="meta">
+      <strong>${order.fulfillment_method}</strong>${order.delivery_address ? ' to: ' + order.delivery_address : ' (Pickup)'}<br>
+      Placed: ${created}
+    </div>
+
+    <p style="font-size:13px;color:#666;margin-top:20px;">
+      ${isPaid ? 'The kitchen has been notified and will begin preparing your order.' : 'This page will update automatically once your payment is confirmed.'}
+      Questions? Contact <strong>support@cloudeats.co.uk</strong>
+    </p>
+
+    <a href="https://www.cloudeats.co.uk" class="home-link">Back to CloudEats</a>
+  `;
+
+  if(!isPaid){
+    setTimeout(() => loadConfirmation(0), 3000);
+  }
+}
+
+loadConfirmation(0);
+</script>
+
+</body>
+</html>
