@@ -28,9 +28,11 @@
   .add:hover{background:#c9a43e}
   .served-with{font-size:13px;color:#5a5a5a;margin:4px 0 10px}
   .allergen-note{font-size:12px;color:#8a6d00;background:#fff8e1;padding:6px 10px;border-radius:6px;margin:6px 0;display:inline-block;}
-  .gallery{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
-  .gallery img{width:64px;height:64px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent;transition:border-color .15s}
-  .gallery img:hover{border-color:#D9B44A}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:14px;margin-top:14px}
+  .gallery-item{text-align:center;cursor:pointer}
+  .gallery-item img{width:100%;height:110px;object-fit:cover;border-radius:8px;border:2px solid transparent;transition:border-color .15s}
+  .gallery-item:hover img{border-color:#D9B44A}
+  .gallery-item p{font-size:12px;color:#5a5a5a;margin:6px 0 0;line-height:1.3}
   .photo-placeholder{width:230px;min-height:180px;background:#EDE7D8;color:#9a8f6f;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:10px;box-sizing:border-box}
   .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);align-items:center;justify-content:center;z-index:100;padding:20px}
   .lightbox.open{display:flex}
@@ -122,11 +124,26 @@
         </div>
         <button class="add" onclick="addToBasket('bowl2','Honey Glazed Tofu Supreme',15.98)">+ ADD TO BASKET</button>
         <div class="gallery">
-          <img src="https://i.postimg.cc/q73BgMKV/Pic-5-New.png" alt="Honey Glazed Tofu Supreme with white rice" onclick="openLightbox(this.src)">
-          <img src="https://i.postimg.cc/Pxbtz3KS/Pic-7-New.png" alt="Honey Glazed Tofu Supreme with jollof rice" onclick="openLightbox(this.src)">
-          <img src="https://i.postimg.cc/PJtd6WRX/Pic-8-New.png" alt="Honey Glazed Tofu Supreme with fried plantain" onclick="openLightbox(this.src)">
-          <img src="https://i.postimg.cc/t474QzC7/Pic-3-New.png" alt="Honey Glazed Tofu Supreme with vegetable fried rice" onclick="openLightbox(this.src)">
-          <img src="https://i.postimg.cc/WbN4SvBB/Pic-2-New.png" alt="Honey Glazed Tofu Supreme with tofu batons" onclick="openLightbox(this.src)">
+          <div class="gallery-item" onclick="openLightbox('https://i.postimg.cc/q73BgMKV/Pic-5-New.png')">
+            <img src="https://i.postimg.cc/q73BgMKV/Pic-5-New.png" alt="Crispy Tofu with Steamed Rice">
+            <p>Crispy Tofu with Steamed Rice</p>
+          </div>
+          <div class="gallery-item" onclick="openLightbox('https://i.postimg.cc/Pxbtz3KS/Pic-7-New.png')">
+            <img src="https://i.postimg.cc/Pxbtz3KS/Pic-7-New.png" alt="Crispy Tofu with Jollof Rice">
+            <p>Crispy Tofu with Jollof Rice</p>
+          </div>
+          <div class="gallery-item" onclick="openLightbox('https://i.postimg.cc/PJtd6WRX/Pic-8-New.png')">
+            <img src="https://i.postimg.cc/PJtd6WRX/Pic-8-New.png" alt="Crispy Tofu with Fried Plantain">
+            <p>Crispy Tofu with Fried Plantain</p>
+          </div>
+          <div class="gallery-item" onclick="openLightbox('https://i.postimg.cc/t474QzC7/Pic-3-New.png')">
+            <img src="https://i.postimg.cc/t474QzC7/Pic-3-New.png" alt="Crispy Tofu with Vegetable Fried Rice">
+            <p>Crispy Tofu with Vegetable Fried Rice</p>
+          </div>
+          <div class="gallery-item" onclick="openLightbox('https://i.postimg.cc/WbN4SvBB/Pic-2-New.png')">
+            <img src="https://i.postimg.cc/WbN4SvBB/Pic-2-New.png" alt="Tofu Batons with Fried Plantain">
+            <p>Tofu Batons with Fried Plantain</p>
+          </div>
         </div>
       </div>
     </div>
