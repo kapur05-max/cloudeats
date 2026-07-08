@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Fermented House | CloudEats</title>
+<style>
+  body{margin:0;font-family:Arial,sans-serif;background:#F6F2E8;color:#222}
+  header{background:#D9A06B;color:#2b1a10;padding:30px}
+  .wrap{max-width:1200px;margin:auto}
+  h1{margin:0;font-size:44px}
+  .tag{color:#7a4a24;font-size:20px;margin:8px 0 20px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px}
+  .badge{background:#fff;color:#7a4a24;padding:10px 14px;border-radius:24px;font-weight:bold}
+  .badge.address{border-bottom:3px solid #C0392B;display:flex;align-items:center;gap:6px}
+  main{max-width:1200px;margin:30px auto;display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:0 20px}
+  section h2{color:#B8860B;border-bottom:3px solid #D9A06B;padding-bottom:8px;margin-top:40px}
+  section h2:first-child{margin-top:0}
+  .card{display:flex;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12);margin-bottom:22px}
+  .card img{width:200px;height:160px;object-fit:cover;background:#ddd;flex-shrink:0}
+  .photo-placeholder{width:200px;min-height:160px;background:#EDE7D8;color:#9a8f6f;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:10px;box-sizing:border-box;flex-shrink:0}
+  .info{padding:16px;flex:1}
+  .info h3{margin:0 0 6px;font-size:18px}
+  .info p{margin:0 0 8px;font-size:14px;color:#444}
+  .price{font-size:20px;color:#7a4a24;font-weight:bold}
+  .qty{margin:10px 0;display:flex;align-items:center;gap:12px}
+  .qty button{width:32px;height:32px;border:none;background:#7a4a24;color:#fff;border-radius:50%;font-size:16px;cursor:pointer}
+  .qty strong{font-size:16px;min-width:18px;text-align:center}
+  .add{background:#D9A06B;color:#2b1a10;border:none;padding:10px 16px;border-radius:24px;font-weight:bold;cursor:pointer}
+  .add:hover{background:#c78e57}
+  aside{background:#FFFDF8;border:2px solid #D9A06B;border-radius:18px;padding:20px;position:sticky;top:20px;height:fit-content}
+  #basketItems{margin:0;padding:0;list-style:none}
+  #basketItems li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee;gap:8px;font-size:14px}
+  #basketItems li .remove{background:none;border:none;color:#a33;cursor:pointer;font-size:16px}
+  .checkout{display:block;width:100%;text-align:center;background:#7a4a24;color:#fff;border:none;padding:14px;border-radius:24px;margin-top:20px;font-size:16px;font-weight:bold;cursor:pointer}
+  .checkout:disabled{background:#b0a294;cursor:not-allowed}
+  .empty-msg{color:#777}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:16px;z-index:50}
+  .overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:26px;max-height:90vh;overflow-y:auto}
+  .modal h3{margin-top:0;color:#7a4a24}
+  .modal label{display:block;margin:12px 0 4px;font-weight:bold;font-size:14px}
+  .modal input,.modal textarea,.modal select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:15px}
+  .modal .summary{background:#F6F2E8;border-radius:10px;padding:12px;margin:14px 0;font-size:14px}
+  .modal .summary div{display:flex;justify-content:space-between;padding:3px 0}
+  .modal-actions{display:flex;gap:10px;margin-top:18px}
+  .modal-actions button{flex:1;padding:12px;border-radius:24px;border:none;font-weight:bold;cursor:pointer}
+  .btn-cancel{background:#eee;color:#333}
+  .btn-confirm{background:#7a4a24;color:#fff}
+  .confirm-screen{text-align:center;padding:10px}
+  .confirm-screen .tick{font-size:48px;color:#7a4a24}
+  .allergen-note{font-size:12px;color:#8a6d00;background:#fff8e1;padding:4px 8px;border-radius:6px;display:inline-block;margin-top:4px}
+  @media(max-width:900px){main{grid-template-columns:1fr}.card{flex-direction:column}.card img,.photo-placeholder{width:100%;height:180px}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>The Fermented House</h1>
+  <div class="tag">South Indian Fermented Cuisine</div>
+  <div class="badges">
+    <div class="badge address">&#128205; Unit D, Harrow Mall, 273 Station Rd, Harrow HA1 2TB</div>
+    <div class="badge" id="hoursBadge">10 AM – 10 PM</div>
+  </div>
+</div></header>
+
+<div style="max-width:700px;margin:0 auto;padding:18px 20px 0;text-align:center;">
+  <p style="font-size:13px;color:#8a6d00;background:#fff8e1;padding:10px 14px;border-radius:8px;">
+    &#9888;&#65039; Allergen information is preliminary and has not yet been fully confirmed by the kitchen. If you have a food allergy or intolerance, please contact CloudEats support at <strong>support@cloudeats.co.uk</strong> before ordering.
+  </p>
+</div>
+
+<main>
+  <section id="menuSections"></section>
+
+  <aside>
+    <h3>Your Basket</h3>
+    <ul id="basketItems"></ul>
+    <p class="empty-msg" id="emptyMsg">Your basket is empty.</p>
+    <button class="checkout" id="checkoutBtn" disabled onclick="openCheckout()">Checkout</button>
+  </aside>
+</main>
+
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <div id="checkoutFormWrap">
+      <h3>Checkout</h3>
+      <form id="checkoutForm" onsubmit="submitOrder(event)">
+        <label for="custName">Full name</label>
+        <input type="text" id="custName" required>
+
+        <label for="custPhone">Phone number</label>
+        <input type="tel" id="custPhone" required>
+
+        <label for="fulfillMethod">Delivery or pickup?</label>
+        <select id="fulfillMethod" onchange="toggleAddressField()">
+          <option value="Delivery">Delivery</option>
+          <option value="Pickup">Pickup</option>
+        </select>
+
+        <div id="addressField">
+          <label for="custAddress">Delivery address</label>
+          <input type="text" id="custAddress" placeholder="Street, postcode">
+
+          <label for="deliveryZone">How far is your address from Harrow HA1?</label>
+          <select id="deliveryZone" onchange="renderSummary()">
+            <option value="200">Nearby — under 2 miles (£2.00)</option>
+            <option value="300">Standard — 2 to 4 miles (£3.00)</option>
+            <option value="450">Further out — 4+ miles (£4.50)</option>
+          </select>
+        </div>
+
+        <label for="custNotes">Delivery notes (optional)</label>
+        <textarea id="custNotes" rows="2" placeholder="e.g. leave at door, allergies"></textarea>
+
+        <div class="summary" id="orderSummary"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+          <button type="submit" class="btn-confirm">Pay now</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="confirm-screen" id="confirmScreen" style="display:none;">
+      <div class="tick">&#10003;</div>
+      <h3>Redirecting to payment</h3>
+      <p>Please wait while we take you to a secure payment page.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const KITCHEN_SLUG = 'fermented-house';
+const BACKEND = 'https://cloudeats-backend.onrender.com';
+
+// Each item: id, name, price (pounds), desc, category, photo (null = placeholder)
+const MENU = [
+  // House Special
+  {id:'hs1', cat:'House Special', name:'Classic benne', price:6.45, desc:'Fermented rice and lentil crepe enriched with vegan butter, cooked to a soft centre with light crisp edges.', photo:null},
+  {id:'hs2', cat:'House Special', name:'Kara benne', price:6.95, desc:'Classic benne with chilli infused batter or seasoning, bringing balanced heat over a buttery base.', photo:null},
+  {id:'hs3', cat:'House Special', name:'Masala benne', price:6.95, desc:'Benne filled with spiced potato, layered with traditional tempering and aromatic herbs.', photo:null},
+  {id:'hs4', cat:'House Special', name:'Podi benne', price:6.95, desc:'Benne finished with roasted lentil spice powder, adding nutty depth and a dry, savoury heat.', photo:'https://i.postimg.cc/B6XXxX10/dish-podi-benne.jpg'},
+  // House Ferments
+  {id:'hf1', cat:'House Ferments', name:'Thatte idli', price:5.75, desc:'Wide steamed rice-lentil cake made from fermented batter. Soft, airy and mildly tangy.', photo:null},
+  {id:'hf2', cat:'House Ferments', name:'Mini idli', price:5.75, desc:'12 small steamed idlis with a light fermented profile and soft, uniform texture.', photo:null},
+  {id:'hf3', cat:'House Ferments', name:'Podi idli', price:6.95, desc:'Mini idlis tossed in roasted spice powder with oil or vegan ghee for flavour coating.', photo:'https://i.postimg.cc/xjNX8N2g/dish-podi-idli.jpg'},
+  {id:'hf4', cat:'House Ferments', name:'Classic idli', price:4.95, desc:'3 traditional steamed rice and lentil cakes with a clean, naturally fermented taste.', photo:'https://i.postimg.cc/FH4d2rwc/dish-idli.jpg'},
+  {id:'hf5', cat:'House Ferments', name:'Podi idli (3pc)', price:5.95, desc:'3 idlis with roasted spice powder. Add vegan ghee and podi on top for extra savouriness.', photo:null},
+  {id:'hf6', cat:'House Ferments', name:'Appam', price:6.25, desc:'Fermented rice based batter cooked as a soft, lacy edged appam with a tender centre.', photo:null},
+  {id:'hf7', cat:'House Ferments', name:'Paniyaram', price:6.45, desc:'Bite sized paniyaram with a crisp exterior and soft, spiced interior.', photo:null},
+  // House Set
+  {id:'set1', cat:'House Set', name:'Classic benne + House Ferment', price:10.95, desc:'1 Classic benne with 1 House Ferment. Upgrade to 1 House Special + 1 House Ferment + Drink (excluding kanji) for +£2.', photo:null},
+  // Classic Dosa
+  {id:'cd1', cat:'Classic Dosa', name:'Paper roast', price:5.95, desc:'Thin fermented rice crepe spread and cooked to a crisp, delicate texture.', photo:null},
+  {id:'cd2', cat:'Classic Dosa', name:'Vegan Ghee dosa', price:6.95, desc:'Thin dosa cooked with vegan ghee for a crisp exterior and rich, aromatic finish.', photo:'https://i.postimg.cc/BvZ8nhqr/dish-masala-dosa.jpg'},
+  {id:'cd3', cat:'Classic Dosa', name:'Masala dosa', price:6.95, desc:'Dosa with spiced potato, onions, turmeric, and tempering.', photo:null},
+  {id:'cd4', cat:'Classic Dosa', name:'Podi dosa', price:7.45, desc:'Dosa layered with roasted spice powder, enhancing the fermented base with earthy heat.', photo:null},
+  {id:'cd5', cat:'Classic Dosa', name:'Kara dosa', price:7.45, desc:'Dosa layered with roasted spice powder and chilli sauce for a spiced profile.', photo:null},
+  {id:'cd6', cat:'Classic Dosa', name:'Pavbhaji dosa', price:7.95, desc:'Crisp dosa filled with a spiced vegetable mash cooked with vegan butter, onion, tomato, and pav bhaji masala.', photo:null},
+  {id:'cd7', cat:'Classic Dosa', name:'Tofu dosa', price:7.95, desc:'Dosa filled with spiced tofu cooked with mild spices and tempering, offering a soft, rich filling.', photo:null},
+  // All Day Breakfast
+  {id:'adb1', cat:'All Day Breakfast', name:'Classic Dosa + Alter Side', price:10.95, desc:'1 Classic Dosa with 1 Alter Side. Add a drink (excluding kanji) for +£1.75, add a dessert for +£3.', photo:null},
+  // Classic Sides
+  {id:'cs1', cat:'Classic Sides', name:'Medhu vada', price:4.95, desc:'3 deep fried lentil doughnuts made from soaked and ground urad dal and black pepper — crisp outside with a soft centre.', photo:null},
+  {id:'cs2', cat:'Classic Sides', name:'Rasam', price:3.45, desc:'Light tamarind based broth tempered with spices, curry leaves, and mustard seeds. Add a bowl of rice for +£3.', photo:null},
+  {id:'cs3', cat:'Classic Sides', name:'Ragi dosa', price:6.45, desc:'Dosa made from finger millet batter, naturally earthy in flavour with a slightly coarse texture. Choose vegan butter or vegan ghee.', photo:null},
+  {id:'cs4', cat:'Classic Sides', name:'Rice', price:3.45, desc:'Steamed rice, plain and neutral. Add sambar for +£1.', photo:null},
+  // Uttapam
+  {id:'ut1', cat:'Uttapam', name:'Podi butter uttapam', price:5.95, desc:'Fermented rice and lentil base finished with roasted podi and vegan butter, delivering nutty, earthy spice with gentle chilli warmth.', photo:null},
+  {id:'ut2', cat:'Uttapam', name:'Masala uttapam', price:6.95, desc:'Soft uttapam topped with spiced potato, turmeric, and tempered aromatics.', photo:null},
+  {id:'ut3', cat:'Uttapam', name:'Kara uttapam', price:6.95, desc:'Chilli forward uttapam with bold, punchy heat, balanced by the natural tang of the fermented base.', photo:null},
+  {id:'ut4', cat:'Uttapam', name:'Chilli onion tomato uttapam', price:6.95, desc:'Uttapam studded with chilli, onion and tomato, lightly caramelised on the griddle.', photo:'https://i.postimg.cc/wxnsQcVL/dish-chilli-onion-tomato-uttapam.jpg'},
+  // Accompaniments
+  {id:'ac1', cat:'Accompaniments', name:'Sambar', price:1.45, desc:'', photo:null},
+  {id:'ac2', cat:'Accompaniments', name:'Rasam (side)', price:1.75, desc:'', photo:null},
+  {id:'ac3', cat:'Accompaniments', name:'Coconut Chutney', price:1.25, desc:'', photo:null},
+  {id:'ac4', cat:'Accompaniments', name:'Herb Chutney', price:1.45, desc:'', photo:null},
+  {id:'ac5', cat:'Accompaniments', name:'Roasted Tomato Chutney', price:1.75, desc:'', photo:null},
+  // Drinks
+  {id:'dr1', cat:'Drinks', name:'Kanji', price:3.45, desc:'Lightly fermented rice drink, tangy, cooling, and naturally refreshing.', photo:null},
+  {id:'dr2', cat:'Drinks', name:'Spiced kanji', price:3.95, desc:'Fermented rice drink with mustard, chilli, and spices, bold and tangy.', photo:null},
+  {id:'dr3', cat:'Drinks', name:'Filter Kaapi', price:2.45, desc:'Traditional South Indian filter coffee, made with oat milk.', photo:null},
+  {id:'dr4', cat:'Drinks', name:'Ice / Hot tea', price:1.95, desc:'Made with oat milk.', photo:null},
+  {id:'dr5', cat:'Drinks', name:'Coke range', price:1.25, desc:'', photo:null},
+  {id:'dr6', cat:'Drinks', name:'Indian soft drinks', price:1.75, desc:'', photo:null},
+  {id:'dr7', cat:'Drinks', name:'Water', price:0.50, desc:'', photo:null},
+  // Desserts
+  {id:'de1', cat:'Desserts', name:'Appam / Paniyaram (sweet)', price:5.95, desc:'Sweet rice and lentil batter cooked until golden, with jaggery, coconut and cardamom.', photo:null},
+  {id:'de2', cat:'Desserts', name:'Jalebi', price:3.95, desc:'Crispy jalebi made with fermented flour batter and sugar syrup.', photo:null},
+  {id:'de3', cat:'Desserts', name:'Caramelised banana', price:4.75, desc:'Ripe banana fried until golden, served warm.', photo:null},
+];
+
+const basket = {};
+
+function renderMenu(){
+  const container = document.getElementById('menuSections');
+  const categories = [...new Set(MENU.map(i => i.cat))];
+  container.innerHTML = categories.map(cat => {
+    const items = MENU.filter(i => i.cat === cat);
+    return `<h2>${cat}</h2>` + items.map(item => `
+      <div class="card">
+        ${item.photo ? `<img src="${item.photo}" alt="${item.name}">` : `<div class="photo-placeholder">Photo coming soon</div>`}
+        <div class="info">
+          <h3>${item.name}</h3>
+          ${item.desc ? `<p>${item.desc}</p>` : ''}
+          <div class="price">£${item.price.toFixed(2)}</div>
+          <div class="qty">
+            <button onclick="changeQty('${item.id}',-1)">-</button>
+            <strong id="qty-${item.id}">1</strong>
+            <button onclick="changeQty('${item.id}',1)">+</button>
+          </div>
+          <button class="add" onclick="addToBasket('${item.id}')">+ ADD TO BASKET</button>
+        </div>
+      </div>
+    `).join('');
+  }).join('');
+}
+
+function changeQty(id, delta){
+  const el = document.getElementById('qty-' + id);
+  if(!el) return;
+  let val = parseInt(el.textContent, 10) || 0;
+  val = Math.max(0, val + delta);
+  el.textContent = val;
+}
+
+function addToBasket(id){
+  const item = MENU.find(i => i.id === id);
+  const qtyEl = document.getElementById('qty-' + id);
+  const qty = qtyEl ? parseInt(qtyEl.textContent, 10) : 0;
+  if(qty === 0){
+    delete basket[id];
+    renderBasket();
+    return;
+  }
+  basket[id] = { name: item.name, price: item.price, qty: qty };
+  renderBasket();
+}
+
+function removeFromBasket(id){
+  delete basket[id];
+  renderBasket();
+}
+
+function renderBasket(){
+  const list = document.getElementById('basketItems');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  list.innerHTML = '';
+
+  const ids = Object.keys(basket);
+  if(ids.length === 0){
+    emptyMsg.style.display = 'block';
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Checkout';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+  let total = 0;
+  ids.forEach(function(id){
+    const item = basket[id];
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    const li = document.createElement('li');
+    li.innerHTML = '<span>' + item.qty + ' x ' + item.name + '</span>' +
+      '<span>£' + lineTotal.toFixed(2) + '</span>' +
+      '<button class="remove" onclick="removeFromBasket(\'' + id + '\')" aria-label="Remove">&#10005;</button>';
+    list.appendChild(li);
+  });
+
+  checkoutBtn.disabled = false;
+  checkoutBtn.textContent = 'Checkout — £' + total.toFixed(2);
+}
+
+function toggleAddressField(){
+  const method = document.getElementById('fulfillMethod').value;
+  const addressField = document.getElementById('addressField');
+  const addressInput = document.getElementById('custAddress');
+  if(method === 'Delivery'){
+    addressField.style.display = 'block';
+    addressInput.required = true;
+  } else {
+    addressField.style.display = 'none';
+    addressInput.required = false;
+  }
+  if(document.getElementById('checkoutOverlay').classList.contains('open')){
+    renderSummary();
+  }
+}
+
+function getDeliveryFeePence(){
+  const method = document.getElementById('fulfillMethod').value;
+  if(method !== 'Delivery') return 0;
+  return parseInt(document.getElementById('deliveryZone').value, 10) || 0;
+}
+
+function renderSummary(){
+  const summaryEl = document.getElementById('orderSummary');
+  const method = document.getElementById('fulfillMethod').value;
+  let rows = '';
+  let total = 0;
+  Object.values(basket).forEach(function(item){
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    rows += '<div><span>' + item.qty + ' x ' + item.name + '</span><span>£' + lineTotal.toFixed(2) + '</span></div>';
+  });
+  if(method === 'Delivery'){
+    const feePounds = getDeliveryFeePence() / 100;
+    total += feePounds;
+    rows += '<div><span>Delivery fee</span><span>£' + feePounds.toFixed(2) + '</span></div>';
+  }
+  rows += '<div style="font-weight:bold;border-top:1px solid #ccc;margin-top:6px;padding-top:6px;"><span>Total</span><span>£' + total.toFixed(2) + '</span></div>';
+  summaryEl.innerHTML = rows;
+}
+
+function openCheckout(){
+  if(Object.keys(basket).length === 0) return;
+  renderSummary();
+  document.getElementById('checkoutOverlay').classList.add('open');
+}
+
+function closeCheckout(){
+  document.getElementById('checkoutOverlay').classList.remove('open');
+}
+
+function submitOrder(e){
+  e.preventDefault();
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const method = document.getElementById('fulfillMethod').value;
+  const address = document.getElementById('custAddress').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+
+  if(!name || !phone || (method === 'Delivery' && !address)){
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const items = Object.values(basket).map(function(item){
+    return {
+      name: item.name,
+      price_pence: Math.round(item.price * 100),
+      qty: item.qty
+    };
+  });
+
+  const submitBtn = document.querySelector('#checkoutForm .btn-confirm');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Redirecting to payment...';
+
+  fetch(BACKEND + '/api/checkout/' + KITCHEN_SLUG, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: items,
+      customer: { name: name, phone: phone, method: method, address: address, notes: notes },
+      delivery_fee_pence: getDeliveryFeePence()
+    })
+  })
+  .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+  .then(function(result){
+    if(result.ok && result.data.url){
+      window.location.href = result.data.url;
+    } else {
+      alert('Could not start checkout: ' + (result.data.error || 'Please try again.'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Pay now';
+    }
+  })
+  .catch(function(err){
+    alert('Network error, please try again: ' + err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Pay now';
+  });
+}
+
+renderMenu();
+</script>
+
+</body>
+</html>
