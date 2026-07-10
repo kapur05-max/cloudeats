@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Raj Fusion | CloudEats</title>
+<style>
+  body{margin:0;font-family:Arial,sans-serif;background:#F6F2E8;color:#222}
+  header{background:#1a1a1a;color:#fff;padding:30px}
+  .wrap{max-width:1200px;margin:auto}
+  h1{margin:0;font-size:44px}
+  .tag{color:#9E9E9E;font-size:20px;margin:8px 0 20px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px}
+  .badge{background:#fff;color:#1a1a1a;padding:10px 14px;border-radius:24px;font-weight:bold}
+  .badge.address{border-bottom:3px solid #9E9E9E;display:flex;align-items:center;gap:6px}
+  main{max-width:1200px;margin:30px auto;display:grid;grid-template-columns:2fr 1fr;gap:30px;padding:0 20px}
+  section h2{color:#9E9E9E;border-bottom:3px solid #1a1a1a;padding-bottom:8px;margin-top:40px}
+  section h2:first-child{margin-top:0}
+  .card{display:flex;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.12);margin-bottom:22px}
+  .photo-placeholder{width:200px;min-height:160px;background:#EDE7D8;color:#9a8f6f;display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;padding:10px;box-sizing:border-box;flex-shrink:0}
+  .info{padding:16px;flex:1}
+  .info h3{margin:0 0 6px;font-size:18px}
+  .info p{margin:0 0 8px;font-size:14px;color:#444}
+  .price{font-size:20px;color:#1a1a1a;font-weight:bold}
+  .qty{margin:10px 0;display:flex;align-items:center;gap:12px}
+  .qty button{width:32px;height:32px;border:none;background:#1a1a1a;color:#fff;border-radius:50%;font-size:16px;cursor:pointer}
+  .qty strong{font-size:16px;min-width:18px;text-align:center}
+  .add{background:#9E9E9E;color:#fff;border:none;padding:10px 16px;border-radius:24px;font-weight:bold;cursor:pointer}
+  .add:hover{background:#828282}
+  aside{background:#FFFDF8;border:2px solid #9E9E9E;border-radius:18px;padding:20px;position:sticky;top:20px;height:fit-content}
+  #basketItems{margin:0;padding:0;list-style:none}
+  #basketItems li{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #eee;gap:8px;font-size:14px}
+  #basketItems li .remove{background:none;border:none;color:#a33;cursor:pointer;font-size:16px}
+  .checkout{display:block;width:100%;text-align:center;background:#1a1a1a;color:#fff;border:none;padding:14px;border-radius:24px;margin-top:20px;font-size:16px;font-weight:bold;cursor:pointer}
+  .checkout:disabled{background:#b0a294;cursor:not-allowed}
+  .empty-msg{color:#777}
+  .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);align-items:center;justify-content:center;padding:16px;z-index:50}
+  .overlay.open{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:440px;width:100%;padding:26px;max-height:90vh;overflow-y:auto}
+  .modal h3{margin-top:0;color:#1a1a1a}
+  .modal label{display:block;margin:12px 0 4px;font-weight:bold;font-size:14px}
+  .modal input,.modal textarea,.modal select{width:100%;box-sizing:border-box;padding:10px;border:1px solid #ccc;border-radius:8px;font-size:15px}
+  .modal .summary{background:#F6F2E8;border-radius:10px;padding:12px;margin:14px 0;font-size:14px}
+  .modal .summary div{display:flex;justify-content:space-between;padding:3px 0}
+  .modal-actions{display:flex;gap:10px;margin-top:18px}
+  .modal-actions button{flex:1;padding:12px;border-radius:24px;border:none;font-weight:bold;cursor:pointer}
+  .btn-cancel{background:#eee;color:#333}
+  .btn-confirm{background:#1a1a1a;color:#fff}
+  .confirm-screen{text-align:center;padding:10px}
+  .confirm-screen .tick{font-size:48px;color:#1a1a1a}
+  @media(max-width:900px){main{grid-template-columns:1fr}.card{flex-direction:column}.photo-placeholder{width:100%;height:180px}}
+</style>
+</head>
+<body>
+
+<header><div class="wrap">
+  <h1>Raj Fusion</h1>
+  <div class="tag">Traditional Flavours, Modern Fusion — Indo-Chinese</div>
+  <div class="badges">
+    <div class="badge address">&#128205; Harrow Mall, Station Road, Harrow HA1 2TB</div>
+    <div class="badge">10 AM – 10 PM</div>
+  </div>
+</div></header>
+
+<div style="max-width:700px;margin:0 auto;padding:18px 20px 0;text-align:center;">
+  <p style="font-size:13px;color:#8a6d00;background:#fff8e1;padding:10px 14px;border-radius:8px;">
+    &#9888;&#65039; Allergen information is preliminary and has not yet been fully confirmed by the kitchen. If you have a food allergy or intolerance, please contact CloudEats support at <strong>support@cloudeats.co.uk</strong> before ordering.
+  </p>
+</div>
+
+<main>
+  <section id="menuSections"></section>
+
+  <aside>
+    <h3>Your Basket</h3>
+    <ul id="basketItems"></ul>
+    <p class="empty-msg" id="emptyMsg">Your basket is empty.</p>
+    <button class="checkout" id="checkoutBtn" disabled onclick="openCheckout()">Checkout</button>
+  </aside>
+</main>
+
+<div class="overlay" id="checkoutOverlay">
+  <div class="modal">
+    <div id="checkoutFormWrap">
+      <h3>Checkout</h3>
+      <form id="checkoutForm" onsubmit="submitOrder(event)">
+        <label for="custName">Full name</label>
+        <input type="text" id="custName" required>
+
+        <label for="custPhone">Phone number</label>
+        <input type="tel" id="custPhone" required>
+
+        <label for="fulfillMethod">Delivery or pickup?</label>
+        <select id="fulfillMethod" onchange="toggleAddressField()">
+          <option value="Delivery">Delivery</option>
+          <option value="Pickup">Pickup</option>
+        </select>
+
+        <div id="addressField">
+          <label for="custAddress">Delivery address</label>
+          <input type="text" id="custAddress" placeholder="Street, postcode">
+
+          <label for="deliveryZone">How far is your address from Harrow HA1?</label>
+          <select id="deliveryZone" onchange="renderSummary()">
+            <option value="200">Nearby — under 2 miles (£2.00)</option>
+            <option value="300">Standard — 2 to 4 miles (£3.00)</option>
+            <option value="450">Further out — 4+ miles (£4.50)</option>
+          </select>
+          <p style="font-size:12px;color:#8a6d00;background:#fff8e1;padding:6px 10px;border-radius:6px;margin-top:6px;">Please select the option that best matches your actual distance. Orders with an inaccurate selection may be delayed or declined by the driver.</p>
+        </div>
+
+        <label for="custNotes">Delivery notes (optional)</label>
+        <textarea id="custNotes" rows="2" placeholder="e.g. leave at door, allergies"></textarea>
+
+        <div class="summary" id="orderSummary"></div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeCheckout()">Cancel</button>
+          <button type="submit" class="btn-confirm">Pay now</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="confirm-screen" id="confirmScreen" style="display:none;">
+      <div class="tick">&#10003;</div>
+      <h3>Redirecting to payment</h3>
+      <p>Please wait while we take you to a secure payment page.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const KITCHEN_SLUG = 'raj-fusion';
+const BACKEND = 'https://cloudeats-backend.onrender.com';
+
+// Dairy/paneer items have been excluded from this menu, since CloudEats is a vegan-only platform.
+const MENU = [
+  // Starters
+  {id:'st1', cat:'Starters', name:'Veg Manchurian Dry (10pcs)', price:6.99, desc:'', photo:null},
+  {id:'st2', cat:'Starters', name:'Salt-n-Pepper Broccoli', price:6.99, desc:'', photo:null},
+  {id:'st3', cat:'Starters', name:'Salt-n-Pepper Baby Corn', price:6.49, desc:'', photo:null},
+  {id:'st4', cat:'Starters', name:'Chilli Garlic Mushroom (Dry)', price:6.99, desc:'', photo:null},
+  {id:'st5', cat:'Starters', name:'Salt-n-Pepper Tofu (Spicy)', price:8.99, desc:'', photo:null},
+  {id:'st6', cat:'Starters', name:'Veg Spring Rolls (5pcs)', price:4.99, desc:'', photo:null},
+  // Gyoza
+  {id:'gy1', cat:'Gyoza', name:'Veg Gyoza (10pcs)', price:5.99, desc:'Served with sauce.', photo:null},
+  {id:'gy2', cat:'Gyoza', name:'Stir Fry Chilli Garlic Dumplings (10pcs)', price:6.99, desc:'', photo:null},
+  {id:'gy3', cat:'Gyoza', name:'Gyoza in Hot Garlic Noodles Soup (Spicy)', price:6.99, desc:'', photo:null},
+  {id:'gy4', cat:'Gyoza', name:'Stir Fried Vegetables with Gyoza', price:6.99, desc:'', photo:null},
+  {id:'gy5', cat:'Gyoza', name:'Fried Gyoza', price:6.99, desc:'Served with garden salad and chutney.', photo:null},
+  // Mains - Indo Chinese
+  {id:'mn1', cat:'Mains', name:'Veg Manchurian Gravy', price:6.99, desc:'', photo:null},
+  {id:'mn2', cat:'Mains', name:'Crispy Veg Chilli (Dry)', price:6.99, desc:'', photo:null},
+  {id:'mn3', cat:'Mains', name:'Chilli Garlic Tofu (Spicy)', price:6.99, desc:'', photo:null},
+  {id:'mn4', cat:'Mains', name:'Cauliflower Gobi Manchurian (Dry/Gravy)', price:6.99, desc:'', photo:null},
+  {id:'mn5', cat:'Mains', name:'Salt-n-Pepper (Casava) Mogo (Spicy)', price:6.99, desc:'', photo:null},
+  {id:'mn6', cat:'Mains', name:'Chilli Garlic Mogo', price:6.99, desc:'', photo:null},
+  {id:'mn7', cat:'Mains', name:'Stir Fried Tofu with Vegetables', price:8.99, desc:'', photo:null},
+  // Rice
+  {id:'rc1', cat:'Rice', name:'Veg Fried Rice', price:5.99, desc:'', photo:null},
+  {id:'rc2', cat:'Rice', name:'Schezwan Fried Rice (Spicy)', price:6.49, desc:'', photo:null},
+  {id:'rc3', cat:'Rice', name:'Burnt Garlic Fried Rice', price:6.49, desc:'', photo:null},
+  {id:'rc4', cat:'Rice', name:'Manchurian Fried Rice', price:7.99, desc:'', photo:null},
+  {id:'rc5', cat:'Rice', name:'Singapore Fried Rice', price:7.99, desc:'', photo:null},
+  {id:'rc6', cat:'Rice', name:'Hong Kong Fried Rice', price:7.99, desc:'', photo:null},
+  // Noodles
+  {id:'nd1', cat:'Noodles', name:'Veg Hakka Noodles', price:5.99, desc:'', photo:null},
+  {id:'nd2', cat:'Noodles', name:'Veg Schezwan Noodles (Spicy)', price:6.49, desc:'', photo:null},
+  {id:'nd3', cat:'Noodles', name:'Veg Chilli Garlic Noodles (Spicy)', price:6.49, desc:'', photo:null},
+  {id:'nd4', cat:'Noodles', name:'Veg Manchurian Noodles', price:7.99, desc:'', photo:null},
+  {id:'nd5', cat:'Noodles', name:'Hong Kong Noodles', price:7.99, desc:'', photo:null},
+  {id:'nd6', cat:'Noodles', name:'Singapore Noodles', price:7.99, desc:'', photo:null},
+  {id:'nd7', cat:'Noodles', name:'Triple Schezwan (Very Spicy)', price:10.99, desc:'Combination of Hakka noodles and fried rice, served with spicy Chinese gravy (contains mushrooms).', photo:null},
+  // Chinese Bhel
+  {id:'cb1', cat:'Chinese Bhel', name:'Cold Chinese Bhel', price:5.99, desc:'', photo:null},
+  {id:'cb2', cat:'Chinese Bhel', name:'Hot Chinese Bhel Manchurian (Crispy)', price:8.99, desc:'', photo:null},
+  {id:'cb3', cat:'Chinese Bhel', name:'Hot Chinese Bhel (Spicy)', price:8.99, desc:'', photo:null},
+  // Indo-Chinese Sizzlers
+  {id:'sz1', cat:'Indo-Chinese Sizzlers', name:'801: Exotic Veg Sizzler (Spicy)', price:11.95, desc:'A sizzling mix of Indo-Chinese vegetables served with Hakka noodles and fried rice.', photo:null},
+  {id:'sz2', cat:'Indo-Chinese Sizzlers', name:'802: Garlic Blaze Vegan Platter (Spicy)', price:11.95, desc:'Tofu and veggies served with garlic rice on a sizzling plate.', photo:null},
+  {id:'sz3', cat:'Indo-Chinese Sizzlers', name:'805: No Meat Heat Sizzlers (Spicy)', price:14.95, desc:'Plant-based meat sizzling with spicy Indo-Chinese sauce.', photo:null},
+  // Wok Chips
+  {id:'wc1', cat:'Wok Chips', name:'Plain Chips', price:3.99, desc:'', photo:null},
+  {id:'wc2', cat:'Wok Chips', name:'Salt-n-Pepper Chips', price:5.99, desc:'', photo:null},
+  {id:'wc3', cat:'Wok Chips', name:'Chilli Garlic Masala Chips', price:5.99, desc:'', photo:null},
+  {id:'wc4', cat:'Wok Chips', name:'Schezwan Chips', price:5.99, desc:'', photo:null},
+  // Soups
+  {id:'sp1', cat:'Soups', name:'Sweet Corn Soup (Veg)', price:3.99, desc:'', photo:null},
+  {id:'sp2', cat:'Soups', name:'Hot-n-Sour Soup (Veg)', price:3.99, desc:'', photo:null},
+  {id:'sp3', cat:'Soups', name:'Manchow Soup (Veg)', price:3.99, desc:'', photo:null},
+  // Combos & Sets
+  {id:'cm1', cat:'Combos & Sets', name:'Kids Set Meal Deal', price:10.99, desc:'Vegetable Hakka Noodles + Plain Chips + Drink.', photo:null},
+  {id:'cm2', cat:'Combos & Sets', name:'Indo Chinese Thali', price:11.99, desc:'Any Noodles or Rice, Manchurian with Gravy, Spring Rolls, Stir Fry Dumplings. Served with sauce and Chinese salad.', photo:null},
+  {id:'cm3', cat:'Combos & Sets', name:'Fusion Combo Box', price:11.99, desc:'Any Noodles or Rice, Veg Manchurian (Gravy), Chinese Dumplings.', photo:null},
+  {id:'cm4', cat:'Combos & Sets', name:'Your Wok Box', price:9.99, desc:'Includes all veggies (broccoli, mushrooms, baby corn & mixed peppers). Choose your base: Hakka Noodles, Schezwan Noodles, Veg Fried Rice, or Schezwan Fried Rice. Add Tofu for +£1.99 (please note in delivery notes).', photo:null},
+  // Drinks
+  {id:'dr1', cat:'Drinks', name:'Any Can Drink', price:1.50, desc:'', photo:null},
+  {id:'dr2', cat:'Drinks', name:'Water Bottle', price:1.00, desc:'', photo:null},
+  {id:'dr3', cat:'Drinks', name:'Kids Drink', price:1.50, desc:'', photo:null},
+  {id:'dr4', cat:'Drinks', name:'Passion Juice', price:3.99, desc:'', photo:null},
+];
+
+const basket = {};
+
+function renderMenu(){
+  const container = document.getElementById('menuSections');
+  const categories = [...new Set(MENU.map(i => i.cat))];
+  container.innerHTML = categories.map(cat => {
+    const items = MENU.filter(i => i.cat === cat);
+    return `<h2>${cat}</h2>` + items.map(item => `
+      <div class="card">
+        <div class="photo-placeholder">Photo coming soon</div>
+        <div class="info">
+          <h3>${item.name}</h3>
+          ${item.desc ? `<p>${item.desc}</p>` : ''}
+          <div class="price">£${item.price.toFixed(2)}</div>
+          <div class="qty">
+            <button onclick="changeQty('${item.id}',-1)">-</button>
+            <strong id="qty-${item.id}">1</strong>
+            <button onclick="changeQty('${item.id}',1)">+</button>
+          </div>
+          <button class="add" onclick="addToBasket('${item.id}')">+ ADD TO BASKET</button>
+        </div>
+      </div>
+    `).join('');
+  }).join('');
+}
+
+function changeQty(id, delta){
+  const el = document.getElementById('qty-' + id);
+  if(!el) return;
+  let val = parseInt(el.textContent, 10) || 0;
+  val = Math.max(0, val + delta);
+  el.textContent = val;
+}
+
+function addToBasket(id){
+  const item = MENU.find(i => i.id === id);
+  const qtyEl = document.getElementById('qty-' + id);
+  const qty = qtyEl ? parseInt(qtyEl.textContent, 10) : 0;
+  if(qty === 0){
+    delete basket[id];
+    renderBasket();
+    return;
+  }
+  basket[id] = { name: item.name, price: item.price, qty: qty };
+  renderBasket();
+}
+
+function removeFromBasket(id){
+  delete basket[id];
+  renderBasket();
+}
+
+function renderBasket(){
+  const list = document.getElementById('basketItems');
+  const emptyMsg = document.getElementById('emptyMsg');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  list.innerHTML = '';
+
+  const ids = Object.keys(basket);
+  if(ids.length === 0){
+    emptyMsg.style.display = 'block';
+    checkoutBtn.disabled = true;
+    checkoutBtn.textContent = 'Checkout';
+    return;
+  }
+
+  emptyMsg.style.display = 'none';
+  let total = 0;
+  ids.forEach(function(id){
+    const item = basket[id];
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    const li = document.createElement('li');
+    li.innerHTML = '<span>' + item.qty + ' x ' + item.name + '</span>' +
+      '<span>£' + lineTotal.toFixed(2) + '</span>' +
+      '<button class="remove" onclick="removeFromBasket(\'' + id + '\')" aria-label="Remove">&#10005;</button>';
+    list.appendChild(li);
+  });
+
+  checkoutBtn.disabled = false;
+  checkoutBtn.textContent = 'Checkout — £' + total.toFixed(2);
+}
+
+function toggleAddressField(){
+  const method = document.getElementById('fulfillMethod').value;
+  const addressField = document.getElementById('addressField');
+  const addressInput = document.getElementById('custAddress');
+  if(method === 'Delivery'){
+    addressField.style.display = 'block';
+    addressInput.required = true;
+  } else {
+    addressField.style.display = 'none';
+    addressInput.required = false;
+  }
+  if(document.getElementById('checkoutOverlay').classList.contains('open')){
+    renderSummary();
+  }
+}
+
+function getDeliveryFeePence(){
+  const method = document.getElementById('fulfillMethod').value;
+  if(method !== 'Delivery') return 0;
+  return parseInt(document.getElementById('deliveryZone').value, 10) || 0;
+}
+
+function renderSummary(){
+  const summaryEl = document.getElementById('orderSummary');
+  const method = document.getElementById('fulfillMethod').value;
+  let rows = '';
+  let total = 0;
+  Object.values(basket).forEach(function(item){
+    const lineTotal = item.price * item.qty;
+    total += lineTotal;
+    rows += '<div><span>' + item.qty + ' x ' + item.name + '</span><span>£' + lineTotal.toFixed(2) + '</span></div>';
+  });
+  if(method === 'Delivery'){
+    const feePounds = getDeliveryFeePence() / 100;
+    total += feePounds;
+    rows += '<div><span>Delivery fee</span><span>£' + feePounds.toFixed(2) + '</span></div>';
+  }
+  rows += '<div style="font-weight:bold;border-top:1px solid #ccc;margin-top:6px;padding-top:6px;"><span>Total</span><span>£' + total.toFixed(2) + '</span></div>';
+  summaryEl.innerHTML = rows;
+}
+
+function openCheckout(){
+  if(Object.keys(basket).length === 0) return;
+  renderSummary();
+  document.getElementById('checkoutOverlay').classList.add('open');
+}
+
+function closeCheckout(){
+  document.getElementById('checkoutOverlay').classList.remove('open');
+}
+
+function submitOrder(e){
+  e.preventDefault();
+
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const method = document.getElementById('fulfillMethod').value;
+  const address = document.getElementById('custAddress').value.trim();
+  const notes = document.getElementById('custNotes').value.trim();
+
+  if(!name || !phone || (method === 'Delivery' && !address)){
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const items = Object.values(basket).map(function(item){
+    return {
+      name: item.name,
+      price_pence: Math.round(item.price * 100),
+      qty: item.qty
+    };
+  });
+
+  const submitBtn = document.querySelector('#checkoutForm .btn-confirm');
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Redirecting to payment...';
+
+  fetch(BACKEND + '/api/checkout/' + KITCHEN_SLUG, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      items: items,
+      customer: { name: name, phone: phone, method: method, address: address, notes: notes },
+      delivery_fee_pence: getDeliveryFeePence()
+    })
+  })
+  .then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+  .then(function(result){
+    if(result.ok && result.data.url){
+      window.location.href = result.data.url;
+    } else {
+      alert('Could not start checkout: ' + (result.data.error || 'Please try again.'));
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Pay now';
+    }
+  })
+  .catch(function(err){
+    alert('Network error, please try again: ' + err.message);
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Pay now';
+  });
+}
+
+renderMenu();
+</script>
+
+</body>
+</html>
