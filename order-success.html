@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Order Confirmed | CloudEats</title>
+<title>Order Confirmed | Cloudzio</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
   body{font-family:'Inter', sans-serif;margin:0;background:#eaf6ff;color:#222;}
@@ -30,7 +30,7 @@
 <body>
 
 <header>
-<img src="https://i.postimg.cc/K8THwMtq/Cloud-Eats-Logo-New.png" alt="CloudEats">
+<img src="https://i.postimg.cc/nc38QXDc/Cloud-Zio.png" alt="Cloudzio">
 </header>
 
 <div class="wrap">
@@ -46,7 +46,7 @@ const contentEl = document.getElementById('content');
 
 async function loadConfirmation(attempt){
   if(!sessionId){
-    contentEl.innerHTML = '<p class="error">No order reference found. If you just completed a payment, please check your email or contact support@cloudeats.co.uk.</p>';
+    contentEl.innerHTML = '<p class="error">No order reference found. If you just completed a payment, please check your email or contact support@cloudzio.co.uk.</p>';
     return;
   }
   try{
@@ -57,13 +57,13 @@ async function loadConfirmation(attempt){
       return;
     }
     if(!res.ok){
-      contentEl.innerHTML = '<p class="error">We could not find this order. If you believe this is an error, please contact support@cloudeats.co.uk.</p>';
+      contentEl.innerHTML = '<p class="error">We could not find this order. If you believe this is an error, please contact support@cloudzio.co.uk.</p>';
       return;
     }
     const order = await res.json();
     render(order);
   }catch(err){
-    contentEl.innerHTML = '<p class="error">Something went wrong loading your confirmation. Please contact support@cloudeats.co.uk with any questions.</p>';
+    contentEl.innerHTML = '<p class="error">Something went wrong loading your confirmation. Please contact support@cloudzio.co.uk with any questions.</p>';
   }
 }
 
@@ -106,10 +106,10 @@ function render(order){
 
     <p style="font-size:13px;color:#666;margin-top:20px;">
       ${isPaid ? 'The kitchen has been notified and will begin preparing your order.' : 'This page will update automatically once your payment is confirmed.'}
-      Questions? Contact <strong>support@cloudeats.co.uk</strong>
+      Questions? Contact <strong>support@cloudzio.co.uk</strong>
     </p>
 
-    <a href="https://www.cloudeats.co.uk" class="home-link">Back to CloudEats</a>
+    <a href="https://www.cloudeats.co.uk" class="home-link">Back to Cloudzio</a>
   `;
 
   if(!isPaid){
