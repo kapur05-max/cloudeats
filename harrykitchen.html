@@ -1,1 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+<!-- Google Search Console verification -->
+<meta name="google-site-verification" content="ju2KIHCjcNTgRGv3TwI8Q-qjDy2fmpBrE1OG6twhC-c" />
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-7F925QFD7J"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-7F925QFD7J');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Cloudzio | Food Delivery Platform UK</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:'Inter', sans-serif;
+margin:0;
+background:#eaf6ff;
+color:#222;
+}
+
+header{
+background:#0b3d91;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+row-gap:12px;
+}
+
+.logo img{height:120px;width:auto;display:block;}
+
+nav{
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+row-gap:10px;
+}
+
+nav a{
+color:white;
+margin-left:20px;
+text-decoration:none;
+font-weight:600;
+font-size:18px;
+}
+
+nav .order-btn{
+background:#00c853;
+padding:10px 16px;
+border-radius:20px;
+white-space:nowrap;
+}
+
+.hero{
+background-image:
+linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+url('https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg');
+background-size:cover;
+background-position:center;
+padding:150px 20px;
+text-align:center;
+color:white;
+}
+
+.hero h1{
+font-size:32px;
+max-width:900px;
+margin:auto;
+}
+
+.hero p{
+font-size:18px;
+margin-top:15px;
+}
+
+.search-box{
+margin-top:25px;
+}
+
+.search-box input{
+padding:14px;
+width:260px;
+border-radius:30px;
+border:none;
+}
+
+.search-box button{
+padding:14px 20px;
+border-radius:30px;
+border:none;
+background:#00c853;
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.highlight-green{
+color:#00ff88;
+font-weight:600;
+margin-top:15px;
+}
+
+.get-started{
+text-align:center;
+padding:40px 20px;
+}
+
+.get-cards{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.get-card{
+background:white;
+padding:25px 40px;
+border-radius:16px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+cursor:pointer;
+font-weight:600;
+transition:0.3s;
+}
+
+.get-card:hover{
+transform:translateY(-5px);
+}
+
+.section{
+padding:40px 20px;
+text-align:center;
+}
+
+.card{
+background:white;
+display:inline-block;
+width:250px;
+margin:12px;
+border-radius:14px;
+overflow:hidden;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.card img{
+width:100%;
+height:160px;
+object-fit:cover;
+}
+
+.badge{
+background:#0b3d91;
+color:white;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+margin:6px;
+display:inline-block;
+}
+
+.pin-badge{
+display:inline-flex;
+align-items:center;
+gap:6px;
+background:#ffffff;
+border:1px solid #cfd8e3;
+border-radius:20px;
+padding:8px 16px;
+color:#0b3d91;
+font-weight:600;
+font-size:14px;
+margin:10px 0 20px;
+}
+
+.featured-photos{
+display:flex;
+justify-content:center;
+gap:14px;
+flex-wrap:wrap;
+max-width:700px;
+margin:20px auto;
+}
+
+.featured-photos img{
+width:220px;
+height:200px;
+object-fit:cover;
+border-radius:14px;
+box-shadow:0 4px 12px rgba(0,0,0,0.1);
+}
+
+.order-link{
+background:#00c853;
+color:white;
+padding:12px 22px;
+border:none;
+border-radius:25px;
+cursor:pointer;
+text-decoration:none;
+display:inline-block;
+font-weight:600;
+}
+
+footer{
+background:#0b3d91;
+color:white;
+padding:30px;
+text-align:center;
+font-size:14px;
+line-height:1.6;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<div class="logo">
+<img src="https://i.postimg.cc/nc38QXDc/Cloud-Zio.png">
+</div>
+
+<nav>
+<a href="#">Home</a>
+<a href="#" onclick="showMessage()" class="order-btn">🍽️ START YOUR ORDER NOW</a>
+<a href="#kitchens">Browse Kitchens</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header" target="_blank">List Your Kitchen</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform" target="_blank">Drive with Cloudzio</a>
+<a href="#about">About Cloudzio</a>
+<a href="#flowers">Order Flowers</a>
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfx5UZWz0f4teYjTN-SZNCanxMCWIxAoaRPu2aB-HoWPE8eLg/viewform" target="_blank">Sell Flowers</a>
+<a href="#contact">Contact</a>
+</nav>
+</header>
+
+<div class="hero">
+<h1>
+Hungry? Start Your Order Now!
+</h1>
+
+<p>Your next favourite meal is just a few clicks away.</p>
+
+<div class="search-box">
+<input type="text" placeholder="📍 Enter your postcode (e.g. SE20 7HW)">
+<button onclick="showMessage()">🍽️ START YOUR ORDER NOW</button>
+</div>
+
+<p class="highlight-green">
+Ordering will be available as kitchens go live on the platform.
+</p>
+</div>
+
+<div class="section" id="about">
+<h2>About Cloudzio</h2>
+
+<p style="max-width:700px;margin:0 auto;">Cloudzio is a marketplace connecting customers with independent kitchens across London — from cloud kitchens, home kitchens, independent kitchens, dark kitchens, ghost kitchens, and commercial kitchens. Beyond food delivery, Cloudzio also helps kitchen owners advertise and rent out their space to other food businesses.</p>
+
+<p style="max-width:700px;margin:20px auto;">We started Cloudzio because we believe great food shouldn't only come from big chains. Every kitchen on our platform is run by real people pouring their passion into what they cook — and every driver plays a part in bringing that food to your door. We're here to help them grow, one order at a time.</p>
+
+<h3 style="margin-top:30px;">Who Cloudzio is for</h3>
+<p><strong>Customers</strong> — discover real, independent food near you</p>
+<p><strong>Kitchen owners</strong> — reach more customers and keep more of what you earn</p>
+<p><strong>Drivers</strong> — flexible work, paid per delivery</p>
+<p><strong>Kitchen space owners</strong> — advertise or rent out your space to other food businesses</p>
+
+<h3 style="margin-top:30px;">What makes Cloudzio different</h3>
+<p>Low commission (only 10–15%), so more of what you earn stays with you</p>
+<p>Supporting independent, local kitchens — not big chains</p>
+<p>Currently expanding across London, with more cities planned</p>
+</div>
+
+<div class="get-started">
+<h2>Get started with Cloudzio</h2>
+<div class="get-cards">
+<div class="get-card" onclick="showMessage()"> 🍽️ START YOUR ORDER NOW</div>
+<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScy3GxPgDPbE_z9D7vPKCHavJg4XgNwCxn3x-2xAfSWrsd-Zw/viewform?usp=header','_blank')"> 👨‍🍳 List Your Kitchen</div>
+<div class="get-card" onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLScxayuoeaHoWvUJagnJwU_Sxc2GKYeCMrUFVifjY4tafjWWxQ/viewform','_blank')" style="max-width:280px;">
+🛵 Drive with Cloudzio
+<p style="font-size:12px;font-weight:400;margin-top:8px;color:#555;">Driving with us? Cloudzio is exploring partnerships with leading<br>Hire & Reward insurance providers to support our delivery drivers.</p>
+</div>
+</div>
+</div>
+
+<div class="section">
+<h2>Start or Grow Your Food Business</h2>
+
+<p style="font-style:italic;">Whether you're a small food business or simply have a passion for cooking, Cloudzio is the place that connects you with your local community.</p>
+
+<p>
+Join Cloudzio to reach more customers, advertise your kitchen, and grow your brand — with low commission (only 10–15%), helping you keep more of what you earn.
+We also support commercial kitchen advertising and rental opportunities.
+</p>
+
+<p> <strong>Advertise your kitchen</strong><br>
+Get discovered by customers and grow your orders</p>
+
+<p> <strong>Commercial kitchen exposure</strong><br>
+List and promote your kitchen space to other food businesses</p>
+
+<p> <strong>Kitchen rental opportunities</strong><br>
+Connect with businesses looking for kitchen space</p>
+</div>
+
+<div class="section">
+<h2>Kitchen Types Explained</h2>
+<p><strong>Cloud Kitchen:</strong> Delivery-only kitchen for online orders.</p>
+<p><strong>Dark Kitchen:</strong> Kitchen designed for delivery & takeaway.</p>
+<p><strong>Ghost Kitchen:</strong> Multiple brands from one kitchen.</p>
+<p><strong>Home Kitchen:</strong> Food business run from home.</p>
+<p><strong>Independent Kitchen:</strong> A food business run by an individual or small team, operating outside of large restaurant chains.</p>
+<p><strong>Commercial Kitchen:</strong> Professional shared kitchen space.</p>
+</div>
+
+<div class="section">
+<h2>Select City</h2>
+<select id="cityFilter">
+<option>All Cities</option>
+<option>London</option>
+<option>Birmingham</option>
+<option>Manchester</option>
+</select>
+<p>More cities coming soon: Bristol, Liverpool, Glasgow</p>
+</div>
+
+<div class="section" id="kitchens">
+<h2>Browse Kitchens</h2>
+<p><strong>Menu coming soon — kitchens are currently onboarding.</strong></p>
+<h3>7 Kitchens Available</h3>
+
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg"><p>Urban Bowl Kitchen<br>Healthy • London</p><span class="badge">Cloud Kitchen</span></div>
+
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1435907/pexels-photo-1435907.jpeg"><p>Green Garden Kitchen<br>Plant Based • London</p><span class="badge">Ghost Kitchen</span></div>
+
+<div class="card" data-city="London"><img src="https://images.pexels.com/photos/1211887/pexels-photo-1211887.jpeg"><p>Tofu Street Kitchen<br>Asian • London</p><span class="badge">Dark Kitchen</span></div>
+
+<div class="card" data-city="Manchester"><img src="https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg"><p>Northern Kitchen<br>Bowls • Manchester</p><span class="badge">Cloud Kitchen</span></div>
+
+<a href="EarthRoots_Menu.html" style="text-decoration:none;color:inherit;">
+<div class="card" data-city="London">
+<img src="https://i.postimg.cc/zvjG5tgM/honey-glazed-tofu-supreme-png.png">
+<p>Earth Roots Home Kitchen<br>African • London</p>
+<span class="badge">Home Kitchen</span>
+</div>
+</a>
+
+<a href="FermentedHouse_Menu.html" style="text-decoration:none;color:inherit;">
+<div class="card" data-city="London">
+<img src="https://i.postimg.cc/xjNX8N2g/dish-podi-idli.jpg">
+<p>The Ferment House<br>South Indian • Harrow</p>
+</div>
+</a>
+
+<a href="RajFusion_Menu.html" style="text-decoration:none;color:inherit;">
+<div class="card" data-city="London">
+<div style="height:160px;background:#EDE7D8;color:#9a8f6f;display:flex;align-items:center;justify-content:center;font-size:13px;">Photo coming soon</div>
+<p>Raj Fusion<br>Traditional Flavours, Modern Fusion • Harrow</p>
+</div>
+</a>
+
+
+</div>
+
+<div class="section">
+<h2>Featured Kitchen Partner</h2>
+
+<h3>The Ferment House</h3>
+
+<p>Fermented South Indian dosas, idlis and more, now available on Cloudzio.</p>
+
+<div class="pin-badge">
+📍 Serving Harrow HA1 &amp; Surrounding Areas
+</div>
+
+<div class="featured-photos">
+<img src="https://i.postimg.cc/BvZ8nhqr/dish-masala-dosa.jpg" alt="Masala Dosa">
+<img src="https://i.postimg.cc/wxnsQcVL/dish-chilli-onion-tomato-uttapam.jpg" alt="Chilli Onion Tomato Uttapam">
+<img src="https://i.postimg.cc/FH4d2rwc/dish-idli.jpg" alt="Idli">
+</div>
+
+<a href="FermentedHouse_Menu.html" class="order-link">View Menu & Order</a>
+
+</div>
+
+<div class="section">
+
+<h2>Featured Kitchen Partner</h2>
+
+<h3>Earth Roots Home Kitchen</h3>
+
+<p>Authentic African-inspired plant-based cooking, made fresh to order.</p>
+
+<div class="pin-badge">
+📍 Home Kitchen Serving Camberwell &amp; Surrounding Areas SE5
+</div>
+
+<div class="featured-photos">
+<img src="https://i.postimg.cc/zvjG5tgM/honey-glazed-tofu-supreme-png.png" alt="Honey Glazed Tofu Supreme">
+<img src="https://i.postimg.cc/FRXrS5bd/Pic-6-New.png" alt="Coconut Creamy Tofu Bowl">
+<img src="https://i.postimg.cc/fRFTw0JB/Pic-4-New.png" alt="Smoky Roots Wrap">
+</div>
+
+<a href="EarthRoots_Menu.html" class="order-link">View Menu & Order</a>
+
+</div>
+
+<div class="section" id="flowers">
+<h2>Flowers</h2>
+<p><strong>Cloudzio also does flower deliveries.</strong></p>
+<p style="font-size:18px; font-weight:600;">Making your moments special.</p>
+<p>Florists are onboarding — flower delivery will be available soon.</p>
+
+<button onclick="showFlowerMessage()" style="background:#ff4081; border-radius:25px; padding:12px 22px;"> Order Flowers</button>
+
+<br><br>
+
+<a href="https://docs.google.com/forms/d/e/1FAIpQLSfx5UZWz0f4teYjTN-SZNCanxMCWIxAoaRPu2aB-HoWPE8eLg/viewform" target="_blank">
+<button style="border-radius:25px; padding:12px 22px;"> Register as a Florist</button>
+</a>
+</div>
+
+<div class="section">
+<h2>Our Coverage Area</h2>
+<iframe src="https://maps.google.com/maps?q=London&t=&z=6&ie=UTF8&iwloc=&output=embed" width="100%" height="400"></iframe>
+</div>
+
+<div class="section" id="contact">
+<h2>Contact & Support</h2>
+<p>Got a question about registering a kitchen, delivery areas, becoming a driver, or anything else? Or an issue with an order, like it hasn't arrived or something's not right? Chat with us now for a quick response.</p>
+
+<a href="https://wa.me/447561228288?text=Any%20questions%2C%20please%20ask%20us" target="_blank" style="display:inline-flex;align-items:center;gap:8px;background:#25D366;color:white;padding:12px 22px;border-radius:25px;text-decoration:none;font-weight:600;margin-top:10px;">
+💬 Any questions, chat with us
+</a>
+
+<p style="margin-top:20px;">Prefer email, or have something more detailed to share? Email us and we'll respond within 24 hours.</p>
+<p><strong>support@cloudzio.co.uk</strong></p>
+
+<div style="max-width:500px;margin:20px auto;text-align:left;background:white;border-radius:14px;padding:24px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+<p style="margin-top:0;"><strong>Reporting an issue with an order?</strong> To help us resolve it quickly, please include:</p>
+<ul style="padding-left:20px;">
+<li>Your order number (if you have it — if not, just include your phone number and approximate order time, and we can look it up)</li>
+<li>The kitchen name</li>
+<li>A brief description of the issue.</li>
+</ul>
+</div>
+</div>
+
+<footer>
+<p>
+Cloudzio is a food delivery platform connecting customers with independent food businesses.
+All food preparation, food safety and delivery responsibilities remain with the kitchen partner.
+Cloudzio does not operate kitchens or prepare food.
+</p>
+
+<p>
+Data Protection & Privacy<br>
+Cloudzio is committed to protecting your personal data in accordance with UK data protection laws.
+</p>
+
+<p><em>Cloudzio is a vegan-only platform. All food prepared and sold must be plant-based.</em></p>
+
+<p>Cloudzio Ltd is a company registered in England and Wales, company number 17308005. Registered office: 5 Brayford Square, London, England, E1 0SG.</p>
+
+<p>© 2026 Cloudzio Ltd</p>
+
+<p>Follow us: <a href="https://www.instagram.com/cloudzio_/" target="_blank" style="color:white;">Instagram</a> | <a href="https://www.linkedin.com/company/cloudzio-uk/" target="_blank" style="color:white;">LinkedIn</a> | <a href="https://www.facebook.com/profile.php?id=61590996342502" target="_blank" style="color:white;">Facebook</a></p>
+
+<p><a href="privacy-policy.html" style="color:white;">Privacy Policy</a> | <a href="terms-of-service.html" style="color:white;">Terms of Service</a></p>
+</footer>
+
+<script>
+function showMessage(){alert("Kitchens are onboarding and the platform will be live soon.");}
+function showFlowerMessage(){alert("Florists are getting onboarded.");}
+
+document.getElementById("cityFilter").addEventListener("change", function(){
+let selected = this.value;
+let cards = document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+if(selected==="All Cities" || card.dataset.city===selected){
+card.style.display="inline-block";
+}else{
+card.style.display="none";
+}
+});
+});
+</script>
+
+</body>
+</html>
