@@ -13,7 +13,7 @@
     --navy: #05081c;
     --blue-deep: #0041fc;
     --blue-light: #3fa0ff;
-    --paper: #ffffff;
+    --paper: #EAF6FF;
     --line: rgba(5,8,28,0.10);
     --panel: rgba(5,8,28,0.03);
   }
@@ -141,8 +141,8 @@
   <div class="wrap">
     <div class="icon">✓</div>
     <h1>You're on the <span class="accent" id="serviceName">CloudZio AI</span> early access list</h1>
-    <p class="desc" id="serviceDesc">Thanks for your interest &mdash; we'll email you the moment it's live.</p>
-    <div class="panel">No spam, ever &mdash; just one email when this is live, and nothing else.</div>
+    <p class="desc" id="serviceDesc">Thanks for your interest &mdash; we'll keep you updated with next steps.</p>
+    <div class="panel">No spam, ever &mdash; just one email to keep you updated, with next steps.</div>
     <div class="links">
       <a class="btn btn-primary" href="/ai/">Explore other CloudZio AI assistants</a>
       <a class="btn btn-secondary" href="/">Back to CloudZio</a>
@@ -160,7 +160,7 @@
   if (service) {
     document.getElementById('serviceName').textContent = 'CloudZio ' + service;
     document.getElementById('serviceDesc').textContent =
-      "Thanks for your interest in CloudZio " + service + " \u2014 we'll email you the moment it's live.";
+      "Thanks for your interest in CloudZio " + service + " \u2014 we'll keep you updated with next steps.";
     document.title = "Thanks | CloudZio " + service;
   }
 </script>
