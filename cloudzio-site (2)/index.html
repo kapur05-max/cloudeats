@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudZio | Independent Kitchens &amp; CloudZio AI</title>
+<meta name="description" content="CloudZio is the home of independent kitchens across London, and the home of CloudZio AI — assistants for everyday life and business.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #05081c;
+    --blue-deep: #0041fc;
+    --blue-light: #3fa0ff;
+    --paper: #EAF6FF;
+    --line: rgba(5,8,28,0.10);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    font-family: 'Manrope', system-ui, sans-serif;
+    color: var(--navy);
+    background: var(--paper);
+  }
+  a{ color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 4px;
+  }
+
+  html, body{ height: 100%; }
+  body{ display: flex; flex-direction: column; min-height: 100vh; }
+
+  .wordmark-wrap{
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.5rem 0.5rem;
+  }
+  .wordmark-wrap img{
+    width: 100%;
+    max-width: 460px;
+    height: auto;
+  }
+
+  .split{
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .panel{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    transition: background 0.18s ease;
+    position: relative;
+  }
+  .panel:hover{
+    background: rgba(5,8,28,0.02);
+  }
+  .panel:first-child{
+    border-right: 1px solid var(--line);
+  }
+
+  .panel img.icon{
+    width: 220px;
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 1.6rem;
+  }
+
+  .panel h2{
+    font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+    font-weight: 800;
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.01em;
+  }
+  .panel h2 .accent{
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .panel .tagline{
+    font-size: 1.05rem;
+    font-weight: 700;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0 0 1.1rem;
+  }
+
+  .rule{
+    width: 64px;
+    height: 3px;
+    border-radius: 2px;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    margin-bottom: 1.1rem;
+  }
+
+  .panel .keywords{
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--navy);
+    opacity: 0.85;
+  }
+
+  @media (max-width: 780px){
+    .split{ flex-direction: column; }
+    .panel{ min-height: 50vh; padding: 3rem 1.5rem; }
+    .panel:first-child{ border-right: none; border-bottom: 1px solid var(--line); }
+  }
+
+  footer{
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(5,8,28,0.55);
+    padding: 1.6rem 1rem 2.2rem;
+  }
+  footer a{ color: rgba(5,8,28,0.7); }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wordmark-wrap">
+  <img src="assets/cloudzio-wordmark.png" alt="CloudZio">
+</div>
+
+<div class="split">
+  <a class="panel" href="/food/" aria-label="Go to CloudZio food delivery">
+    <img class="icon" src="assets/icon-food.png" alt="CloudZio kitchens icon">
+    <h2>CloudZio</h2>
+    <p class="tagline">Home of Independent Kitchens</p>
+    <div class="rule"></div>
+    <p class="keywords">Marketplace &nbsp;•&nbsp; Delivery &nbsp;•&nbsp; Kitchen Spaces</p>
+  </a>
+
+  <a class="panel" href="/ai/" aria-label="Go to CloudZio AI">
+    <img class="icon" src="assets/icon-ai.png" alt="CloudZio AI sparkle icon">
+    <h2>CloudZio <span class="accent">AI</span></h2>
+    <p class="tagline">AI that makes your life easier</p>
+    <div class="rule"></div>
+    <p class="keywords">Business &nbsp;•&nbsp; Family &nbsp;•&nbsp; Parenting &nbsp;•&nbsp; Calm &nbsp;•&nbsp; Shopping &nbsp;•&nbsp; Admin &nbsp;•&nbsp; Companion &nbsp;•&nbsp; Yoga</p>
+  </a>
+</div>
+
+<footer>
+  CloudZio Ltd · Company No. 17308005 · Registered in England &amp; Wales
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudZio AI | AI that makes your life easier</title>
+<meta name="description" content="CloudZio AI — assistants for business, family, parenting, calm, shopping and admin.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #05081c;
+    --blue-deep: #0041fc;
+    --blue-light: #3fa0ff;
+    --paper: #EAF6FF;
+    --line: rgba(5,8,28,0.10);
+    --panel: rgba(5,8,28,0.03);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    font-family: 'Manrope', system-ui, sans-serif;
+    color: var(--navy);
+    background: var(--paper);
+  }
+  a{ color: inherit; text-decoration: none; }
+  a:focus-visible{ outline: 3px solid var(--blue-deep); outline-offset: 3px; }
+
+  header{
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.5rem 0;
+  }
+  header a{ font-weight: 800; font-size: 1.3rem; }
+  header .z{
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .hero{
+    text-align: center;
+    padding: 2.2rem 1.5rem 1rem;
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .hero h1{
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 800;
+    margin: 0 0 0.6rem;
+    letter-spacing: -0.01em;
+  }
+  .hero p{
+    font-size: 1.05rem;
+    color: rgba(5,8,28,0.65);
+    margin: 0 0 0.9rem;
+  }
+  .hero .soon-badge{
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+  }
+
+  .grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 1100px;
+    margin: 2.4rem auto 3rem;
+    padding: 0 1.5rem;
+  }
+  @media (max-width: 900px){
+    .grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .card{
+    display: block;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 1.7rem 1.4rem;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+  .card:hover{
+    transform: translateY(-3px);
+    border-color: var(--blue-light);
+  }
+  .card .icon{ font-size: 1.8rem; display: block; margin-bottom: 0.8rem; }
+  .card h2{ font-size: 1.05rem; font-weight: 800; margin: 0 0 0.4rem; }
+  .card p{ font-size: 0.92rem; line-height: 1.45; color: rgba(5,8,28,0.65); margin: 0; }
+
+  .back{
+    display: block;
+    text-align: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(5,8,28,0.55);
+    margin: 0 0 3rem;
+  }
+  .back:hover{ color: var(--blue-deep); }
+
+  footer{
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(5,8,28,0.55);
+    padding: 1.6rem 1rem 2.2rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/"><span class="z">CloudZio</span> AI</a>
+</header>
+
+<div class="hero">
+  <h1>AI that makes your life easier.</h1>
+  <p>What can CloudZio help you with?</p>
+  <p class="soon-badge">Be the first to know</p>
+</div>
+
+<div class="grid">
+  <a class="card" href="/ai/business.html">
+    <span class="icon">🤖</span>
+    <h2>Business</h2>
+    <p>Your AI receptionist and WhatsApp assistant.</p>
+  </a>
+  <a class="card" href="/ai/family.html">
+    <span class="icon">👨‍👩‍👧</span>
+    <h2>Family</h2>
+    <p>Your AI family assistant.</p>
+  </a>
+  <a class="card" href="/ai/parenting.html">
+    <span class="icon">👨‍👩‍👦</span>
+    <h2>Parenting</h2>
+    <p>Help with everyday parenting tasks.</p>
+  </a>
+  <a class="card" href="/ai/calm.html">
+    <span class="icon">🌿</span>
+    <h2>Calm</h2>
+    <p>Take a moment to relax and unwind.</p>
+  </a>
+  <a class="card" href="/ai/shopping.html">
+    <span class="icon">🛒</span>
+    <h2>Shopping</h2>
+    <p>Tell us what you're looking for.</p>
+  </a>
+  <a class="card" href="/ai/admin.html">
+    <span class="icon">⚙️</span>
+    <h2>Admin</h2>
+    <p>Let AI handle repetitive business tasks.</p>
+  </a>
+  <a class="card" href="/ai/companion.html">
+    <span class="icon">❤️</span>
+    <h2>Companion</h2>
+    <p>Company, whenever you'd like some.</p>
+  </a>
+  <a class="card" href="/ai/yoga.html">
+    <span class="icon">🧘</span>
+    <h2>Yoga</h2>
+    <p>Tell us how you're feeling. We'll guide the session.</p>
+  </a>
+</div>
+
+<a class="back" href="/">&larr; Back to CloudZio</a>
+
+<footer>
+  CloudZio Ltd &middot; Company No. 17308005 &middot; Registered in England &amp; Wales
+</footer>
+
+</body>
+</html>

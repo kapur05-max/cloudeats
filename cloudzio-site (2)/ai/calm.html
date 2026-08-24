@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CloudZio Calm | CloudZio AI</title>
+<meta name="description" content="Take a moment to relax and unwind. Join the CloudZio Calm early access list.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #05081c;
+    --blue-deep: #0041fc;
+    --blue-light: #3fa0ff;
+    --paper: #EAF6FF;
+    --line: rgba(5,8,28,0.10);
+    --panel: rgba(5,8,28,0.03);
+  }
+  *{ box-sizing: border-box; }
+  body{
+    margin: 0;
+    font-family: 'Manrope', system-ui, sans-serif;
+    color: var(--navy);
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+  a{ color: inherit; }
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline: 3px solid var(--blue-deep);
+    outline-offset: 3px;
+  }
+
+  header{
+    display: flex;
+    justify-content: center;
+    padding: 2rem 1.5rem 0;
+  }
+  header a{
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.3rem;
+  }
+  header .z{
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  main{
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+  .wrap{
+    max-width: 620px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .icon{
+    font-size: 3.4rem;
+    display: block;
+    margin: 0 0 1rem;
+  }
+  .eyebrow{
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin: 0 0 0.7rem;
+  }
+  .soon-badge{
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    margin: 0 0 1.1rem;
+  }
+  .audience{
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: rgba(5,8,28,0.55);
+    background: rgba(5,8,28,0.05);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.3rem 0.8rem;
+    margin: 0 0 0.9rem;
+  }
+  h1{
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 800;
+    margin: 0 0 0.7rem;
+    letter-spacing: -0.01em;
+  }
+  .tagline{
+    font-size: 1.15rem;
+    font-weight: 700;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0 0 1.4rem;
+  }
+  .desc{
+    font-size: 1.02rem;
+    line-height: 1.6;
+    color: rgba(5,8,28,0.72);
+    margin: 0 0 2.4rem;
+  }
+
+  .panel{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 2rem 1.8rem;
+    text-align: left;
+  }
+  .panel h2{
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .trial-line{
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-align: center;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin: 0 0 0.9rem;
+  }
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  label{
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: rgba(5,8,28,0.7);
+    margin-bottom: 0.2rem;
+    display: block;
+  }
+  input[type="text"], input[type="email"]{
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    font-family: inherit;
+    font-size: 1rem;
+    background: #fff;
+  }
+  .row{
+    display: flex;
+    flex-direction: column;
+  }
+  button{
+    margin-top: 0.4rem;
+    padding: 0.95rem 1.5rem;
+    border: none;
+    border-radius: 999px;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    color: #fff;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0,65,252,0.28);
+  }
+  .fineprint{
+    font-size: 0.78rem;
+    color: rgba(5,8,28,0.5);
+    margin-top: 0.9rem;
+    text-align: center;
+  }
+
+  .back{
+    display: inline-block;
+    margin-top: 2.2rem;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgba(5,8,28,0.55);
+    text-decoration: none;
+  }
+  .back:hover{ color: var(--blue-deep); }
+
+  footer{
+    border-top: 1px solid var(--line);
+    text-align: center;
+    font-size: 0.82rem;
+    color: rgba(5,8,28,0.55);
+    padding: 1.6rem 1rem 2.2rem;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/"><span class="z">CloudZio</span> AI</a>
+</header>
+
+<main>
+  <div class="wrap">
+    <span class="icon">🌿</span>
+    <p class="soon-badge">Be the first to know</p>
+    <p class="eyebrow">CloudZio AI &bull; Calm</p>
+    
+    <h1>A moment to breathe, whenever you need it.</h1>
+    <p class="tagline">Take a moment to relax and unwind.</p>
+    <p class="desc">Tell CloudZio Calm how you're feeling and how much time you have, and it puts together a short, personal moment of calm — no scrolling through hundreds of recordings to find the right one.</p>
+
+    <div class="panel">
+      <h2>Join the early access list</h2>
+      <form id="waitlist-form-calm" action="https://formspree.io/f/mzepqkdy" method="POST">
+        <input type="hidden" name="_subject" value="New CloudZio Calm early access signup">
+        <input type="hidden" name="category" value="Calm">
+        <div class="row">
+          <label for="name-calm">Name</label>
+          <input type="text" id="name-calm" name="name" required>
+        </div>
+        <div class="row">
+          <label for="email-calm">Email</label>
+          <input type="email" id="email-calm" name="email" required>
+        </div>
+        <p class="trial-line">Sign up now for a 7-day free trial.</p>
+        <button type="submit" id="submit-btn-calm">Get early access</button>
+        <p id="form-error-calm" class="fineprint" style="display:none;color:#c0392b;">Something went wrong &mdash; please try again.</p>
+      </form>
+      <p class="fineprint">No spam &mdash; just one email to keep you updated, with next steps.</p>
+    </div>
+
+    <script>
+      (function(){
+        var form = document.getElementById('waitlist-form-calm');
+        var errorMsg = document.getElementById('form-error-calm');
+        var submitBtn = document.getElementById('submit-btn-calm');
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          errorMsg.style.display = 'none';
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+          var data = new FormData(form);
+          fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          }).then(function(response){
+            if (response.ok){
+              window.location.href = '/ai/thanks.html?service=Calm';
+            } else {
+              errorMsg.style.display = 'block';
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Get early access';
+            }
+          }).catch(function(){
+            errorMsg.style.display = 'block';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Get early access';
+          });
+        });
+      })();
+    </script>
+
+    <a class="back" href="/ai/">&larr; Back to CloudZio AI</a>
+  </div>
+</main>
+
+<footer>
+  CloudZio Ltd &middot; Company No. 17308005 &middot; Registered in England &amp; Wales
+</footer>
+
+</body>
+</html>
