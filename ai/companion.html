@@ -500,7 +500,7 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            model: "claude-sonnet-4-6",
+            model: "claude-haiku-4-5-20251001",
             max_tokens: 200,
             system: SYSTEM_PROMPT,
             messages: history
@@ -540,7 +540,13 @@
 
     function pickVoice(){
       if (!cachedVoices.length) return null;
-      var femaleNameHints = /female|woman|samantha|zira|hazel|sonia|serena|kate|susan|karen|moira|tessa|fiona|joanna|amy|emma|libby/i;
+      // Best-known natural-sounding female voices, in priority order (varies by device/browser)
+      var bestNames = ['Sonia', 'Samantha', 'Google UK English Female', 'Libby', 'Aria', 'Jenny', 'Emma', 'Joanna'];
+      for (var i = 0; i < bestNames.length; i++){
+        var match = cachedVoices.find(function(v){ return v.name.indexOf(bestNames[i]) !== -1; });
+        if (match) return match;
+      }
+      var femaleNameHints = /female|woman|zira|hazel|serena|kate|susan|karen|moira|tessa|fiona|amy|libby/i;
       var choice = cachedVoices.find(function(v){ return /en-GB/i.test(v.lang) && femaleNameHints.test(v.name); });
       if (!choice) choice = cachedVoices.find(function(v){ return /en/i.test(v.lang) && femaleNameHints.test(v.name); });
       if (!choice) choice = cachedVoices.find(function(v){ return /en-GB/i.test(v.lang); });
@@ -552,8 +558,8 @@
       if (!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
       var utter = new SpeechSynthesisUtterance(text);
-      utter.rate = 0.9;
-      utter.pitch = 1.15;
+      utter.rate = 0.97;
+      utter.pitch = 1.02;
       var preferred = pickVoice();
       if (preferred) utter.voice = preferred;
       window.speechSynthesis.speak(utter);
