@@ -509,7 +509,14 @@
         var data = await response.json();
         removeTyping();
         var textBlock = (data.content || []).find(function(b){ return b.type === 'text'; });
-        var reply = textBlock ? textBlock.text : "Sorry, I didn't quite catch that.";
+        var reply;
+        if (textBlock) {
+          reply = textBlock.text;
+        } else if (data && data.error) {
+          reply = "[DEBUG] API error: " + (data.error.type || 'unknown') + " \u2014 " + (data.error.message || JSON.stringify(data));
+        } else {
+          reply = "[DEBUG] Unexpected response: " + JSON.stringify(data).slice(0, 400);
+        }
         history.push({ role: 'assistant', content: reply });
         addBubble(reply, 'ai');
         speak(reply);
