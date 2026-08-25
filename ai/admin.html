@@ -43,7 +43,7 @@
     font-weight: 800;
     font-size: 1.3rem;
   }
-  header .z{
+  header .zio{
     background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
     -webkit-background-clip: text;
     background-clip: text;
@@ -134,15 +134,15 @@
     text-align: center;
   }
 
-  .trial-line{
-    font-size: 0.92rem;
+  .trial-badge{
+    display: inline-block;
+    font-size: 0.85rem;
     font-weight: 800;
-    text-align: center;
+    color: #fff;
     background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin: 0 0 0.9rem;
+    border-radius: 999px;
+    padding: 0.45rem 1.1rem;
+    margin: 0 0 1.1rem;
   }
   form{
     display: flex;
@@ -218,7 +218,7 @@
 <body>
 
 <header>
-  <a href="/"><span class="z">CloudZio</span> AI</a>
+  <a href="/">Cloud<span class="zio">Zio</span> AI</a>
 </header>
 
 <main>
@@ -229,6 +229,7 @@
     
     <h1>Let AI take the repetitive tasks off your plate.</h1>
     <p class="tagline">Let AI handle repetitive business tasks.</p>
+    <p class="trial-badge">🎁 7-day free trial with early access</p>
     <p class="desc">CloudZio Admin takes on the repetitive admin work that eats up your day — so you can spend your time on the parts of the business only you can do.</p>
 
     <div class="panel">
@@ -244,11 +245,10 @@
           <label for="email-admin">Email</label>
           <input type="email" id="email-admin" name="email" required>
         </div>
-        <p class="trial-line">Sign up now for a 7-day free trial.</p>
         <button type="submit" id="submit-btn-admin">Get early access</button>
         <p id="form-error-admin" class="fineprint" style="display:none;color:#c0392b;">Something went wrong &mdash; please try again.</p>
       </form>
-      <p class="fineprint">No spam &mdash; just one email to keep you updated, with next steps.</p>
+      <p class="fineprint">Just one email. No junk.</p>
     </div>
 
     <script>
