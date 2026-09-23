@@ -150,18 +150,18 @@
   ];
 
   var ASSISTANTS = [
-    { name: 'CloudZio Business AI', source: 'CloudZio', category: 'Business', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Business use'], bestFor: 'Handles scheduling, emails and everyday admin for your business.' },
-    { name: 'Otter.ai', source: 'Third-party', category: 'Business', price: ['Free', 'Under £10/month'], exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Business use'], bestFor: 'Records and transcribes meetings automatically.' },
-    { name: 'CloudZio Family AI', source: 'CloudZio', category: 'Family', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Privacy'], bestFor: 'Keeps family schedules, reminders and to-dos in one place.' },
-    { name: 'CloudZio Parenting AI', source: 'CloudZio', category: 'Parenting', price: ['Free'], exp: ['Beginner', 'Some experience'], priority: ['Easy to use', 'Privacy'], bestFor: 'Everyday parenting guidance in plain language.' },
-    { name: 'ChildMind AI', source: 'Third-party', category: 'Parenting', price: ['Free', 'Under £10/month'], exp: ['Beginner'], priority: ['Easy to use'], bestFor: 'Real-time help with tantrums and difficult moments.' },
-    { name: 'Perplexity', source: 'Third-party', category: 'Studying', price: ['Free'], exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Cheapest'], bestFor: 'Cited, sourced answers — good for essays and fact-checking.' },
-    { name: 'CloudZio Shopping AI', source: 'CloudZio', category: 'Shopping', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Cheapest'], bestFor: 'Finds and compares deals for everyday purchases.' },
-    { name: "Go.Compare's assistant", source: 'Third-party', category: 'Shopping', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Cheapest', 'Easy to use'], bestFor: 'Compares car, home and van insurance quotes.' },
-    { name: 'Grammarly', source: 'Third-party', category: 'Writing', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Best features'], bestFor: 'Checks grammar, tone and clarity as you write.' },
-    { name: 'CloudZio Companion AI', source: 'CloudZio', category: 'Older adults', price: ['Free'], exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Friendly daily check-ins and conversation.' },
-    { name: 'CloudZio Calm AI', source: 'CloudZio', category: 'Stress/relaxation', price: ['Free'], exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Short guided moments to help you reset during the day.' },
-    { name: 'Wysa', source: 'Third-party', category: 'Stress/relaxation', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience'], priority: ['Privacy', 'Easy to use'], bestFor: 'A mental-wellness chatbot for everyday stress.' }
+    { name: 'CloudZio Business AI', source: 'CloudZio', category: 'Business', price: ['Free', 'Under £10/month'], priceLabel: 'Free', exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Business use'], bestFor: 'Handles scheduling, emails and everyday admin for your business.' },
+    { name: 'Otter.ai', source: 'Third-party', category: 'Business', price: ['Free', 'Under £10/month'], priceLabel: 'Free, or from £7/mo (billed annually)', exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Business use'], bestFor: 'Records and transcribes meetings automatically.' },
+    { name: 'CloudZio Family AI', source: 'CloudZio', category: 'Family', price: ['Free'], priceLabel: 'Free', exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Privacy'], bestFor: 'Keeps family schedules, reminders and to-dos in one place.' },
+    { name: 'CloudZio Parenting AI', source: 'CloudZio', category: 'Parenting', price: ['Free'], priceLabel: 'Free', exp: ['Beginner', 'Some experience'], priority: ['Easy to use', 'Privacy'], bestFor: 'Everyday parenting guidance in plain language.' },
+    { name: 'ChildMind AI', source: 'Third-party', category: 'Parenting', price: ['Free'], priceLabel: 'Free to download, subscription for full coaching', exp: ['Beginner'], priority: ['Easy to use'], bestFor: 'Real-time help with tantrums and difficult moments.' },
+    { name: 'Perplexity', source: 'Third-party', category: 'Studying', price: ['Free', '£10–£25/month'], priceLabel: 'Free, or £16/mo Pro (£13/mo billed annually)', exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Cheapest'], bestFor: 'Cited, sourced answers — good for essays and fact-checking.' },
+    { name: 'CloudZio Shopping AI', source: 'CloudZio', category: 'Shopping', price: ['Free'], priceLabel: 'Free', exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Cheapest'], bestFor: 'Finds and compares deals for everyday purchases.' },
+    { name: "Go.Compare's assistant", source: 'Third-party', category: 'Shopping', price: ['Free'], priceLabel: 'Free', exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Cheapest', 'Easy to use'], bestFor: 'Compares car, home and van insurance quotes.' },
+    { name: 'Grammarly', source: 'Third-party', category: 'Writing', price: ['Free', 'Under £10/month'], priceLabel: 'Free, or from £9.50/mo Pro (billed annually)', exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Best features'], bestFor: 'Checks grammar, tone and clarity as you write.' },
+    { name: 'CloudZio Companion AI', source: 'CloudZio', category: 'Older adults', price: ['Free'], priceLabel: 'Free', exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Friendly daily check-ins and conversation.' },
+    { name: 'CloudZio Calm AI', source: 'CloudZio', category: 'Stress/relaxation', price: ['Free'], priceLabel: 'Free', exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Short guided moments to help you reset during the day.' },
+    { name: 'Wysa', source: 'Third-party', category: 'Stress/relaxation', price: ['Free', 'Under £10/month'], priceLabel: 'Free, with paid extras from around £8/mo', exp: ['Beginner', 'Some experience'], priority: ['Privacy', 'Easy to use'], bestFor: 'A mental-wellness chatbot for everyday stress.' }
   ];
 
   var state = { step: 0, answers: {} };
@@ -235,6 +235,7 @@
         '<div class="card-top"><span class="card-name">' + a.name + '</span>' +
         '<span class="badge ' + (a.source === 'CloudZio' ? 'badge-cloudzio' : 'badge-third') + '">' + a.source + '</span></div>' +
         '<span class="card-best">' + a.bestFor + '</span>' +
+        '<span style="font-weight:800;color:var(--navy);">' + (a.priceLabel || '') + '</span>' +
         '<span class="card-why">' + whyText(a) + '</span>';
       cardsWrap.appendChild(card);
     });
