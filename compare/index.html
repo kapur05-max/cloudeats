@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CloudZio Compare</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #05081c;
+    --blue-deep: #0041fc;
+    --blue-light: #3fa0ff;
+    --paper: #EAF6FF;
+    --line: rgba(5,8,28,0.10);
+    --panel: rgba(5,8,28,0.03);
+    --muted-72: rgba(5,8,28,0.72);
+    --muted-55: rgba(5,8,28,0.55);
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+  body { margin: 0; font-family: 'Manrope', system-ui, sans-serif; color: var(--navy); background: var(--paper); }
+  a { color: inherit; text-decoration: none; }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 3px; }
+  .gradient-text { background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cz-cloud { font-weight: 800; color: var(--navy); }
+  .cz-zio { font-weight: 800; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gradient-fill { background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); }
+  .screen { display: none; width: 100%; min-height: 100vh; }
+  .screen.active { display: block; }
+
+  /* HEADER (matches CloudZio AI page pattern) */
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 2rem 1.5rem 0; }
+  .topbar .back-link { font-size: 0.9rem; font-weight: 700; color: var(--muted-55); }
+  .topbar .back-link:hover { color: var(--blue-deep); }
+  .wordmark { font-weight: 800; font-size: 3.6rem; }
+
+  /* HOME */
+  .home-wrap { max-width: 1040px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; text-align: center; }
+  .wordmark-box { display: inline-block; background: #fff; border-radius: 24px; padding: 1.6rem 3rem; margin: 0 auto 2rem; box-shadow: 0 8px 24px rgba(0,65,252,0.12); }
+  .home-wrap h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 800; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
+  .home-wrap .sub { font-size: 1.75rem; font-weight: 700; color: var(--muted-72); margin: 0 0 2.4rem; }
+  .panels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+  @media (max-width: 720px) { .panels { grid-template-columns: 1fr; } }
+  .panel-card { display: block; width: 100%; text-align: left; font-family: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 2rem 1.8rem; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+  .panel-card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,65,252,0.14); }
+  .icon-tile { width: 92px; height: 92px; background: #fff; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+  .icon-tile svg { width: 62px; height: 62px; }
+  .panel-icon { font-size: 2.6rem; display: block; margin-bottom: 0.9rem; }
+  .panel-title { font-size: 1.6rem; font-weight: 800; margin: 0 0 0.3rem; }
+  .panel-sub { font-size: 1.25rem; color: var(--muted-72); margin: 0 0 1rem; }
+  .panel-cta { display: inline-block; font-size: 1.1rem; font-weight: 800; color: #fff; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); border-radius: 999px; padding: 0.5rem 1.2rem; }
+  .panel-cta.ghost { background: none; color: var(--blue-deep); padding: 0; }
+  .logo-placeholder { height: 2.6rem; display: flex; align-items: center; margin-bottom: 0.9rem; }
+  .panel-tagline { font-size: 1.3rem; font-weight: 800; margin: 0 0 0.6rem; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .panel-underline { width: 42px; height: 3px; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); margin: 0 auto 0.9rem; border-radius: 2px; }
+  .panel-caption { font-size: 1.08rem; font-weight: 800; color: var(--navy); margin-bottom: 1rem; line-height: 1.6; }
+  .coming-soon-badge { display: inline-block; font-size: 0.92rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: #fff; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); border-radius: 999px; padding: 0.4rem 1.05rem; }
+
+  .logo-placeholder span { font-size: 0.72rem; font-weight: 700; color: var(--muted-55); border: 1px dashed var(--line); border-radius: 8px; padding: 0.3rem 0.6rem; }
+
+  /* QUIZ */
+  .quiz-wrap { max-width: 620px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .progress-track { height: 6px; background: var(--line); border-radius: 999px; overflow: hidden; margin-bottom: 2rem; }
+  .progress-fill { height: 100%; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); width: 25%; transition: width .25s ease; }
+  .eyebrow { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue-deep); margin: 0 0 0.7rem; }
+  .quiz-wrap h2 { font-size: 1.6rem; font-weight: 800; margin: 0 0 1.5rem; }
+  .options { display: flex; flex-direction: column; gap: 0.6rem; }
+  .option-btn { text-align: left; padding: 1rem 1.1rem; border-radius: 12px; border: 1px solid var(--line); background: #fff; color: var(--navy); font-family: inherit; font-size: 1rem; font-weight: 700; cursor: pointer; min-height: 44px; }
+  .option-btn:hover { border-color: var(--blue-light); }
+  .option-btn.selected { border-color: var(--blue-deep); background: rgba(0,65,252,0.06); color: var(--blue-deep); }
+  .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 1.7rem; }
+  .btn-ghost { background: none; border: none; color: var(--muted-55); font-family: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; padding: 10px; min-height: 44px; }
+  .btn-primary { padding: 0.95rem 1.6rem; border: none; border-radius: 999px; background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); color: #fff; font-family: inherit; font-weight: 800; font-size: 1rem; cursor: pointer; min-height: 44px; transition: transform .15s ease, box-shadow .15s ease; }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,65,252,0.28); }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+
+  /* RESULTS */
+  .results-wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  .results-wrap h1 { font-size: 1.8rem; font-weight: 800; margin: 0 0 0.4rem; }
+  .results-sub { color: var(--muted-72); font-weight: 700; margin-bottom: 2rem; }
+  .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.1rem; }
+  @media (max-width: 820px) { .cards { grid-template-columns: 1fr; } }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .card-name { font-size: 1.05rem; font-weight: 800; }
+  .badge { font-size: 0.68rem; font-weight: 800; padding: 0.25rem 0.65rem; border-radius: 999px; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
+  .badge-cloudzio { background: linear-gradient(100deg, var(--blue-deep), var(--blue-light)); color: #fff; }
+  .badge-third { background: rgba(5,8,28,0.06); color: var(--muted-55); }
+  .card-best { font-size: 0.9rem; color: var(--muted-72); }
+  .card-why { font-size: 0.8rem; color: var(--muted-72); background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 0.6rem 0.75rem; margin-top: auto; }
+  .retake { margin-top: 2.2rem; text-align: center; }
+  .retake button { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.7rem 1.3rem; color: var(--navy); font-family: inherit; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
+  footer.site-footer { border-top: 1px solid var(--line); text-align: center; font-size: 0.82rem; color: var(--muted-55); padding: 1.6rem 1rem 2.2rem; }
+  .note { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 1.5rem; font-size: 0.78rem; color: var(--muted-55); text-align: center; }
+</style>
+</head>
+<body>
+
+<!-- QUIZ -->
+<section id="screen-quiz" class="screen active">
+  <div class="topbar"><a href="/" id="quiz-home-link" class="back-link">&larr; Back to CloudZio</a><span class="wordmark">🔎 Compare</span></div>
+  <div class="quiz-wrap">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <p class="eyebrow" id="q-label">Question 1 of 4</p>
+    <h2 id="q-text">What do you mainly need help with?</h2>
+    <div class="options" id="q-options"></div>
+    <div class="quiz-nav">
+      <button class="btn-ghost" id="q-back">&larr; Back</button>
+      <button class="btn-primary" id="q-next" disabled>Next &rarr;</button>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- RESULTS -->
+<section id="screen-results" class="screen">
+  <div class="topbar"><a href="/" id="results-home-link" class="back-link">&larr; Back to CloudZio</a><span class="wordmark">🔎 Compare</span></div>
+  <div class="results-wrap">
+    <p class="eyebrow">Your CloudZio recommendation</p>
+    <h1>Based on your answers</h1>
+    <p class="results-sub" id="results-sub">These are the options to consider:</p>
+    <div class="cards" id="results-cards"></div>
+    <div class="retake"><button id="retake-btn">Answers didn't feel right? Retake the quiz</button></div>
+  </div>
+</section>
+
+
+
+<p class="note">Colours, font (Manrope) and gradient style pulled directly from your live CloudZio AI pages. Logo boxes are placeholders — assistant names and prices are illustrative; verify before publishing.</p>
+
+
+
+<script>
+(function () {
+  var QUESTIONS = [
+    { key: 'category', label: 'Question 1 of 4', text: 'What do you mainly need help with?',
+      options: ['Business', 'Family', 'Parenting', 'Studying', 'Shopping', 'Writing', 'Older adults', 'Stress/relaxation'] },
+    { key: 'budget', label: 'Question 2 of 4', text: 'How much do you want to spend?',
+      options: ['Free', 'Under £10/month', '£10–£25/month', "Don't mind"] },
+    { key: 'experience', label: 'Question 3 of 4', text: 'How experienced are you with AI?',
+      options: ['Beginner', 'Some experience', 'Advanced'] },
+    { key: 'priority', label: 'Question 4 of 4', text: 'Which matters most to you?',
+      options: ['Easy to use', 'Best features', 'Cheapest', 'Privacy', 'Business use'] }
+  ];
+
+  var ASSISTANTS = [
+    { name: 'CloudZio Business AI', source: 'CloudZio', category: 'Business', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Business use'], bestFor: 'Handles scheduling, emails and everyday admin for your business.' },
+    { name: 'Otter.ai', source: 'Third-party', category: 'Business', price: ['Free', 'Under £10/month'], exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Business use'], bestFor: 'Records and transcribes meetings automatically.' },
+    { name: 'CloudZio Family AI', source: 'CloudZio', category: 'Family', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Privacy'], bestFor: 'Keeps family schedules, reminders and to-dos in one place.' },
+    { name: 'CloudZio Parenting AI', source: 'CloudZio', category: 'Parenting', price: ['Free'], exp: ['Beginner', 'Some experience'], priority: ['Easy to use', 'Privacy'], bestFor: 'Everyday parenting guidance in plain language.' },
+    { name: 'ChildMind AI', source: 'Third-party', category: 'Parenting', price: ['Free', 'Under £10/month'], exp: ['Beginner'], priority: ['Easy to use'], bestFor: 'Real-time help with tantrums and difficult moments.' },
+    { name: 'Perplexity', source: 'Third-party', category: 'Studying', price: ['Free'], exp: ['Some experience', 'Advanced'], priority: ['Best features', 'Cheapest'], bestFor: 'Cited, sourced answers — good for essays and fact-checking.' },
+    { name: 'CloudZio Shopping AI', source: 'CloudZio', category: 'Shopping', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Cheapest'], bestFor: 'Finds and compares deals for everyday purchases.' },
+    { name: "Go.Compare's assistant", source: 'Third-party', category: 'Shopping', price: ['Free'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Cheapest', 'Easy to use'], bestFor: 'Compares car, home and van insurance quotes.' },
+    { name: 'Grammarly', source: 'Third-party', category: 'Writing', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience', 'Advanced'], priority: ['Easy to use', 'Best features'], bestFor: 'Checks grammar, tone and clarity as you write.' },
+    { name: 'CloudZio Companion AI', source: 'CloudZio', category: 'Older adults', price: ['Free'], exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Friendly daily check-ins and conversation.' },
+    { name: 'CloudZio Calm AI', source: 'CloudZio', category: 'Stress/relaxation', price: ['Free'], exp: ['Beginner'], priority: ['Easy to use', 'Privacy'], bestFor: 'Short guided moments to help you reset during the day.' },
+    { name: 'Wysa', source: 'Third-party', category: 'Stress/relaxation', price: ['Free', 'Under £10/month'], exp: ['Beginner', 'Some experience'], priority: ['Privacy', 'Easy to use'], bestFor: 'A mental-wellness chatbot for everyday stress.' }
+  ];
+
+  var state = { step: 0, answers: {} };
+  var quizScreen = document.getElementById('screen-quiz');
+  var resultsScreen = document.getElementById('screen-results');
+
+  function showScreen(el) {
+    [quizScreen, resultsScreen].forEach(function (s) { s.classList.remove('active'); });
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function resetQuiz() { state = { step: 0, answers: {} }; renderQuestion(); }
+
+  function renderQuestion() {
+    var q = QUESTIONS[state.step];
+    document.getElementById('progress-fill').style.width = ((state.step + 1) / QUESTIONS.length * 100) + '%';
+    document.getElementById('q-label').textContent = q.label;
+    document.getElementById('q-text').textContent = q.text;
+    var optWrap = document.getElementById('q-options');
+    optWrap.innerHTML = '';
+    q.options.forEach(function (opt) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'option-btn' + (state.answers[q.key] === opt ? ' selected' : '');
+      btn.textContent = opt;
+      btn.addEventListener('click', function () { state.answers[q.key] = opt; renderQuestion(); });
+      optWrap.appendChild(btn);
+    });
+    document.getElementById('q-back').style.visibility = state.step === 0 ? 'hidden' : 'visible';
+    var nextBtn = document.getElementById('q-next');
+    nextBtn.disabled = !state.answers[q.key];
+    nextBtn.textContent = state.step === QUESTIONS.length - 1 ? 'Show My Results →' : 'Next →';
+  }
+
+  function scoreAssistant(a) {
+    var s = 0;
+    if (a.category === state.answers.category) s += 3;
+    if (state.answers.budget === "Don't mind" || a.price.indexOf(state.answers.budget) !== -1) s += 2;
+    if (a.exp.indexOf(state.answers.experience) !== -1) s += 1;
+    if (a.priority.indexOf(state.answers.priority) !== -1) s += 2;
+    return s;
+  }
+
+  function whyText(a) {
+    var reasons = [];
+    if (a.category === state.answers.category) reasons.push('built for ' + state.answers.category);
+    if (state.answers.budget === "Don't mind" || a.price.indexOf(state.answers.budget) !== -1) reasons.push('fits your budget');
+    if (a.exp.indexOf(state.answers.experience) !== -1) reasons.push('suits a ' + state.answers.experience.toLowerCase() + ' user');
+    if (a.priority.indexOf(state.answers.priority) !== -1) reasons.push('rated for "' + state.answers.priority.toLowerCase() + '"');
+    return 'Matched because: ' + (reasons.length ? reasons.join(', ') : 'closest overall fit') + '.';
+  }
+
+  function renderResults() {
+    var pool = ASSISTANTS.filter(function (a) { return a.category === state.answers.category; });
+    if (pool.length === 0) pool = ASSISTANTS.slice();
+    var scored = pool.map(function (a) { return { a: a, score: scoreAssistant(a) }; })
+      .sort(function (x, y) { return y.score - x.score; })
+      .slice(0, 3);
+
+    document.getElementById('results-sub').textContent =
+      state.answers.category + ' · ' + state.answers.budget + ' · ' + state.answers.experience;
+
+    var cardsWrap = document.getElementById('results-cards');
+    cardsWrap.innerHTML = '';
+    scored.forEach(function (item) {
+      var a = item.a;
+      var card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML =
+        '<div class="card-top"><span class="card-name">' + a.name + '</span>' +
+        '<span class="badge ' + (a.source === 'CloudZio' ? 'badge-cloudzio' : 'badge-third') + '">' + a.source + '</span></div>' +
+        '<span class="card-best">' + a.bestFor + '</span>' +
+        '<span class="card-why">' + whyText(a) + '</span>';
+      cardsWrap.appendChild(card);
+    });
+  }
+
+  document.getElementById('retake-btn').addEventListener('click', function () { resetQuiz(); showScreen(quizScreen); });
+  document.getElementById('q-back').addEventListener('click', function () { if (state.step > 0) { state.step -= 1; renderQuestion(); } });
+  document.getElementById('q-next').addEventListener('click', function () {
+    if (state.step < QUESTIONS.length - 1) { state.step += 1; renderQuestion(); }
+    else { renderResults(); showScreen(resultsScreen); }
+  });
+
+  renderQuestion();
+})();
+</script>
+
+</body>
+</html>
