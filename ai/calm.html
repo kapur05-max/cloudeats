@@ -40,7 +40,16 @@
     justify-content: center;
     padding: 2rem 1.5rem 0;
   }
-  header a{ text-decoration: none; font-weight: 800; font-size: 1.3rem; }
+  header a{
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 1.3rem;
+    display: inline-block;
+    background: #fff;
+    border-radius: 18px;
+    padding: 0.7rem 1.5rem;
+    box-shadow: 0 6px 18px rgba(0,65,252,0.10);
+  }
   header .zio{
     background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
     -webkit-background-clip: text;
@@ -546,7 +555,6 @@
 
     function pickVoice(){
       if (!cachedVoices.length) return null;
-      // Best-known natural-sounding female voices, in priority order (varies by device/browser)
       var bestNames = ['Sonia', 'Samantha', 'Google UK English Female', 'Libby', 'Aria', 'Jenny', 'Emma', 'Joanna'];
       for (var i = 0; i < bestNames.length; i++){
         var match = cachedVoices.find(function(v){ return v.name.indexOf(bestNames[i]) !== -1; });
@@ -615,6 +623,10 @@
     addBubble("Hi, I'm Calm. How are you feeling right now, and how much time do you have?", 'ai');
   })();
 </script>
+
+<a href="https://wa.me/447561228288?text=Hi%2C%20I%20have%20a%20question%20about%20CloudZio%20AI" target="_blank" rel="noopener" style="position:fixed; bottom:20px; right:20px; z-index:9999; display:flex; align-items:center; gap:8px; background:#25D366; color:#fff; font-family:'Manrope',system-ui,sans-serif; font-weight:800; font-size:0.95rem; padding:0.8rem 1.2rem; border-radius:999px; box-shadow:0 8px 20px rgba(0,0,0,0.25); text-decoration:none;">
+  💬 Any questions, chat with us
+</a>
 
 </body>
 </html>
