@@ -53,7 +53,7 @@
   .home-wrap { max-width: 1040px; margin: 0 auto; padding: 2.5rem 1.5rem 3rem; text-align: center; }
   .wordmark-box { display: inline-block; background: #fff; border-radius: 24px; padding: 1.6rem 3rem; margin: 0 auto 2rem; box-shadow: 0 8px 24px rgba(0,65,252,0.12); }
   .home-wrap h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); font-weight: 800; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
-  .home-wrap .sub { font-size: 1.75rem; font-weight: 700; color: var(--muted-72); margin: 0 0 2.4rem; }
+  .home-wrap .sub { font-size: 1.75rem; font-weight: 700; color: #0b3d91; margin: 0 0 2.4rem; }
   .panels { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
   @media (max-width: 720px) { .panels { grid-template-columns: 1fr; } }
   .panel-card { display: block; width: 100%; text-align: left; font-family: inherit; background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 2rem 1.8rem; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
@@ -107,15 +107,26 @@
   .retake button { background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.7rem 1.3rem; color: var(--navy); font-family: inherit; font-weight: 700; cursor: pointer; font-size: 0.9rem; }
   footer.site-footer { border-top: 1px solid var(--line); text-align: center; font-size: 0.82rem; color: var(--muted-55); padding: 1.6rem 1rem 2.2rem; }
   .note { max-width: 900px; margin: 0 auto; padding: 0 1.5rem 1.5rem; font-size: 0.78rem; color: var(--muted-55); text-align: center; }
+
+  /* NAVY SITE HEADER / FOOTER (matches cloudzio.co.uk/food/) */
+  .site-header-navy { background: #0b3d91; padding: 1.4rem 1.5rem; text-align: center; }
+  .site-header-navy .wordmark-box { display: inline-block; background: #fff; border-radius: 20px; padding: 0.9rem 2rem; box-shadow: 0 8px 20px rgba(0,0,0,0.15); margin: 0; }
+  .site-header-navy .wordmark { font-weight: 800; font-size: 2.8rem; }
+  .site-footer-navy { background: #0b3d91; color: #fff; text-align: center; font-size: 0.82rem; line-height: 1.6; padding: 1.8rem 1.5rem 2.2rem; }
+  .site-footer-navy a { color: #fff; }
+  .site-footer-navy p { margin: 0 0 0.8rem; }
 </style>
 </head>
 <body>
+
+<header class="site-header-navy">
+  <div class="wordmark-box"><span class="wordmark"><span class="cz-cloud">Cloud</span><span class="cz-zio">Zio</span></span></div>
+</header>
 
 <!-- HOME -->
 <section id="screen-home" class="screen active">
   
   <div class="home-wrap">
-    <div class="wordmark-box"><span class="wordmark"><span class="cz-cloud">Cloud</span><span class="cz-zio">Zio</span></span></div>
     <h1>Choose what you're looking for</h1>
     <p class="sub">One platform, four ways to help.</p>
     <div class="panels">
@@ -155,8 +166,16 @@
       </a>
     </div>
   </div>
-  <footer class="site-footer">CloudZio Ltd &middot; Company No. 17308005 &middot; Registered in England &amp; Wales</footer>
 </section>
+
+<footer class="site-footer-navy">
+  <p><strong>Data Protection &amp; Privacy</strong><br>
+  Cloudzio is committed to protecting your personal data in accordance with UK data protection laws.</p>
+  <p>Cloudzio Ltd is a company registered in England and Wales, company number 17308005. Registered office: 5 Brayford Square, London, England, E1 0SG.</p>
+  <p>&copy; 2026 Cloudzio Ltd</p>
+  <p>Follow us: <a href="https://www.instagram.com/cloudzio_/" target="_blank" rel="noopener">Instagram</a> | <a href="https://www.linkedin.com/company/cloudzio-uk/" target="_blank" rel="noopener">LinkedIn</a> | <a href="https://www.facebook.com/profile.php?id=61590996342502" target="_blank" rel="noopener">Facebook</a></p>
+  <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
+</footer>
 
 
 
