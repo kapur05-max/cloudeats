@@ -219,7 +219,8 @@ const results = {
     third: { name: "Otter.ai", price: "Free / £7/mo", best: "Great for meeting transcription", why: "Stronger if you specifically need live meeting transcripts.", url: null },
     third2: { name: "Synthesia", price: "Free / paid", best: "Best for creating business & training videos", why: "Turn scripts into professional videos without cameras or actors.", url: "https://www.synthesia.io/?via=shweta-kapoor" },
     third3: { name: "CustomGPT.ai", price: "Free / paid", best: "Best for building a custom AI chatbot trained on your own data", why: "Turn your business documents into a smart assistant for your website or team.", url: "https://customgpt.ai/?fpr=shweta-8e935c" },
-    third4: { name: "Pictory", price: "Free / paid", best: "Best for turning text into ready-made videos", why: "Quickly creates marketing and social videos from scripts or articles, no filming needed.", url: "https://pictory.ai?fpr=shweta-0bcd1f" }
+    third4: { name: "Pictory", price: "Free / paid", best: "Best for turning text into ready-made videos", why: "Quickly creates marketing and social videos from scripts or articles, no filming needed.", url: "https://pictory.ai?fpr=shweta-0bcd1f" },
+    third5: { name: "Murf AI", price: "Free / paid", best: "Best for realistic AI voiceovers", why: "Turn scripts into natural-sounding narration for ads, training videos and presentations.", url: "https://get.murf.ai/qapg4icrmkb0" }
   },
   family: {
     cloudzio: { name: "CloudZio Family AI", best: "Free, built for family organisation", why: "Designed around family routines, no subscription needed." },
@@ -316,6 +317,7 @@ function showResults() {
   if (r.third2 && r.third2.name) html += cardHtml(r.third2, false);
   if (r.third3 && r.third3.name) html += cardHtml(r.third3, false);
   if (r.third4 && r.third4.name) html += cardHtml(r.third4, false);
+  if (r.third5 && r.third5.name) html += cardHtml(r.third5, false);
   cardsWrap.innerHTML = html;
   document.getElementById("screen-quiz").classList.remove("active");
   document.getElementById("screen-results").classList.add("active");
