@@ -380,6 +380,93 @@
   }
   .site-footer-navy a{ color: #fff; }
   .site-footer-navy p{ margin: 0 0 0.8rem; }
+
+  .pricing-wrap{
+    text-align: center;
+    margin-bottom: 0.4rem;
+  }
+  .pricing-title{
+    font-size: 1.05rem;
+    font-weight: 800;
+    margin: 0 0 0.2rem;
+  }
+  .pricing-sub{
+    font-size: 0.85rem;
+    color: rgba(5,8,28,0.55);
+    margin: 0 0 1.2rem;
+  }
+  .pricing-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.8rem;
+  }
+  @media (max-width: 640px){
+    .pricing-grid{ grid-template-columns: repeat(2, 1fr); }
+  }
+  .price-card{
+    position: relative;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 1.3rem 0.8rem 1.1rem;
+    box-shadow: 0 6px 18px rgba(5,8,28,0.05);
+  }
+  .price-card.best{
+    border: 2px solid var(--blue-deep);
+  }
+  .price-badge{
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    white-space: nowrap;
+  }
+  .price-label{
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(5,8,28,0.6);
+    margin: 0 0 0.3rem;
+  }
+  .price-amount{
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0 0 0.2rem;
+  }
+  .price-amount span{
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: rgba(5,8,28,0.5);
+  }
+  .price-desc{
+    font-size: 0.75rem;
+    color: rgba(5,8,28,0.5);
+    margin: 0 0 0.8rem;
+    min-height: 1.8em;
+  }
+  .subscribe-btn{
+    display: block;
+    text-decoration: none;
+    padding: 0.55rem 0.5rem;
+    border-radius: 999px;
+    background: var(--navy);
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.82rem;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+  }
+  .price-card.best .subscribe-btn{
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+  }
 </style>
 </head>
 <body>
@@ -423,10 +510,44 @@
       <div class="limit-reached" id="limitReached">You've reached your demo limit. Leave your email below for pricing, features, and more.</div>
     </div>
 
+<div class="divider">or subscribe now</div>
+
+    <div class="pricing-wrap">
+      <p class="pricing-title">🏆 Cheapest AI assistant subscription around</p>
+      <p class="pricing-sub">Cancel anytime &middot; no contract</p>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <p class="price-label">1 Assistant</p>
+          <p class="price-amount">£3.99<span>/mo</span></p>
+          <p class="price-desc">Just Parenting</p>
+          <a class="subscribe-btn" href="#" data-plan="single">Subscribe</a>
+        </div>
+        <div class="price-card">
+          <p class="price-label">3 Assistants</p>
+          <p class="price-amount">£8.99<span>/mo</span></p>
+          <p class="price-desc">Pick any 3</p>
+          <a class="subscribe-btn" href="#" data-plan="bundle-3">Subscribe</a>
+        </div>
+        <div class="price-card">
+          <p class="price-label">5 Assistants</p>
+          <p class="price-amount">£12.99<span>/mo</span></p>
+          <p class="price-desc">Pick any 5</p>
+          <a class="subscribe-btn" href="#" data-plan="bundle-5">Subscribe</a>
+        </div>
+        <div class="price-card best">
+          <p class="price-badge">Best value</p>
+          <p class="price-label">All 8</p>
+          <p class="price-amount">£17.99<span>/mo</span></p>
+          <p class="price-desc">Every assistant</p>
+          <a class="subscribe-btn" href="#" data-plan="bundle-8">Subscribe</a>
+        </div>
+      </div>
+    </div>
+
     <div class="divider">or</div>
 
     <div class="panel">
-      <h2>Get pricing, features, and more &mdash; straight to your inbox.</h2>
+      <h2>Not ready to subscribe yet? Get updates straight to your inbox.</h2>
       <p class="panel-sub">Join the early access list &mdash; no obligation.</p>
       <form class="signup" id="waitlist-form-parenting" action="https://formspree.io/f/mzepqkdy" method="POST">
         <input type="hidden" name="_subject" value="New CloudZio Parenting early access signup">
