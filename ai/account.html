@@ -28,7 +28,8 @@
   .panel{ background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 1.8rem 1.6rem; text-align: left; margin-bottom: 1.2rem; }
   .panel h2{ font-size: 1.02rem; font-weight: 800; margin: 0 0 0.3rem; text-align: left; }
   .panel .panel-sub{ font-size: 0.88rem; color: rgba(5,8,28,0.6); margin: 0 0 1rem; text-align: left; }
-  .assistant-badge{ display: inline-block; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.1rem; margin: 0.25rem; font-weight: 700; font-size: 0.9rem; }
+  .assistant-badge{ display: inline-block; background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 0.5rem 1.1rem; margin: 0.25rem; font-weight: 700; font-size: 0.9rem; text-decoration: none; color: var(--navy); }
+  a.assistant-badge:hover{ border-color: var(--blue-deep); color: var(--blue-deep); }
   .status-row{ display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem; }
   .status-active{ color: #1a7f3c; font-weight: 800; background: #e6f7ec; padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; }
   .status-inactive{ color: rgba(5,8,28,0.55); font-weight: 800; background: rgba(5,8,28,0.06); padding: 0.35rem 0.8rem; border-radius: 999px; font-size: 0.85rem; }
@@ -130,11 +131,22 @@
         var assistantsList = document.getElementById('assistants-list');
         var emptyState = document.getElementById('empty-state');
 
+        var ASSISTANT_PAGES = {
+          'Parenting': '/ai/parenting.html',
+          'Shopping': '/ai/shopping.html',
+          'Yoga': '/ai/yoga.html',
+          'Calm': '/ai/calm.html',
+          'Admin': '/ai/admin.html',
+          'Tutor': '/ai/tutor.html',
+          'Companion': '/ai/companion.html'
+        };
+
         if (row && row.status === 'active' && row.assistants && row.assistants.length > 0){
           statusBadge.innerHTML = '<span class="status-active">Active</span>';
           var html = '';
           row.assistants.forEach(function(name){
-            html += '<span class="assistant-badge">' + name + '</span>';
+            var url = ASSISTANT_PAGES[name] || '/ai/index.html';
+            html += '<a class="assistant-badge" href="' + url + '">' + name + ' &rarr; Open chat</a>';
           });
           assistantsList.innerHTML = html;
           emptyState.style.display = 'none';
