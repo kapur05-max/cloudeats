@@ -127,6 +127,17 @@
     color: rgba(5,8,28,0.55);
     margin: 0 0 1rem;
   }
+  .subscriber-banner{
+    display: none;
+    text-align: center;
+    background: #0b3d91;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin: 0 0 1rem;
+  }
 
   #chat{
     height: 340px;
@@ -509,12 +520,13 @@
     <p class="price-pill">£2.99/mo</p>
     <h1>A moment to breathe, whenever you need it.</h1>
     <p class="tagline">Take a moment to relax and unwind.</p>
-    <p class="trial-badge">🎁 7-day free trial with early access</p>
-    <p class="desc">Tell CloudZio Calm how you're feeling and how much time you have, and it puts together a short, personal moment of calm. Try it for yourself below &mdash; genuinely, no signup needed.</p>
+    <p class="trial-badge" id="trialBadge">🎁 7-day free trial with early access</p>
+    <p class="desc" id="desc">Tell CloudZio Calm how you're feeling and how much time you have, and it puts together a short, personal moment of calm. Try it for yourself below &mdash; genuinely, no signup needed.</p>
 
     <div class="demo-wrap">
       <p class="demo-title">🌿 Try Calm now</p>
-      <p class="demo-sub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="demo-sub" id="demoSub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="subscriber-banner" id="subscriberBanner">✓ You’re subscribed — unlimited chat, no message limit.</p>
 
       <div id="chat"></div>
 
@@ -622,6 +634,12 @@
   <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+  var SUPABASE_URL = 'https://pyljmukjqnckkogmregm.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <script>
   (function(){
     var form = document.getElementById('waitlist-form-calm');
@@ -656,8 +674,44 @@
   (function(){
     var MAX_MESSAGES = 12;
     var messageCount = 0;
+    var isSubscriber = false;
 
-    var SYSTEM_PROMPT = "You are CloudZio Calm, a gentle AI that helps someone find a short moment of calm. Your purpose is a brief, soothing pause in someone's day \u2014 not therapy, not a medical or mental health service.\n\nTONE: Soft, unhurried, warm, present-tense, sensory language. Short sentences. Never clinical, never like a script being read aloud.\n\nWHAT YOU DO: If you don't already know, gently ask how they're feeling right now and how much time they have. Then guide a short, personalised calming moment matched to that \u2014 this could be a simple breathing pattern, a grounding exercise, a few calming words, or describing a peaceful scene or sound to imagine. Keep it genuinely short and practical, not a long lecture.\n\nWHAT YOU DO NOT DO:\n- Never diagnose, label someone's mental state, or act as a therapist.\n- Never claim to play real audio or music \u2014 you can only describe or guide with words.\n- Do not turn this into general life advice unless they ask.\n\nSAFETY: If someone expresses persistent hopelessness, thoughts of self-harm, or a mental health crisis, respond with warmth, take it seriously, and gently encourage them to contact the Samaritans (116 123, free, 24/7) or a trusted person \u2014 do not attempt to handle this with just a breathing exercise.\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences), and give a genuine feel for a calming moment quickly.";
+    var BASE_PROMPT = "You are CloudZio Calm, a gentle AI that helps someone find a short moment of calm. Your purpose is a brief, soothing pause in someone's day \u2014 not therapy, not a medical or mental health service.\n\nTONE: Soft, unhurried, warm, present-tense, sensory language. Short sentences. Never clinical, never like a script being read aloud.\n\nWHAT YOU DO: If you don't already know, gently ask how they're feeling right now and how much time they have. Then guide a short, personalised calming moment matched to that \u2014 this could be a simple breathing pattern, a grounding exercise, a few calming words, or describing a peaceful scene or sound to imagine. Keep it genuinely short and practical, not a long lecture.\n\nWHAT YOU DO NOT DO:\n- Never diagnose, label someone's mental state, or act as a therapist.\n- Never claim to play real audio or music \u2014 you can only describe or guide with words.\n- Do not turn this into general life advice unless they ask.\n\nSAFETY: If someone expresses persistent hopelessness, thoughts of self-harm, or a mental health crisis, respond with warmth, take it seriously, and gently encourage them to contact the Samaritans (116 123, free, 24/7) or a trusted person \u2014 do not attempt to handle this with just a breathing exercise.";
+    var DEMO_PROMPT = BASE_PROMPT + "\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences), and give a genuine feel for a calming moment quickly.";
+    var FULL_PROMPT = BASE_PROMPT + "\n\nThis person is a paying subscriber with unlimited access \u2014 take as much space as the explanation genuinely needs, and don't artificially cut answers short.";
+    var SYSTEM_PROMPT = DEMO_PROMPT;
+
+    function unlockForSubscriber(){
+      isSubscriber = true;
+      MAX_MESSAGES = Infinity;
+      SYSTEM_PROMPT = FULL_PROMPT;
+
+      var banner = document.getElementById('subscriberBanner');
+      if (banner){
+        banner.style.display = 'block';
+      }
+      var demoSub = document.getElementById('demoSub');
+      if (demoSub) demoSub.style.display = 'none';
+      var trialBadge = document.getElementById('trialBadge');
+      if (trialBadge) trialBadge.style.display = 'none';
+      var desc = document.getElementById('desc');
+      if (desc) desc.textContent = desc.textContent.replace(/\s*Try it( for yourself)? below \u2014 genuinely, no signup needed\.?/, ' Ask away below.');
+    }
+
+    function checkEntitlement(){
+      if (typeof sb === 'undefined') return;
+      sb.auth.getUser().then(function(result){
+        var user = result.data && result.data.user;
+        if (!user || !user.email) return;
+        sb.from('customer_access').select('*').eq('email', user.email).maybeSingle().then(function(res){
+          var row = res.data;
+          if (row && row.status === 'active' && Array.isArray(row.assistants) && row.assistants.indexOf('Calm') !== -1){
+            unlockForSubscriber();
+          }
+        }).catch(function(err){ console.error('Entitlement check failed:', err); });
+      }).catch(function(err){ console.error('Entitlement check failed:', err); });
+    }
+    checkEntitlement();
 
     var history = [];
     var chat = document.getElementById('chat');

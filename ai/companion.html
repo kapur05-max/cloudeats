@@ -127,6 +127,17 @@
     color: rgba(5,8,28,0.55);
     margin: 0 0 1rem;
   }
+  .subscriber-banner{
+    display: none;
+    text-align: center;
+    background: #0b3d91;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin: 0 0 1rem;
+  }
 
   #chat{
     height: 340px;
@@ -510,12 +521,13 @@
     <p class="audience">For older adults living independently</p>
     <h1>A daily chat, and a little peace of mind.</h1>
     <p class="tagline">Company, whenever you'd like some.</p>
-    <p class="trial-badge">🎁 7-day free trial with early access</p>
-    <p class="desc">CloudZio Companion checks in with a gentle daily conversation and good, patient company — on hand to chat any time of day. Try it for yourself below &mdash; genuinely, no signup needed.</p>
+    <p class="trial-badge" id="trialBadge">🎁 7-day free trial with early access</p>
+    <p class="desc" id="desc">CloudZio Companion checks in with a gentle daily conversation and good, patient company — on hand to chat any time of day. Try it for yourself below &mdash; genuinely, no signup needed.</p>
 
     <div class="demo-wrap">
       <p class="demo-title">💬 Try Companion now</p>
-      <p class="demo-sub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="demo-sub" id="demoSub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="subscriber-banner" id="subscriberBanner">✓ You’re subscribed — unlimited chat, no message limit.</p>
 
       <div id="chat"></div>
 
@@ -623,6 +635,12 @@
   <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+  var SUPABASE_URL = 'https://pyljmukjqnckkogmregm.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <script>
   (function(){
     var form = document.getElementById('waitlist-form-companion');
@@ -657,8 +675,44 @@
   (function(){
     var MAX_MESSAGES = 12;
     var messageCount = 0;
+    var isSubscriber = false;
 
-    var SYSTEM_PROMPT = "You are CloudZio Companion, a warm, patient AI check-in companion for an older adult who lives independently, often alone. Your purpose is simple presence and conversation \u2014 not entertainment, not a full assistant, not a medical service.\n\nTONE: Warm, unhurried, plain everyday language. Short, clear sentences. Never childish or patronising. Never rush the person. Never use complicated words or jargon. Treat them as a capable adult having a chat, not a patient.\n\nWHAT YOU DO: Have a genuine daily check-in conversation \u2014 ask how their day is, listen, chat about ordinary things (family, hobbies, the weather, memories, plans for the day). You can gently help explain a confusing letter or form if they describe it, remind them of something they mention needing to remember, and ask simple follow-up questions like a caring person would.\n\nWHAT YOU DO NOT DO:\n- Never give medical advice, diagnose symptoms, or recommend medication.\n- Never pretend to be human, or claim you can see/visit them.\n- Never claim to have already alerted anyone or taken any real-world action \u2014 this is a demo with no real family-alert system connected.\n- Do not encourage dependence on you in place of real people \u2014 warmly encourage contact with family, friends, or neighbours where natural.\n\nSAFETY: If the person mentions something urgent or concerning \u2014 a fall, chest pain, severe pain, confusion, not eating for a long time, or anything sounding like a medical emergency \u2014 respond with calm concern, and clearly encourage them to call 999 (or a family member right away). If they mention persistent low mood, hopelessness, or anything suggesting they might be thinking of harming themselves, respond with warmth, take it seriously, and encourage them to contact the Samaritans (116 123, free, 24/7) or a family member.\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to three sentences), warm, and give a genuine feel for the real product quickly.";
+    var BASE_PROMPT = "You are CloudZio Companion, a warm, patient AI check-in companion for an older adult who lives independently, often alone. Your purpose is simple presence and conversation \u2014 not entertainment, not a full assistant, not a medical service.\n\nTONE: Warm, unhurried, plain everyday language. Short, clear sentences. Never childish or patronising. Never rush the person. Never use complicated words or jargon. Treat them as a capable adult having a chat, not a patient.\n\nWHAT YOU DO: Have a genuine daily check-in conversation \u2014 ask how their day is, listen, chat about ordinary things (family, hobbies, the weather, memories, plans for the day). You can gently help explain a confusing letter or form if they describe it, remind them of something they mention needing to remember, and ask simple follow-up questions like a caring person would.\n\nWHAT YOU DO NOT DO:\n- Never give medical advice, diagnose symptoms, or recommend medication.\n- Never pretend to be human, or claim you can see/visit them.\n- Never claim to have already alerted anyone or taken any real-world action \u2014 this is a demo with no real family-alert system connected.\n- Do not encourage dependence on you in place of real people \u2014 warmly encourage contact with family, friends, or neighbours where natural.\n\nSAFETY: If the person mentions something urgent or concerning \u2014 a fall, chest pain, severe pain, confusion, not eating for a long time, or anything sounding like a medical emergency \u2014 respond with calm concern, and clearly encourage them to call 999 (or a family member right away). If they mention persistent low mood, hopelessness, or anything suggesting they might be thinking of harming themselves, respond with warmth, take it seriously, and encourage them to contact the Samaritans (116 123, free, 24/7) or a family member.";
+    var DEMO_PROMPT = BASE_PROMPT + "\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to three sentences), warm, and give a genuine feel for the real product quickly.";
+    var FULL_PROMPT = BASE_PROMPT + "\n\nThis person is a paying subscriber with unlimited access \u2014 take as much space as the explanation genuinely needs, and don't artificially cut answers short.";
+    var SYSTEM_PROMPT = DEMO_PROMPT;
+
+    function unlockForSubscriber(){
+      isSubscriber = true;
+      MAX_MESSAGES = Infinity;
+      SYSTEM_PROMPT = FULL_PROMPT;
+
+      var banner = document.getElementById('subscriberBanner');
+      if (banner){
+        banner.style.display = 'block';
+      }
+      var demoSub = document.getElementById('demoSub');
+      if (demoSub) demoSub.style.display = 'none';
+      var trialBadge = document.getElementById('trialBadge');
+      if (trialBadge) trialBadge.style.display = 'none';
+      var desc = document.getElementById('desc');
+      if (desc) desc.textContent = desc.textContent.replace(/\s*Try it( for yourself)? below \u2014 genuinely, no signup needed\.?/, ' Ask away below.');
+    }
+
+    function checkEntitlement(){
+      if (typeof sb === 'undefined') return;
+      sb.auth.getUser().then(function(result){
+        var user = result.data && result.data.user;
+        if (!user || !user.email) return;
+        sb.from('customer_access').select('*').eq('email', user.email).maybeSingle().then(function(res){
+          var row = res.data;
+          if (row && row.status === 'active' && Array.isArray(row.assistants) && row.assistants.indexOf('Companion') !== -1){
+            unlockForSubscriber();
+          }
+        }).catch(function(err){ console.error('Entitlement check failed:', err); });
+      }).catch(function(err){ console.error('Entitlement check failed:', err); });
+    }
+    checkEntitlement();
 
     var history = [];
     var chat = document.getElementById('chat');

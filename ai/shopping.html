@@ -127,6 +127,17 @@
     color: rgba(5,8,28,0.55);
     margin: 0 0 1rem;
   }
+  .subscriber-banner{
+    display: none;
+    text-align: center;
+    background: #0b3d91;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin: 0 0 1rem;
+  }
 
   #chat{
     height: 340px;
@@ -509,12 +520,13 @@
     <p class="price-pill">£2.99/mo</p>
     <h1>Tell us what you're looking for. We'll help you decide.</h1>
     <p class="tagline">Help thinking through what to buy.</p>
-    <p class="trial-badge">🎁 7-day free trial with early access</p>
-    <p class="desc">Describe what you want in plain words, and CloudZio Shopping helps you think through options, trade-offs and what to look for — based on general knowledge, not live prices or stock. Try it below &mdash; genuinely, no signup needed.</p>
+    <p class="trial-badge" id="trialBadge">🎁 7-day free trial with early access</p>
+    <p class="desc" id="desc">Describe what you want in plain words, and CloudZio Shopping helps you think through options, trade-offs and what to look for — based on general knowledge, not live prices or stock. Try it below &mdash; genuinely, no signup needed.</p>
 
     <div class="demo-wrap">
       <p class="demo-title">🛒 Try Shopping now</p>
-      <p class="demo-sub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="demo-sub" id="demoSub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="subscriber-banner" id="subscriberBanner">✓ You’re subscribed — unlimited chat, no message limit.</p>
 
       <div id="chat"></div>
 
@@ -622,6 +634,12 @@
   <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+  var SUPABASE_URL = 'https://pyljmukjqnckkogmregm.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <script>
   (function(){
     var form = document.getElementById('waitlist-form-shopping');
@@ -656,8 +674,44 @@
   (function(){
     var MAX_MESSAGES = 12;
     var messageCount = 0;
+    var isSubscriber = false;
 
-    var SYSTEM_PROMPT = "You are CloudZio Shopping, an AI assistant that helps someone think through what to buy and compare options. Your purpose is a quick, practical demo \u2014 not a live store, and you cannot actually complete a purchase or check real-time stock/prices.\n\nTONE: Friendly, practical, like a knowledgeable friend helping you think it through. Plain English, no pushy sales language.\n\nWHAT YOU DO: If you don't already know, ask what they're looking for, their rough budget, and what matters most to them (price, quality, speed, a specific feature). Then help them think through the decision \u2014 what to look for, questions to ask, trade-offs between options \u2014 based on general knowledge, not live prices or stock.\n\nWHAT YOU DO NOT DO:\n- Never claim to have checked real-time prices, stock, or availability \u2014 you don't have live access to any shop.\n- Never claim to have placed an order or completed a purchase.\n- Be honest that specific product recommendations are based on general knowledge, which can be outdated \u2014 encourage double-checking current prices and reviews themselves.\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences), and give a genuine feel for how CloudZio Shopping helps, quickly.";
+    var BASE_PROMPT = "You are CloudZio Shopping, an AI assistant that helps someone think through what to buy and compare options. Your purpose is a quick, practical demo \u2014 not a live store, and you cannot actually complete a purchase or check real-time stock/prices.\n\nTONE: Friendly, practical, like a knowledgeable friend helping you think it through. Plain English, no pushy sales language.\n\nWHAT YOU DO: If you don't already know, ask what they're looking for, their rough budget, and what matters most to them (price, quality, speed, a specific feature). Then help them think through the decision \u2014 what to look for, questions to ask, trade-offs between options \u2014 based on general knowledge, not live prices or stock.\n\nWHAT YOU DO NOT DO:\n- Never claim to have checked real-time prices, stock, or availability \u2014 you don't have live access to any shop.\n- Never claim to have placed an order or completed a purchase.\n- Be honest that specific product recommendations are based on general knowledge, which can be outdated \u2014 encourage double-checking current prices and reviews themselves.";
+    var DEMO_PROMPT = BASE_PROMPT + "\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences), and give a genuine feel for how CloudZio Shopping helps, quickly.";
+    var FULL_PROMPT = BASE_PROMPT + "\n\nThis person is a paying subscriber with unlimited access \u2014 take as much space as the explanation genuinely needs, and don't artificially cut answers short.";
+    var SYSTEM_PROMPT = DEMO_PROMPT;
+
+    function unlockForSubscriber(){
+      isSubscriber = true;
+      MAX_MESSAGES = Infinity;
+      SYSTEM_PROMPT = FULL_PROMPT;
+
+      var banner = document.getElementById('subscriberBanner');
+      if (banner){
+        banner.style.display = 'block';
+      }
+      var demoSub = document.getElementById('demoSub');
+      if (demoSub) demoSub.style.display = 'none';
+      var trialBadge = document.getElementById('trialBadge');
+      if (trialBadge) trialBadge.style.display = 'none';
+      var desc = document.getElementById('desc');
+      if (desc) desc.textContent = desc.textContent.replace(/\s*Try it( for yourself)? below \u2014 genuinely, no signup needed\.?/, ' Ask away below.');
+    }
+
+    function checkEntitlement(){
+      if (typeof sb === 'undefined') return;
+      sb.auth.getUser().then(function(result){
+        var user = result.data && result.data.user;
+        if (!user || !user.email) return;
+        sb.from('customer_access').select('*').eq('email', user.email).maybeSingle().then(function(res){
+          var row = res.data;
+          if (row && row.status === 'active' && Array.isArray(row.assistants) && row.assistants.indexOf('Shopping') !== -1){
+            unlockForSubscriber();
+          }
+        }).catch(function(err){ console.error('Entitlement check failed:', err); });
+      }).catch(function(err){ console.error('Entitlement check failed:', err); });
+    }
+    checkEntitlement();
 
     var history = [];
     var chat = document.getElementById('chat');
