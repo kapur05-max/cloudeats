@@ -44,8 +44,10 @@ function assistantsFromProduct(
   productName: string,
   customFieldText: string | null,
 ): string[] {
-  // Strip a leading "CloudZio AI — " / "CloudZio AI - " prefix, if present.
-  const name = productName.replace(/^CloudZio AI\s*[—-]\s*/i, "").trim();
+  // Strip a leading "CloudZio AI" prefix, with or without a dash after it
+  // (bundles are named "CloudZio AI — 3 Assistants", single assistants are
+  // named "CloudZio AI Tutor" with no dash).
+  const name = productName.replace(/^CloudZio AI\s*(?:[—-]\s*)?/i, "").trim();
 
   if (/^all 7 assistants$/i.test(name)) {
     return ALL_ASSISTANTS;
