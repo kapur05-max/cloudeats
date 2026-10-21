@@ -127,6 +127,17 @@
     color: rgba(5,8,28,0.55);
     margin: 0 0 1rem;
   }
+  .subscriber-banner{
+    display: none;
+    text-align: center;
+    background: #0b3d91;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.85rem;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin: 0 0 1rem;
+  }
 
   #chat{
     height: 340px;
@@ -515,6 +526,7 @@
     <div class="demo-wrap">
       <p class="demo-title">📚 Try Tutor now</p>
       <p class="demo-sub">Free preview &mdash; plenty to get a feel for it</p>
+      <p class="subscriber-banner" id="subscriberBanner">✓ You're subscribed &mdash; unlimited chat, no message limit.</p>
 
       <div id="chat"></div>
 
@@ -622,6 +634,12 @@
   <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+  var SUPABASE_URL = 'https://pyljmukjqnckkogmregm.supabase.co';
+  var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+</script>
 <script>
   (function(){
     var form = document.getElementById('waitlist-form-tutor');
@@ -656,8 +674,35 @@
   (function(){
     var MAX_MESSAGES = 12;
     var messageCount = 0;
+    var isSubscriber = false;
 
-    var SYSTEM_PROMPT = "You are CloudZio Tutor, an AI assistant that helps explain homework and learning topics clearly. Your purpose is a quick, practical demo \u2014 not connected to any school, curriculum system, or real student record yet.\n\nTONE: Patient, encouraging, clear. Plain English, breaks things into simple steps, never condescending.\n\nWHAT YOU DO: If you don't already know, ask what subject or topic they'd like help understanding \u2014 a maths problem, an essay question, a science concept, exam revision. Then explain it step by step, checking understanding rather than just handing over a final answer.\n\nWHAT YOU DO NOT DO:\n- Never just give a bare final answer with no explanation \u2014 the point is understanding, not a shortcut.\n- Never discuss anything unsafe or inappropriate for a learning context, and redirect to a parent, guardian or teacher if asked about anything outside homework help.\n- Never claim to be connected to any real school, exam board, or curriculum system \u2014 this is a demo with no real integrations connected.\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences unless working through a problem step by step), and give a genuine feel for how CloudZio Tutor helps, quickly.";
+    var BASE_PROMPT = "You are CloudZio Tutor, an AI assistant that helps explain homework and learning topics clearly.\n\nTONE: Patient, encouraging, clear. Plain English, breaks things into simple steps, never condescending.\n\nWHAT YOU DO: If you don't already know, ask what subject or topic they'd like help understanding \u2014 a maths problem, an essay question, a science concept, exam revision. Then explain it step by step, checking understanding rather than just handing over a final answer.\n\nWHAT YOU DO NOT DO:\n- Never just give a bare final answer with no explanation \u2014 the point is understanding, not a shortcut.\n- Never discuss anything unsafe or inappropriate for a learning context, and redirect to a parent, guardian or teacher if asked about anything outside homework help.\n- Never claim to be connected to any real school, exam board, or curriculum system \u2014 there are no real integrations connected.";
+    var DEMO_PROMPT = BASE_PROMPT + "\n\nThis is a short PUBLIC DEMO limited to a few messages, for someone who hasn't subscribed yet \u2014 keep replies especially concise (two to four sentences unless working through a problem step by step), and give a genuine feel for how CloudZio Tutor helps, quickly.";
+    var FULL_PROMPT = BASE_PROMPT + "\n\nThis person is a paying subscriber with unlimited access \u2014 take as much space as the explanation genuinely needs, work through problems fully, and don't artificially cut answers short.";
+    var SYSTEM_PROMPT = DEMO_PROMPT;
+
+    function unlockForSubscriber(){
+      isSubscriber = true;
+      MAX_MESSAGES = Infinity;
+      SYSTEM_PROMPT = FULL_PROMPT;
+      var banner = document.getElementById('subscriberBanner');
+      if (banner) banner.style.display = 'block';
+    }
+
+    function checkEntitlement(){
+      if (typeof sb === 'undefined') return;
+      sb.auth.getUser().then(function(result){
+        var user = result.data && result.data.user;
+        if (!user || !user.email) return;
+        sb.from('customer_access').select('*').eq('email', user.email).maybeSingle().then(function(res){
+          var row = res.data;
+          if (row && row.status === 'active' && Array.isArray(row.assistants) && row.assistants.indexOf('Tutor') !== -1){
+            unlockForSubscriber();
+          }
+        }).catch(function(err){ console.error('Entitlement check failed:', err); });
+      }).catch(function(err){ console.error('Entitlement check failed:', err); });
+    }
+    checkEntitlement();
 
     var history = [];
     var chat = document.getElementById('chat');
