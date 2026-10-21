@@ -520,8 +520,8 @@
     <p class="price-pill">£1.99/mo</p>
     <h1>A patient AI tutor whenever homework gets tricky.</h1>
     <p class="tagline">Your AI tutor for homework help and learning support.</p>
-    <p class="trial-badge">🎁 7-day free trial with early access</p>
-    <p class="desc">CloudZio Tutor explains tricky homework and learning topics in simple, clear steps, so you actually understand them &mdash; not just get the answer. Try it below &mdash; genuinely, no signup needed.</p>
+    <p class="trial-badge" id="trialBadge">🎁 7-day free trial with early access</p>
+    <p class="desc" id="desc">CloudZio Tutor explains tricky homework and learning topics in simple, clear steps, so you actually understand them &mdash; not just get the answer. Try it below &mdash; genuinely, no signup needed.</p>
 
     <div class="demo-wrap">
       <p class="demo-title">📚 Try Tutor now</p>
@@ -685,10 +685,18 @@
       isSubscriber = true;
       MAX_MESSAGES = Infinity;
       SYSTEM_PROMPT = FULL_PROMPT;
+
       var banner = document.getElementById('subscriberBanner');
-      if (banner) banner.style.display = 'block';
+      if (banner){
+        banner.textContent = '✓ You’re subscribed — unlimited chat, no message limit.';
+        banner.style.display = 'block';
+      }
       var demoSub = document.getElementById('demoSub');
       if (demoSub) demoSub.style.display = 'none';
+      var trialBadge = document.getElementById('trialBadge');
+      if (trialBadge) trialBadge.style.display = 'none';
+      var desc = document.getElementById('desc');
+      if (desc) desc.textContent = "CloudZio Tutor explains tricky homework and learning topics in simple, clear steps, so you actually understand them — not just get the answer. Ask away below.";
     }
 
     function checkEntitlement(){
