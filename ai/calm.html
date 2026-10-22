@@ -501,6 +501,120 @@
     padding: 0.4rem 0.9rem;
     border-radius: 999px;
   }
+  .manage-box{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.6rem 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .manage-box h2{ font-size: 1.05rem; margin: 0 0 0.3rem; }
+  .manage-box .sub{ font-size: 0.88rem; color: rgba(5,8,28,0.55); margin: 0 0 1.2rem; }
+  .current-plan{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    background: rgba(0,65,252,0.06);
+    border-radius: 14px;
+    padding: 0.9rem 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .current-plan .name{ font-weight: 800; font-size: 0.98rem; }
+  .current-plan .status{
+    color: #1a7f3c;
+    font-weight: 800;
+    background: #e6f7ec;
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+  }
+  .manage-btn-row{ display: flex; gap: 0.7rem; flex-wrap: wrap; }
+  .manage-btn{
+    flex: 1;
+    min-width: 160px;
+    text-align: center;
+    padding: 0.85rem 1.1rem;
+    border-radius: 14px;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .manage-btn-primary{
+    background: linear-gradient(100deg, var(--blue-deep), var(--blue-light));
+    color: #fff;
+  }
+  .manage-btn-secondary{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--navy);
+  }
+  .manage-view-account{
+    display: block;
+    margin: 0.9rem 0 0;
+    color: var(--blue-deep);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.88rem;
+  }
+  .other-assistants-box{
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 1.6rem 1.5rem;
+    margin-bottom: 1.2rem;
+  }
+  .other-assistants-box h2{ font-size: 1.05rem; margin: 0 0 0.3rem; }
+  .other-assistants-box .sub{ font-size: 0.88rem; color: rgba(5,8,28,0.55); margin: 0 0 1.2rem; }
+  .other-list{ display: flex; flex-direction: column; gap: 0.6rem; }
+  .other-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .other-item:hover{ border-color: var(--blue-deep); }
+  .other-item .left{ display: flex; align-items: center; gap: 0.6rem; }
+  .other-item .icon{ font-size: 1.3rem; }
+  .other-item .name{ font-weight: 700; font-size: 0.92rem; }
+  .other-item .price{ font-weight: 800; font-size: 0.85rem; color: var(--blue-deep); }
+  .bundle-note{ margin-top: 1rem; font-size: 0.82rem; color: rgba(5,8,28,0.55); text-align: center; }
+  .other-subhead{
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--navy);
+    margin: 1.5rem 0 0.7rem;
+  }
+  .bundle-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .bundle-item:hover{ border-color: var(--blue-deep); }
+  .bundle-item.best{ border: 2px solid var(--blue-deep); }
+  .bundle-item .name{ font-weight: 700; font-size: 0.92rem; }
+  .bundle-item .badge{
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-left: 0.4rem;
+  }
+  .bundle-item .price{ font-weight: 800; font-size: 0.85rem; color: var(--blue-deep); }
+  .portal-error{ color: #c0392b; font-size: 0.82rem; margin-top: 0.6rem; display: none; text-align: center; }
 </style>
 </head>
 <body>
@@ -547,9 +661,32 @@
       <div class="limit-reached" id="limitReached">You've reached your demo limit. Leave your email below for pricing, features, and more.</div>
     </div>
 
-<div class="divider">or subscribe now</div>
+<div class="divider" id="subscribeDivider">or subscribe now</div>
 
-    <div class="pricing-wrap">
+    <div class="manage-box" id="manageBox" style="display:none;">
+      <h2>Manage your plan</h2>
+      <p class="sub">You're all set &mdash; here's what you're subscribed to.</p>
+      <div class="current-plan">
+        <span class="name" id="managePlanName">You're subscribed to Calm</span>
+        <span class="status">Active</span>
+      </div>
+      <div class="manage-btn-row">
+        <button type="button" class="manage-btn manage-btn-primary" id="manageBillingBtn">Manage billing</button>
+        <button type="button" class="manage-btn manage-btn-secondary" id="cancelSubBtn">Cancel subscription</button>
+      </div>
+      <a class="manage-view-account" href="/ai/account.html">View my account &rarr;</a>
+      <p class="portal-error" id="portalError">Something went wrong opening billing &mdash; please try again, or email us.</p>
+    </div>
+
+    <div class="other-assistants-box" id="otherAssistantsBox" style="display:none;">
+      <h2>Add another assistant</h2>
+      <p class="sub">Explore the rest of the lineup &mdash; or upgrade to a bundle and save.</p>
+      <div class="other-list" id="otherAssistantsList"></div>
+      <p class="other-subhead">Or save with a bundle</p>
+      <div class="other-list" id="bundleList"></div>
+    </div>
+
+    <div class="pricing-wrap" id="pricingWrap">
       <p class="pricing-title">🏆 Cheapest AI assistant subscription around</p>
       <p class="pricing-sub">Cancel anytime &middot; no contract</p>
       <div class="pricing-grid">
@@ -599,9 +736,9 @@
       </div>
     </div>
 
-    <div class="divider">or</div>
+    <div class="divider" id="waitlistDivider">or</div>
 
-    <div class="panel">
+    <div class="panel" id="waitlistPanel">
       <h2>Not ready to subscribe yet? Get updates straight to your inbox.</h2>
       <p class="panel-sub">Join the early access list &mdash; no obligation.</p>
       <form class="signup" id="waitlist-form-calm" action="https://formspree.io/f/mzepqkdy" method="POST">
@@ -696,7 +833,106 @@
       if (trialBadge) trialBadge.style.display = 'none';
       var desc = document.getElementById('desc');
       if (desc) desc.textContent = desc.textContent.replace(/\s*Try it( for yourself)? below \u2014 genuinely, no signup needed\.?/, ' Ask away below.');
+      var subscribeDivider = document.getElementById('subscribeDivider');
+      if (subscribeDivider) subscribeDivider.style.display = 'none';
+      var pricingWrap = document.getElementById('pricingWrap');
+      if (pricingWrap) pricingWrap.style.display = 'none';
+      var waitlistDivider = document.getElementById('waitlistDivider');
+      if (waitlistDivider) waitlistDivider.style.display = 'none';
+      var waitlistPanel = document.getElementById('waitlistPanel');
+      if (waitlistPanel) waitlistPanel.style.display = 'none';
+
+      var manageBox = document.getElementById('manageBox');
+      if (manageBox) manageBox.style.display = 'block';
+      var otherBox = document.getElementById('otherAssistantsBox');
+      if (otherBox) otherBox.style.display = 'block';
+      populateOtherAssistants();
     }
+
+    var OTHER_ASSISTANTS = [
+      { name: 'Parenting', icon: '👨‍👩‍👦', price: '£2.99/mo', url: '/ai/parenting.html' },
+      { name: 'Shopping', icon: '🛒', price: '£2.99/mo', url: '/ai/shopping.html' },
+      { name: 'Yoga', icon: '🧘', price: '£2.99/mo', url: '/ai/yoga.html' },
+      { name: 'Calm', icon: '🌿', price: '£2.99/mo', url: '/ai/calm.html' },
+      { name: 'Admin', icon: '⚙️', price: '£2.99/mo', url: '/ai/admin.html' },
+      { name: 'Tutor', icon: '📚', price: '£1.99/mo', url: '/ai/tutor.html' },
+      { name: 'Companion', icon: '❤️', price: '£1.99/mo', url: '/ai/companion.html' }
+    ];
+    var THIS_ASSISTANT_NAME = 'Calm';
+
+    var BUNDLES = [
+      { label: '2 Assistants', price: '£4.99/mo', url: 'https://buy.stripe.com/6oU9AV2EQgLd3u20qT4800a' },
+      { label: '3 Assistants', price: '£6.99/mo', url: 'https://buy.stripe.com/6oU4gB93e9iLaWu8Xp4800b' },
+      { label: '4 Assistants', price: '£8.99/mo', url: 'https://buy.stripe.com/bJeaEZdjugLd9Sq8Xp4800f' },
+      { label: '5 Assistants', price: '£10.99/mo', url: 'https://buy.stripe.com/4gM14pdju9iLggOgpR4800d' },
+      { label: '6 Assistants', price: '£12.99/mo', url: 'https://buy.stripe.com/7sY7sN1AMamP9Sqa1t4800e' },
+      { label: 'All 7 Assistants', price: '£14.99/mo', url: 'https://buy.stripe.com/eVqbJ393edz1aWu7Tl4800h', best: true }
+    ];
+
+    function populateOtherAssistants(){
+      var list = document.getElementById('otherAssistantsList');
+      if (list){
+        list.innerHTML = '';
+        OTHER_ASSISTANTS.filter(function(a){ return a.name !== THIS_ASSISTANT_NAME; }).forEach(function(a){
+          var link = document.createElement('a');
+          link.className = 'other-item';
+          link.href = a.url;
+          link.innerHTML = '<span class="left"><span class="icon">' + a.icon + '</span><span class="name">' + a.name + '</span></span><span class="price">' + a.price + '</span>';
+          list.appendChild(link);
+        });
+      }
+
+      var bundleList = document.getElementById('bundleList');
+      if (bundleList){
+        bundleList.innerHTML = '';
+        BUNDLES.forEach(function(b){
+          var link = document.createElement('a');
+          link.className = 'bundle-item' + (b.best ? ' best' : '');
+          link.href = b.url;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.innerHTML = '<span class="name">' + b.label + (b.best ? '<span class="badge">Best value</span>' : '') + '</span><span class="price">' + b.price + '</span>';
+          bundleList.appendChild(link);
+        });
+      }
+    }
+
+    var PORTAL_FUNCTION_URL = 'https://pyljmukjqnckkogmregm.supabase.co/functions/v1/create-portal-session';
+
+    function openBillingPortal(flow){
+      var errorEl = document.getElementById('portalError');
+      if (errorEl) errorEl.style.display = 'none';
+      sb.auth.getSession().then(function(result){
+        var session = result.data && result.data.session;
+        if (!session || !session.access_token){
+          if (errorEl){ errorEl.textContent = 'Please log in first to manage your billing.'; errorEl.style.display = 'block'; }
+          return;
+        }
+        fetch(PORTAL_FUNCTION_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + session.access_token
+          },
+          body: JSON.stringify({ flow: flow })
+        }).then(function(res){ return res.json(); }).then(function(data){
+          if (data && data.url){
+            window.location.href = data.url;
+          } else if (errorEl){
+            errorEl.style.display = 'block';
+          }
+        }).catch(function(){
+          if (errorEl) errorEl.style.display = 'block';
+        });
+      });
+    }
+
+    (function(){
+      var billingBtn = document.getElementById('manageBillingBtn');
+      if (billingBtn) billingBtn.addEventListener('click', function(){ openBillingPortal('billing'); });
+      var cancelBtn = document.getElementById('cancelSubBtn');
+      if (cancelBtn) cancelBtn.addEventListener('click', function(){ openBillingPortal('cancel'); });
+    })();
 
     function checkEntitlement(){
       if (typeof sb === 'undefined') return;
