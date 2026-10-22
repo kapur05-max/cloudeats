@@ -587,6 +587,35 @@
   .other-item .name{ font-weight: 700; font-size: 0.92rem; }
   .other-item .price{ font-weight: 800; font-size: 0.85rem; color: var(--blue-deep); }
   .bundle-note{ margin-top: 1rem; font-size: 0.82rem; color: rgba(5,8,28,0.55); text-align: center; }
+  .other-subhead{
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: rgba(5,8,28,0.45);
+    margin: 1.3rem 0 0.6rem;
+  }
+  .bundle-item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0.8rem 1rem;
+    text-decoration: none;
+    color: var(--navy);
+  }
+  .bundle-item:hover{ border-color: var(--blue-deep); }
+  .bundle-item.best{ border: 2px solid var(--blue-deep); }
+  .bundle-item .name{ font-weight: 700; font-size: 0.92rem; }
+  .bundle-item .badge{
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--blue-deep);
+    margin-left: 0.4rem;
+  }
+  .bundle-item .price{ font-weight: 800; font-size: 0.85rem; color: var(--blue-deep); }
   .portal-error{ color: #c0392b; font-size: 0.82rem; margin-top: 0.6rem; display: none; text-align: center; }
 </style>
 </head>
@@ -655,7 +684,8 @@
       <h2>Add another assistant</h2>
       <p class="sub">Explore the rest of the lineup &mdash; or upgrade to a bundle and save.</p>
       <div class="other-list" id="otherAssistantsList"></div>
-      <p class="bundle-note">Tip: 3 Assistants is £6.99/mo &mdash; cheaper than two on their own.</p>
+      <p class="other-subhead">Or save with a bundle</p>
+      <div class="other-list" id="bundleList"></div>
     </div>
 
     <div class="pricing-wrap" id="pricingWrap">
@@ -833,17 +863,41 @@
     ];
     var THIS_ASSISTANT_NAME = 'Tutor';
 
+    var BUNDLES = [
+      { label: '2 Assistants', price: '£4.99/mo', url: 'https://buy.stripe.com/6oU9AV2EQgLd3u20qT4800a' },
+      { label: '3 Assistants', price: '£6.99/mo', url: 'https://buy.stripe.com/6oU4gB93e9iLaWu8Xp4800b' },
+      { label: '4 Assistants', price: '£8.99/mo', url: 'https://buy.stripe.com/bJeaEZdjugLd9Sq8Xp4800f' },
+      { label: '5 Assistants', price: '£10.99/mo', url: 'https://buy.stripe.com/4gM14pdju9iLggOgpR4800d' },
+      { label: '6 Assistants', price: '£12.99/mo', url: 'https://buy.stripe.com/7sY7sN1AMamP9Sqa1t4800e' },
+      { label: 'All 7 Assistants', price: '£14.99/mo', url: 'https://buy.stripe.com/eVqbJ393edz1aWu7Tl4800h', best: true }
+    ];
+
     function populateOtherAssistants(){
       var list = document.getElementById('otherAssistantsList');
-      if (!list) return;
-      list.innerHTML = '';
-      OTHER_ASSISTANTS.filter(function(a){ return a.name !== THIS_ASSISTANT_NAME; }).forEach(function(a){
-        var link = document.createElement('a');
-        link.className = 'other-item';
-        link.href = a.url;
-        link.innerHTML = '<span class="left"><span class="icon">' + a.icon + '</span><span class="name">' + a.name + '</span></span><span class="price">' + a.price + '</span>';
-        list.appendChild(link);
-      });
+      if (list){
+        list.innerHTML = '';
+        OTHER_ASSISTANTS.filter(function(a){ return a.name !== THIS_ASSISTANT_NAME; }).forEach(function(a){
+          var link = document.createElement('a');
+          link.className = 'other-item';
+          link.href = a.url;
+          link.innerHTML = '<span class="left"><span class="icon">' + a.icon + '</span><span class="name">' + a.name + '</span></span><span class="price">' + a.price + '</span>';
+          list.appendChild(link);
+        });
+      }
+
+      var bundleList = document.getElementById('bundleList');
+      if (bundleList){
+        bundleList.innerHTML = '';
+        BUNDLES.forEach(function(b){
+          var link = document.createElement('a');
+          link.className = 'bundle-item' + (b.best ? ' best' : '');
+          link.href = b.url;
+          link.target = '_blank';
+          link.rel = 'noopener';
+          link.innerHTML = '<span class="name">' + b.label + (b.best ? '<span class="badge">Best value</span>' : '') + '</span><span class="price">' + b.price + '</span>';
+          bundleList.appendChild(link);
+        });
+      }
     }
 
     var PORTAL_FUNCTION_URL = 'https://pyljmukjqnckkogmregm.supabase.co/functions/v1/create-portal-session';
