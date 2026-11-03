@@ -29,7 +29,7 @@ const ALL_ASSISTANTS = [
   "Parenting",
   "Shopping",
   "Yoga",
-  "Calm",
+  "Unwind",
   "Admin",
   "Tutor",
   "Companion",
@@ -40,6 +40,14 @@ const ALL_ASSISTANTS = [
  * Stripe product name and (for pick-and-mix bundles) the free-text
  * custom field the customer filled in at checkout.
  */
+// Old names still accepted (customers may type them, or an old Stripe
+// product may still carry the old name) and mapped to the current name.
+const ALIASES: Record<string, string> = { calm: "Unwind" };
+function canon(n: string): string {
+  const t = n.trim();
+  return ALIASES[t.toLowerCase()] ?? t;
+}
+
 function assistantsFromProduct(
   productName: string,
   customFieldText: string | null,
@@ -61,13 +69,13 @@ function assistantsFromProduct(
       .map((s) => s.trim())
       .filter(Boolean);
     // Only keep names that match a real assistant, in case of typos.
-    return typed.filter((t) =>
+    return typed.map(canon).filter((t) =>
       ALL_ASSISTANTS.some((a) => a.toLowerCase() === t.toLowerCase())
     ).map((t) => ALL_ASSISTANTS.find((a) => a.toLowerCase() === t.toLowerCase())!);
   }
 
   // Otherwise it's a single assistant product, e.g. "Admin", "Companion".
-  const match = ALL_ASSISTANTS.find((a) => a.toLowerCase() === name.toLowerCase());
+  const match = ALL_ASSISTANTS.find((a) => a.toLowerCase() === canon(name).toLowerCase());
   return match ? [match] : [];
 }
 

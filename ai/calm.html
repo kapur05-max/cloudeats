@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CloudZio AI Calm | Try the demo | CloudZio AI</title>
-<meta name="description" content="Tell CloudZio AI Calm how you feel, try a moment of calm right now, free, no signup required.">
+<title>CloudZio AI Unwind | Try the demo | CloudZio AI</title>
+<meta name="description" content="Tell CloudZio AI Unwind how you feel, try a moment of calm right now, free, no signup required.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
@@ -630,15 +630,15 @@
 <main>
   <div class="wrap">
     <span class="icon">🌿</span>
-    <p class="eyebrow">CloudZio AI &bull; Calm</p>
+    <p class="eyebrow">CloudZio AI &bull; Unwind</p>
     <p class="price-pill">£2.99/mo</p>
     <h1>A moment to breathe, whenever you need it.</h1>
     <p class="tagline">Take a moment to relax and unwind.</p>
     <p class="trial-badge" id="trialBadge">🎁 7-day free trial with early access</p>
-    <p class="desc" id="desc">Tell CloudZio Calm how you're feeling and how much time you have, and it puts together a short, personal moment of calm. Try it for yourself below &mdash; genuinely, no signup needed.</p>
+    <p class="desc" id="desc">Tell CloudZio AI Unwind how you're feeling and how much time you have, and it puts together a short, personal moment of calm. Try it for yourself below &mdash; genuinely, no signup needed.</p>
 
     <div class="demo-wrap">
-      <p class="demo-title">🌿 Try Calm now</p>
+      <p class="demo-title">🌿 Try Unwind now</p>
       <p class="demo-sub" id="demoSub">Free preview &mdash; plenty to get a feel for it</p>
       <p class="subscriber-banner" id="subscriberBanner">✓ You’re subscribed — unlimited chat, no message limit.</p>
 
@@ -667,7 +667,7 @@
       <h2>Manage your plan</h2>
       <p class="sub">You're all set &mdash; here's what you're subscribed to.</p>
       <div class="current-plan">
-        <span class="name" id="managePlanName">You're subscribed to Calm</span>
+        <span class="name" id="managePlanName">You're subscribed to Unwind</span>
         <span class="status">Active</span>
       </div>
       <div class="manage-btn-row">
@@ -693,7 +693,7 @@
         <div class="price-card">
           <p class="price-label">1 Assistant</p>
           <p class="price-amount">£2.99<span>/mo</span></p>
-          <p class="price-desc">Just Calm</p>
+          <p class="price-desc">Just Unwind</p>
           <a class="subscribe-btn" href="https://buy.stripe.com/dRm5kF93e0Mf0hQ8Xp48004" target="_blank" rel="noopener" data-plan="single">Subscribe</a>
         </div>
         <div class="price-card">
@@ -742,8 +742,8 @@
       <h2>Not ready to subscribe yet? Get updates straight to your inbox.</h2>
       <p class="panel-sub">Join the early access list &mdash; no obligation.</p>
       <form class="signup" id="waitlist-form-calm" action="https://formspree.io/f/mzepqkdy" method="POST">
-        <input type="hidden" name="_subject" value="New CloudZio Calm early access signup">
-        <input type="hidden" name="category" value="Calm">
+        <input type="hidden" name="_subject" value="New CloudZio AI Unwind early access signup">
+        <input type="hidden" name="category" value="Unwind">
         <div class="row">
           <label for="name-calm">Name</label>
           <input type="text" id="name-calm" name="name" required>
@@ -794,7 +794,7 @@
         headers: { 'Accept': 'application/json' }
       }).then(function(response){
         if (response.ok){
-          window.location.href = '/ai/thanks.html?service=Calm';
+          window.location.href = '/ai/thanks.html?service=Unwind';
         } else {
           errorMsg.style.display = 'block';
           submitBtn.disabled = false;
@@ -813,7 +813,7 @@
     var messageCount = 0;
     var isSubscriber = false;
 
-    var BASE_PROMPT = "You are CloudZio Calm, a gentle AI that helps someone find a short moment of calm. Your purpose is a brief, soothing pause in someone's day \u2014 not therapy, not a medical or mental health service.\n\nTONE: Soft, unhurried, warm, present-tense, sensory language. Short sentences. Never clinical, never like a script being read aloud.\n\nWHAT YOU DO: If you don't already know, gently ask how they're feeling right now and how much time they have. Then guide a short, personalised calming moment matched to that \u2014 this could be a simple breathing pattern, a grounding exercise, a few calming words, or describing a peaceful scene or sound to imagine. Keep it genuinely short and practical, not a long lecture.\n\nWHAT YOU DO NOT DO:\n- Never diagnose, label someone's mental state, or act as a therapist.\n- Never claim to play real audio or music \u2014 you can only describe or guide with words.\n- Do not turn this into general life advice unless they ask.\n\nSAFETY: If someone expresses persistent hopelessness, thoughts of self-harm, or a mental health crisis, respond with warmth, take it seriously, and gently encourage them to contact the Samaritans (116 123, free, 24/7) or a trusted person \u2014 do not attempt to handle this with just a breathing exercise.";
+    var BASE_PROMPT = "You are CloudZio AI Unwind, a gentle AI that helps someone find a short moment of calm. Your purpose is a brief, soothing pause in someone's day \u2014 not therapy, not a medical or mental health service.\n\nTONE: Soft, unhurried, warm, present-tense, sensory language. Short sentences. Never clinical, never like a script being read aloud.\n\nWHAT YOU DO: If you don't already know, gently ask how they're feeling right now and how much time they have. Then guide a short, personalised calming moment matched to that \u2014 this could be a simple breathing pattern, a grounding exercise, a few calming words, or describing a peaceful scene or sound to imagine. Keep it genuinely short and practical, not a long lecture.\n\nWHAT YOU DO NOT DO:\n- Never diagnose, label someone's mental state, or act as a therapist.\n- Never claim to play real audio or music \u2014 you can only describe or guide with words.\n- Do not turn this into general life advice unless they ask.\n\nSAFETY: If someone expresses persistent hopelessness, thoughts of self-harm, or a mental health crisis, respond with warmth, take it seriously, and gently encourage them to contact the Samaritans (116 123, free, 24/7) or a trusted person \u2014 do not attempt to handle this with just a breathing exercise.";
     var DEMO_PROMPT = BASE_PROMPT + "\n\nThis is a short PUBLIC DEMO limited to a few messages \u2014 keep replies especially concise (two to four sentences), and give a genuine feel for a calming moment quickly.";
     var FULL_PROMPT = BASE_PROMPT + "\n\nThis person is a paying subscriber with unlimited access \u2014 take as much space as the explanation genuinely needs, and don't artificially cut answers short.";
     var SYSTEM_PROMPT = DEMO_PROMPT;
@@ -853,12 +853,12 @@
       { name: 'Parenting', icon: '👨‍👩‍👦', price: '£2.99/mo', url: '/ai/parenting.html' },
       { name: 'Shopping', icon: '🛒', price: '£2.99/mo', url: '/ai/shopping.html' },
       { name: 'Yoga', icon: '🧘', price: '£2.99/mo', url: '/ai/yoga.html' },
-      { name: 'Calm', icon: '🌿', price: '£2.99/mo', url: '/ai/calm.html' },
+      { name: 'Unwind', icon: '🌿', price: '£2.99/mo', url: '/ai/calm.html' },
       { name: 'Admin', icon: '⚙️', price: '£2.99/mo', url: '/ai/admin.html' },
       { name: 'Tutor', icon: '📚', price: '£1.99/mo', url: '/ai/tutor.html' },
       { name: 'Companion', icon: '❤️', price: '£1.99/mo', url: '/ai/companion.html' }
     ];
-    var THIS_ASSISTANT_NAME = 'Calm';
+    var THIS_ASSISTANT_NAME = 'Unwind';
 
     var BUNDLES = [
       { label: '2 Assistants', price: '£4.99/mo', url: 'https://buy.stripe.com/6oU9AV2EQgLd3u20qT4800a' },
@@ -941,7 +941,7 @@
         if (!user || !user.email) return;
         sb.from('customer_access').select('*').eq('email', user.email).maybeSingle().then(function(res){
           var row = res.data;
-          if (row && row.status === 'active' && Array.isArray(row.assistants) && row.assistants.indexOf('Calm') !== -1){
+          if (row && row.status === 'active' && Array.isArray(row.assistants) && (row.assistants.indexOf('Unwind') !== -1 || row.assistants.indexOf('Calm') !== -1)){
             unlockForSubscriber();
           }
         }).catch(function(err){ console.error('Entitlement check failed:', err); });
@@ -966,7 +966,7 @@
     function addTyping(){
       var div = document.createElement('div');
       div.className = 'typing';
-      div.textContent = 'Calm is typing...';
+      div.textContent = 'Unwind is typing...';
       div.id = 'typingIndicator';
       chat.appendChild(div);
       chat.scrollTop = chat.scrollHeight;
@@ -1114,7 +1114,7 @@
       });
     }
 
-    addBubble("Hi, I'm Calm. How are you feeling right now, and how much time do you have?", 'ai');
+    addBubble("Hi, I'm Unwind. How are you feeling right now, and how much time do you have?", 'ai');
   })();
 </script>
 

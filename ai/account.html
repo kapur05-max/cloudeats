@@ -140,6 +140,7 @@
           'Parenting': '/ai/parenting.html',
           'Shopping': '/ai/shopping.html',
           'Yoga': '/ai/yoga.html',
+          'Unwind': '/ai/calm.html',
           'Calm': '/ai/calm.html',
           'Admin': '/ai/admin.html',
           'Tutor': '/ai/tutor.html',
@@ -151,7 +152,7 @@
           var html = '';
           row.assistants.forEach(function(name){
             var url = ASSISTANT_PAGES[name] || '/ai/index.html';
-            html += '<a class="assistant-badge" href="' + url + '">' + name + ' &rarr; Open chat</a>';
+            html += '<a class="assistant-badge" href="' + url + '">' + (name === 'Calm' ? 'Unwind' : name) + ' &rarr; Open chat</a>';
           });
           assistantsList.innerHTML = html;
           emptyState.style.display = 'none';
