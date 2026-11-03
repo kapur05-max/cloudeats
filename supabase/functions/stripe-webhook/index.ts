@@ -62,16 +62,20 @@ function assistantsFromProduct(
   }
 
   // Pick-and-mix bundles are named like "2 Assistants", "6 Assistants", etc.
-  if (/^\d+\s+assistants?$/i.test(name)) {
+  const bundleMatch = name.match(/^(\d+)\s+assistants?$/i);
+  if (bundleMatch) {
     if (!customFieldText) return [];
+    const allowed = parseInt(bundleMatch[1], 10); // how many the customer paid for
     const typed = customFieldText
       .split(",")
       .map((s) => s.trim())
       .filter(Boolean);
     // Only keep names that match a real assistant, in case of typos.
-    return typed.map(canon).filter((t) =>
+    const valid = typed.map(canon).filter((t) =>
       ALL_ASSISTANTS.some((a) => a.toLowerCase() === t.toLowerCase())
     ).map((t) => ALL_ASSISTANTS.find((a) => a.toLowerCase() === t.toLowerCase())!);
+    // Remove duplicates, then never grant more than the plan includes.
+    return Array.from(new Set(valid)).slice(0, allowed);
   }
 
   // Otherwise it's a single assistant product, e.g. "Admin", "Companion".
