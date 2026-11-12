@@ -83,6 +83,60 @@ function assistantsFromProduct(
   return match ? [match] : [];
 }
 
+/**
+ * Mum's Healthy Bites orders (created by the create-mhb-checkout function,
+ * tagged with metadata.source = "mhb") are saved in the `mhb_orders` table
+ * so the order can be packed and posted. They are NOT AI-assistant
+ * purchases, so they never touch `customer_access`.
+ */
+async function recordMhbOrder(session: Stripe.Checkout.Session) {
+  if (session.payment_status !== "paid") {
+    console.warn("MHB session not paid yet, skipping", session.id);
+    return;
+  }
+
+  const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+    expand: ["data.price.product"],
+    limit: 100,
+  });
+  const items = lineItems.data.map((li) => {
+    const product = li.price?.product as Stripe.Product | undefined;
+    return {
+      sku: product?.metadata?.sku ?? null,
+      name: li.description,
+      qty: li.quantity,
+      unit_pence: li.price?.unit_amount ?? null,
+      line_pence: li.amount_subtotal,
+    };
+  });
+
+  // Newer Stripe API versions moved the delivery address to
+  // collected_information.shipping_details; older ones use shipping_details.
+  // deno-lint-ignore no-explicit-any
+  const sess = session as any;
+  const ship = sess.shipping_details ?? sess.collected_information?.shipping_details ?? null;
+  const { error } = await supabaseAdmin.from("mhb_orders").upsert({
+    stripe_session_id: session.id,
+    stripe_payment_intent: typeof session.payment_intent === "string"
+      ? session.payment_intent
+      : session.payment_intent?.id ?? null,
+    email: (session.customer_details?.email ?? session.customer_email ?? "").toLowerCase() || null,
+    customer_name: session.customer_details?.name ?? null,
+    phone: session.customer_details?.phone ?? null,
+    shipping_name: ship?.name ?? null,
+    shipping_address: ship?.address ?? null,
+    items,
+    subtotal_pence: session.amount_subtotal,
+    discount_pence: session.total_details?.amount_discount ?? 0,
+    delivery_pence: session.total_details?.amount_shipping ?? 0,
+    total_pence: session.amount_total,
+    updated_at: new Date().toISOString(),
+  }, { onConflict: "stripe_session_id", ignoreDuplicates: false });
+
+  // Throwing makes the webhook answer 500, so Stripe retries later.
+  if (error) throw new Error("mhb_orders upsert failed: " + error.message);
+}
+
 Deno.serve(async (req) => {
   const signature = req.headers.get("stripe-signature");
   const body = await req.text();
@@ -104,6 +158,12 @@ Deno.serve(async (req) => {
   try {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
+
+      // Mum's Healthy Bites shop order — record it and stop here.
+      if (session.metadata?.source === "mhb") {
+        await recordMhbOrder(session);
+        return new Response("ok (mhb order)", { status: 200 });
+      }
 
       const email = session.customer_details?.email ?? session.customer_email;
       if (!email) {

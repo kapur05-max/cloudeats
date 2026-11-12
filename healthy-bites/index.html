@@ -1,0 +1,852 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mum's Healthy Bites</title>
+<meta name="description" content="Healthy, plant-based pantry food for busy mums, stocked and posted by CloudZio. Free UK delivery on orders over £25.">
+<link rel="icon" href="img/logo-1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  html{scroll-behavior:smooth}
+  :root{
+    --sky:#EAF6FF;
+    --sky-card:#D9EEFF;
+    --pink:#FFD6E6;
+    --pink-deep:#FF6FA0;
+    --navy:#05081c;
+    --blue-deep:#0041fc;
+    --blue-light:#3fa0ff;
+    --grey:#5B6478;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Manrope',sans-serif;background:var(--sky);color:var(--navy)}
+  a{color:var(--pink-deep);text-decoration:none}
+  a:hover{color:var(--navy)}
+  .wrap{width:100%;max-width:100%}
+  .sectionTitle{font-family:'Playfair Display',serif;font-style:italic;font-weight:600;margin:0}
+  .tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 12px;border-radius:999px;background:var(--pink);color:var(--pink-deep)}
+  .card{background:var(--pink);border-radius:20px;box-shadow:0 2px 14px rgba(5,8,28,0.08);transition:transform .15s ease, box-shadow .15s ease;padding:20px;display:flex;flex-direction:column;gap:10px;border:1px solid #FFC2DC}
+  .qty-row{margin-top:auto;padding-top:4px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .qty-stepper{display:flex;align-items:center;gap:12px;background:#FFFFFF;border-radius:999px;padding:6px 14px;border:1px solid #FFC2DC}
+  .qty-btn{background:none;border:none;font-size:18px;font-weight:800;color:var(--pink-deep);cursor:pointer;line-height:1;width:18px;padding:0}
+  .qty-val{font-weight:700;font-size:14px;min-width:14px;text-align:center}
+  .add-btn{background:var(--pink-deep);color:#FFFFFF;border:none;border-radius:999px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap;transition:background .15s ease}
+  .add-btn:hover{background:#E85C8C}
+  .add-btn.added{background:#00B84A}
+  .add-btn:disabled{background:#F3C3D4;cursor:not-allowed}
+  .price-soon{font-size:12px;font-style:italic;color:var(--grey)}
+  .basket-btn{position:relative;background:none;border:none;cursor:pointer;display:flex;align-items:center;color:#FFFFFF;padding:4px}
+  .basket-count{position:absolute;top:-6px;right:-8px;background:#FFD400;color:#0D3297;font-size:11px;font-weight:800;border-radius:999px;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+  #basket-overlay{display:none;position:fixed;inset:0;background:rgba(5,8,28,0.5);z-index:1100}
+  #basket-overlay.open{display:block}
+  #basket-drawer{position:fixed;top:0;right:0;bottom:0;width:480px;max-width:94vw;background:#FFFFFF;box-shadow:-8px 0 30px rgba(0,0,0,0.2);z-index:1101;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .25s ease}
+  #basket-overlay.open #basket-drawer{transform:translateX(0)}
+  .basket-head{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid #eee}
+  .basket-head h3{font-size:18px;margin:0}
+  #basket-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--navy)}
+  #basket-items{flex:1;overflow-y:auto;padding:16px 20px}
+  .basket-empty{color:var(--grey);font-size:14px;text-align:center;margin-top:40px}
+  .basket-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px solid #f1f1f1}
+  .basket-item-name{font-size:13px;font-weight:700;flex:1}
+  .basket-item-price{font-size:13px;color:var(--grey)}
+  .basket-item-qty{display:flex;align-items:center;gap:8px;background:var(--sky-card);border-radius:999px;padding:4px 10px}
+  .basket-item-remove{background:none;border:none;color:var(--pink-deep);font-size:12px;cursor:pointer;text-decoration:underline;margin-left:8px}
+  .basket-foot{padding:18px 20px;border-top:1px solid #eee}
+  .basket-delivery-msg{font-size:12px;color:var(--navy);background:var(--sky-card);border-radius:10px;padding:8px 12px;margin-bottom:12px;text-align:center}
+  .basket-subtotal{display:flex;justify-content:space-between;font-weight:800;font-size:16px;margin-bottom:14px}
+  .checkout-btn{width:100%;background:#0D3297;color:#FFFFFF;border:none;border-radius:999px;padding:14px;font-weight:800;font-size:15px;cursor:pointer}
+  .basket-row{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px;color:var(--navy)}
+  .basket-row.saving{color:#1FA62E;font-weight:700}
+  .basket-total{display:flex;justify-content:space-between;font-weight:800;font-size:18px;margin:6px 0 14px;padding-top:10px;border-top:1px solid #eee}
+  .basket-error{display:none;background:#FFE9EE;color:#B0123E;border-radius:10px;padding:8px 12px;margin-bottom:12px;font-size:13px;line-height:1.4}
+  .basket-note{font-size:12px;color:var(--grey);text-align:center;margin-top:10px;line-height:1.4}
+  .checkout-btn:disabled{opacity:.6;cursor:wait}
+  .card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(5,8,28,0.12)}
+  .thumb{width:100%;height:140px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;background:#FFFFFF;color:var(--blue-deep)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:22px}
+  .btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;font-weight:700;padding:14px 30px;border:none;cursor:pointer;font-size:16px;background:linear-gradient(90deg,var(--blue-deep),var(--pink-deep));color:#fff}
+  nav{width:100%;padding:20px 5%;display:flex;align-items:center;justify-content:space-between;background:#0D3297}
+  .brand{font-size:22px;font-weight:800;color:#FFFFFF}
+  .brand .zio{background:linear-gradient(90deg,var(--blue-light),#FFFFFF);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .navlinks{display:flex;gap:28px;font-size:14px;font-weight:600}
+  .navlinks a{color:#CFE0FF}
+  .navlinks a.active{color:#fff;border-bottom:2px solid var(--pink-deep);padding-bottom:4px}
+  section{width:100%;padding:36px 8%;background:var(--sky)}
+  .section-head{display:flex;flex-direction:column;gap:6px;margin-bottom:28px}
+  .section-head span{font-size:26px;color:#05081c;font-weight:800}
+  .section-head h3{font-family:'Manrope',sans-serif;font-style:normal;font-weight:800;line-height:1.1}
+  @media (max-width:640px){
+    .navlinks{display:none}
+    .freedelivery{font-size:12px!important}
+    h1.sectionTitle{font-size:26px!important}
+  }
+  .zoomable{cursor:zoom-in}
+  #lightbox-overlay{display:none;position:fixed;inset:0;background:rgba(5,8,28,0.85);z-index:1000;align-items:center;justify-content:center;padding:32px}
+  #lightbox-overlay.open{display:flex}
+  #lightbox-overlay img{max-width:min(600px,90vw);max-height:85vh;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.4)}
+  #lightbox-close{position:absolute;top:24px;right:32px;background:#FFFFFF;color:var(--navy);width:40px;height:40px;border-radius:50%;border:none;font-size:20px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand"><img src="img/logo-1.png" alt="Mum's Healthy Bites" style="height:56px;width:56px;border-radius:50%;display:block"></div>
+  <div class="freedelivery" style="flex:1;text-align:center;color:#FFD400;font-weight:800;font-size:15px;letter-spacing:.2px">Free delivery for orders over £25</div>
+  <div class="navlinks">
+    <a href="#contact">Contact</a>
+  </div>
+  <button type="button" class="basket-btn" id="basket-toggle" aria-label="Open basket">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 8H18L17 19C16.9 20.1 16 21 14.9 21H9.1C8 21 7.1 20.1 7 19L6 8Z" stroke="#FFFFFF" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 8V6C9 4.34315 10.3431 3 12 3C13.6569 3 15 4.34315 15 6V8" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <span class="basket-count" id="basket-count">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section style="padding:88px 8% 72px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:26px;background:var(--sky)">
+  <img src="img/logo-1.png" alt="Mum's Healthy Bites logo" style="width:150px;height:150px;border-radius:50%;margin-bottom:4px">
+  <span class="tag" style="color:#000000">For the woman who looks after everyone else</span>
+  <h1 class="sectionTitle" style="max-width:820px;font-size:38px;line-height:1.45">
+    Every day, you give everything — to your kids, your home, your family's wellbeing.
+    And somewhere in all that giving, you forgot to save a little for yourself.
+    You are the backbone of this family. You hold it all together.
+    It's time someone looked after you the way you look after everyone else.
+    You deserve this.
+  </h1>
+  <button class="btn" type="button" data-scroll="#morning">Shop Mum's Healthy Bites</button>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center">
+    <span class="tag">Real food, real mums</span>
+    <span class="tag">Stocked &amp; posted by CloudZio</span>
+  </div>
+</section>
+
+<section style="padding:40px 8% 8px;text-align:center">
+  <h2 class="sectionTitle" style="font-size:26px">A little looking-after, built around your whole day</h2>
+  <p style="margin:8px auto 0;max-width:620px;color:var(--grey);font-size:15px;line-height:1.6">From the first cup of tea to the moment your head hits the pillow — something for every part of your day, chosen with real mums in mind.</p>
+</section>
+
+<!-- MORNING -->
+<section id="morning">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#FFC700">Morning</h3>
+    <span>Gentle starts, before the day takes over</span>
+  </div>
+  <div class="grid">
+    <div class="card" data-id="mille-banana-choco-chip-millet-pancake-m" data-name="Mille Banana Choco Chip Millet Pancake Mix | 250g" data-price="5.49">
+      <img data-group="pancake" src="img/pancake-1.jpg" alt="Mille Banana Choco Chip Millet Pancake Mix" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/pancake-2.jpg" data-group="pancake" alt="Mille Banana Choco Chip Millet Pancake Mix" style="display:none"><img src="img/pancake-3.jpg" data-group="pancake" alt="Mille Banana Choco Chip Millet Pancake Mix" style="display:none">
+      <span class="tag" style="align-self:flex-start">No refined sugar</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Banana Choco Chip Millet Pancake Mix | 250g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£5.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A more nourishing twist on an everyday breakfast favourite — made with supergrains, plant protein, banana and chocolate chips, giving 2x the protein and 3x the fibre of a regular pancake mix, with less sugar and fewer carbs. Free from wheat, refined flour and refined sugar.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="mille-classic-millet-pancake-mix" data-name="Mille Classic Millet Pancake Mix" data-price="5.49">
+      <img data-group="classicpancake" src="img/classicpancake-1.jpg" alt="Mille Classic Millet Pancake Mix" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/classicpancake-2.jpg" data-group="classicpancake" alt="Mille Classic Millet Pancake Mix" style="display:none"><img src="img/classicpancake-3.jpg" data-group="classicpancake" alt="Mille Classic Millet Pancake Mix" style="display:none">
+      <span class="tag" style="align-self:flex-start">No added sugar</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Classic Millet Pancake Mix</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£5.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A more nourishing take on an everyday breakfast favourite — made with supergrains, plant protein and flaxseed powder, giving 2.1x the protein and 4x the fibre of a regular pancake mix, with 96% less sugar. Free from wheat, refined flour and refined sugar.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="alpino-high-protein-super-oats-classic-c" data-name="Alpino High Protein Super Oats | Classic Coffee | 1kg" data-price="7.49">
+      <img data-group="alpinooats" src="img/alpinooats-1.jpg" alt="Alpino High Protein Super Oats Classic Coffee" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/alpinooats-2.jpg" data-group="alpinooats" alt="Alpino High Protein Super Oats Classic Coffee" style="display:none"><img src="img/alpinooats-3.jpg" data-group="alpinooats" alt="Alpino High Protein Super Oats Classic Coffee" style="display:none">
+      <span class="tag" style="align-self:flex-start">24% protein</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Alpino High Protein Super Oats | Classic Coffee | 1kg</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£7.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Rolled oats with coffee, nuts and seeds for bold flavour and everyday nourishment — 24% protein with fibre and healthy fats, free from added sugar, added salt and preservatives, naturally gluten-free and plant-based.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+  </div>
+</section>
+
+<!-- MIDDAY / PROTEIN BOOST -->
+<section id="midday">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#F28C28">Midday — Protein Boost</h3>
+    <span>Keeps you going through the lunchtime rush</span>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(240px,380px);justify-content:start">
+    <div class="card" data-id="alpino-natural-peanut-butter-crunch-400g" data-name="Alpino Natural Peanut Butter Crunch | 400g" data-price="4.99">
+      <img data-group="peanutbutter" src="img/peanutbutter-1.jpg" alt="Alpino Natural Peanut Butter Crunch" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:contain;background:#FFFFFF"><img src="img/peanutbutter-2.jpg" data-group="peanutbutter" alt="Alpino Natural Peanut Butter Crunch" style="display:none"><img src="img/peanutbutter-3.jpg" data-group="peanutbutter" alt="Alpino Natural Peanut Butter Crunch" style="display:none">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Alpino Natural Peanut Butter Crunch | 400g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£4.99</div>
+      </div>
+      <span class="tag" style="align-self:flex-start">30g protein per 100g</span>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Made from 100% roasted peanuts, with real protein built in — 30g per 100g. Spread it on a slice of bread and you're good to go. Free from added sugar, salt, preservatives and artificial ingredients.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    
+    
+    
+  </div>
+</section>
+
+<!-- AFTERNOON / FOCUS SNACK -->
+<section id="afternoon">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#C98A1F">Afternoon — Focus Snack</h3>
+    <span>A clean lift for the 3pm slump</span>
+  </div>
+  <div class="grid">
+    <div class="card" data-id="matcha-green-tea" data-name="Matcha Green Tea">
+      <div class="thumb">[Matcha tea photo]</div>
+      <span class="tag" style="align-self:flex-start">UK sourced</span>
+      <div style="font-weight:700;font-size:16px">Matcha Green Tea</div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Steady, calm focus without the coffee crash — a gentle lift when you need to concentrate, not jitter.</div>
+    <div class="qty-row"><span class="price-soon">Price coming soon</span></div></div>
+    <div class="card" data-id="natch-thai-rice-chips-wasabi-100g" data-name="Natch Thai Rice Chips | Wasabi | 100g" data-price="3.99">
+      <img data-group="natchwasabi" src="img/natchwasabi-1.jpg" alt="Natch Thai Rice Chips Wasabi" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/natchwasabi-2.jpg" data-group="natchwasabi" alt="Natch Thai Rice Chips Wasabi" style="display:none"><img src="img/natchwasabi-3.jpg" data-group="natchwasabi" alt="Natch Thai Rice Chips Wasabi" style="display:none">
+      <span class="tag" style="align-self:flex-start">Low calorie, gluten-free</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Natch Thai Rice Chips | Wasabi | 100g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A proper crunch with a kick — Thai sticky rice chips in a lively wasabi seasoning, at just 80 kcal a serving. Plant-based, gluten-free and free from artificial colours or preservatives, with no palm oil — a snack you can reach for without a second thought.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="natch-thai-rice-chips-sesame-100g" data-name="Natch Thai Rice Chips | Sesame | 100g" data-price="3.99">
+      <img data-group="natchsesame" src="img/natchsesame-1.jpg" alt="Natch Thai Rice Chips Sesame" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/natchsesame-2.jpg" data-group="natchsesame" alt="Natch Thai Rice Chips Sesame" style="display:none"><img src="img/natchsesame-3.jpg" data-group="natchsesame" alt="Natch Thai Rice Chips Sesame" style="display:none">
+      <span class="tag" style="align-self:flex-start">Low calorie, gluten-free</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Natch Thai Rice Chips | Sesame | 100g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A lighter crunch with a rich, toasted sesame flavour — Thai sticky rice chips at just 80 kcal a serving. Plant-based, gluten-free and free from artificial colours or preservatives, with a clean finish that's easy to reach for mid-afternoon.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="khetika-raw-makhana-fox-nuts-100g" data-name="Khetika Raw Makhana (Fox Nuts) | 100g" data-price="3.49">
+      <img data-group="makhana" src="img/makhana-1.jpg" alt="Khetika Raw Makhana" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/makhana-2.jpg" data-group="makhana" alt="Khetika Raw Makhana" style="display:none">
+      <span class="tag" style="align-self:flex-start">High in fibre &amp; protein</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Raw Makhana (Fox Nuts) | 100g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A light, crunchy handful that keeps you going without the mid-afternoon crash — naturally rich in protein and fibre, naturally fat-free, and low in calories. Enjoy straight from the pack, or roast and season to taste. No preservatives.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="mille-fusilli-protein-pasta" data-name="Mille Fusilli Protein Pasta" data-price="3.99">
+      <img data-group="pasta" src="img/pasta-1.jpg" alt="Mille Fusilli Protein Pasta" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/pasta-2.jpg" data-group="pasta" alt="Mille Fusilli Protein Pasta" style="display:none"><img src="img/pasta-3.jpg" data-group="pasta" alt="Mille Fusilli Protein Pasta" style="display:none">
+      <span class="tag" style="align-self:flex-start">22g protein per 100g</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Fusilli Protein Pasta</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A high-protein fusilli that brings extra nourishment to a much-loved staple, without compromising on taste or texture. Made from a plant-protein blend (gram flour, pea protein) and free from refined maida — holds its shape and gives you the bite you want from everyday pasta. Made in a facility that also processes wheat, so may contain trace amounts.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="dal-parivar-moong-dal" data-name="Dal Parivar Moong Dal" data-price="3.49">
+      <img data-group="moongdal" src="img/moongdal-1.jpg" alt="Dal Parivar Moong Dal" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/moongdal-2.jpg" data-group="moongdal" alt="Dal Parivar Moong Dal" style="display:none">
+      <span class="tag" style="align-self:flex-start">Pantry staple</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Dal Parivar Moong Dal</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Premium, unpolished split yellow mung beans, naturally high in plant protein and a source of fibre. Mild in flavour and quick to cook, perfect for soups, curries and light everyday meals — free from preservatives and additives.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    
+  </div>
+</section>
+
+<!-- EVENING / NIGHT -->
+<section id="evening" style="background:var(--sky)">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px"><span style="color:#777777">Evening</span> <span style="color:#000000">&amp; Night</span></h3>
+    <span>Winding down, just for you</span>
+  </div>
+  <div class="grid">
+    <div class="card" data-id="chamomile-tea" data-name="Chamomile Tea">
+      <div class="thumb">[Chamomile tea photo]</div>
+      <span class="tag" style="align-self:flex-start">UK sourced</span>
+      <div style="font-weight:700;font-size:16px">Chamomile Tea</div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A soft, floral cup that signals to your body it's time to slow down and let the day go.</div>
+    <div class="qty-row"><span class="price-soon">Price coming soon</span></div></div>
+    <div class="card" data-id="lavender-tea" data-name="Lavender Tea">
+      <div class="thumb">[Lavender tea photo]</div>
+      <span class="tag" style="align-self:flex-start">UK sourced</span>
+      <div style="font-weight:700;font-size:16px">Lavender Tea</div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Calming and fragrant — a quiet ritual for the last half hour of your day, before you switch off.</div>
+    <div class="qty-row"><span class="price-soon">Price coming soon</span></div></div>
+    <div class="card" data-id="hu-hazelnut-butter-dark-chocolate-bar-60" data-name="Hu Hazelnut Butter Dark Chocolate Bar | 60g" data-price="3.80">
+      <img data-group="huchoc" src="img/huchoc-1.jpg" alt="Hu Hazelnut Butter Dark Chocolate Bar" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF">
+      <img src="img/huchoc-2.jpg" data-group="huchoc" alt="Hu Hazelnut Butter Dark Chocolate Bar" style="display:none">
+      <img src="img/huchoc-3.jpg" data-group="huchoc" alt="Hu Hazelnut Butter Dark Chocolate Bar" style="display:none">
+      <span class="tag" style="align-self:flex-start">Organic, Fairtrade</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Hu Hazelnut Butter Dark Chocolate Bar | 60g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.80</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A proper treat, not a guilty one — organic 70% dark chocolate filled with a rich hazelnut butter centre. Vegan, paleo-friendly and Fairtrade, with no refined sugar, dairy, gluten, palm oil or artificial sweeteners — a few indulgent squares to end the day on.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="hu-almond-butter-quinoa-dark-chocolate-b" data-name="Hu Almond Butter & Quinoa Dark Chocolate Bar | 60g" data-price="3.80">
+      <img data-group="hualmond" src="img/hualmond-1.jpg" alt="Hu Almond Butter &amp; Quinoa Dark Chocolate Bar" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF">
+      <img src="img/hualmond-2.jpg" data-group="hualmond" alt="Hu Almond Butter &amp; Quinoa Dark Chocolate Bar" style="display:none">
+      <span class="tag" style="align-self:flex-start">Organic, Fairtrade</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Hu Almond Butter &amp; Quinoa Dark Chocolate Bar | 60g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.80</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Creamy almond butter and a light, puffed quinoa crunch inside organic 70% dark chocolate, sweetened only with organic coconut sugar. Vegan, paleo-friendly and Fairtrade, with no refined sugar, dairy, soy, palm oil or emulsifiers — clean indulgence for the end of the day.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="thf-toasted-pops-cinnamon-rush-35g" data-name="THF Toasted Pops | Cinnamon Rush | 35g" data-price="0.99">
+      <img data-group="toastedpops" src="img/toastedpops-1.jpg" alt="THF Toasted Pops Cinnamon Rush" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/toastedpops-2.jpg" data-group="toastedpops" alt="THF Toasted Pops Cinnamon Rush" style="display:none"><img src="img/toastedpops-3.jpg" data-group="toastedpops" alt="THF Toasted Pops Cinnamon Rush" style="display:none">
+      <span class="tag" style="align-self:flex-start">Zero maida, baked not fried</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">THF Toasted Pops | Cinnamon Rush | 35g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£0.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Light, crispy munchies with a gentle cinnamon sweetness — made with zero maida and baked, not fried, with protein and fibre built in. A proper crunch without the heaviness of a packet of crisps.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    
+  </div>
+</section>
+
+<!-- PERIMENOPAUSE SUPPORT -->
+<section id="perimenopause">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#8C5E7B">Perimenopause Support</h3>
+    <span>For the changes nobody warns you about</span>
+  </div>
+  <div class="grid">
+    <div class="card" data-id="two-brothers-moringa-powder-100g" data-name="Two Brothers Moringa Powder | 100g" data-price="4.99">
+      <img data-group="moringa" src="img/moringa-1.jpg" alt="Two Brothers Moringa Powder" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/moringa-2.jpg" data-group="moringa" alt="Two Brothers Moringa Powder" style="display:none"><img src="img/moringa-3.jpg" data-group="moringa" alt="Two Brothers Moringa Powder" style="display:none">
+      <span class="tag" style="align-self:flex-start">Nutrient-rich</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Two Brothers Moringa Powder | 100g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£4.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Research on perimenopause increasingly points to moringa as useful support through this stage — its natural calcium, iron and antioxidants help cover nutrients that become harder to maintain as oestrogen levels shift, while some studies link it to steadier energy and mood. 100% pure, shade-dried leaves with no additives or fillers — stir into smoothies, porridge or warm water.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-offer="flaxchia" data-id="khetika-flax-seeds-500g" data-name="Khetika Flax Seeds | 500g" data-price="2.49">
+      <img data-group="flaxseed" src="img/flaxseed-1.jpg" alt="Khetika Flax Seeds" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/flaxseed-2.jpg" data-group="flaxseed" alt="Khetika Flax Seeds" style="display:none"><img src="img/flaxseed-3.jpg" data-group="flaxseed" alt="Khetika Flax Seeds" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">Rich in omega-3</span>
+        <span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Buy any 2 for £4 — mix &amp; match with chia seeds</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Flax Seeds | 500g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Rich in omega-3 and lignans — plant compounds that may help ease hot flushes by supporting more stable hormone levels through perimenopause. Mild and nutty, easy to stir into porridge, smoothies or baking.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-offer="flaxchia" data-id="khetika-chia-seeds-200g" data-name="Khetika Chia Seeds | 200g" data-price="2.49">
+      <img data-group="chiaseed" src="img/chiaseed-1.jpg" alt="Khetika Chia Seeds" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/chiaseed-2.jpg" data-group="chiaseed" alt="Khetika Chia Seeds" style="display:none"><img src="img/chiaseed-3.jpg" data-group="chiaseed" alt="Khetika Chia Seeds" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">Rich in omega-3</span>
+        <span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Buy any 2 for £4 — mix &amp; match with flax seeds</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Chia Seeds | 200g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Naturally rich in fibre, plant protein and omega-3 — the fibre helps keep blood sugar steadier through perimenopause, while the omega-3 supports mood and eases everyday inflammation. Easy to stir into smoothies, yoghurt, oats or water.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="mille-yeast-protein-dark-chocolate-3-x-3" data-name="Mille Yeast Protein — Dark Chocolate | 3 x 38g" data-price="7.99">
+      <img data-group="milleprotein" src="img/milleprotein-1.jpg" alt="Mille Yeast Protein Dark Chocolate" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/milleprotein-2.jpg" data-group="milleprotein" alt="Mille Yeast Protein Dark Chocolate" style="display:none"><img src="img/milleprotein-3.jpg" data-group="milleprotein" alt="Mille Yeast Protein Dark Chocolate" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">24g protein per serving</span>
+        <span class="tag" style="align-self:flex-start">Vegan, no dairy or soy</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Yeast Protein — Dark Chocolate | 3 x 38g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£7.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Protein needs actually go up through perimenopause, not down — hormonal changes make it harder to hold on to muscle mass, so getting enough matters more than ever. Each sachet gives 24g of fermented yeast protein with all 9 essential amino acids, naturally sweetened with date powder and stevia — rich, chocolatey and easy to digest, no shaker needed. Dark Chocolate flavour shown; more flavours to follow.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="mille-yeast-protein-coffee-hazelnut-3-x-" data-name="Mille Yeast Protein — Coffee Hazelnut | 3 x 38g" data-price="7.99">
+      <img data-group="millecoffee" src="img/millecoffee-1.jpg" alt="Mille Yeast Protein Coffee Hazelnut" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/millecoffee-2.jpg" data-group="millecoffee" alt="Mille Yeast Protein Coffee Hazelnut" style="display:none"><img src="img/millecoffee-3.jpg" data-group="millecoffee" alt="Mille Yeast Protein Coffee Hazelnut" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">25g protein per serving</span>
+        <span class="tag" style="align-self:flex-start">Vegan, no dairy or soya</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Yeast Protein — Coffee Hazelnut | 3 x 38g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£7.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Another way to top up protein through perimenopause without it feeling like a supplement — this one drinks like a cold coffee. 25g of fermented yeast protein per scoop with all 9 essential amino acids and 5.7g of BCAAs, naturally sweetened with date powder, no added sugar or artificial sweeteners. Mixes smoothly in a glass, hot or over ice, no shaker needed.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="mille-yeast-protein-unflavoured-3-x-38g" data-name="Mille Yeast Protein — Unflavoured | 3 x 38g" data-price="7.99">
+      <img data-group="milleunflavoured" src="img/milleunflavoured-1.jpg" alt="Mille Yeast Protein Unflavoured" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/milleunflavoured-2.jpg" data-group="milleunflavoured" alt="Mille Yeast Protein Unflavoured" style="display:none"><img src="img/milleunflavoured-3.jpg" data-group="milleunflavoured" alt="Mille Yeast Protein Unflavoured" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">31g protein per serving</span>
+        <span class="tag" style="align-self:flex-start">Vegan, no dairy or soy</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Mille Yeast Protein — Unflavoured | 3 x 38g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£7.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">The flexible option for topping up protein through perimenopause without changing what you're actually eating — stir it into dal, curries, soups or rotis and it disappears into the dish. 31g of fermented yeast protein per sachet, heat-stable and taste-neutral, with nothing in it but yeast protein. No shaker needed.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="khetika-super-seeds-mix-200g" data-name="Khetika Super Seeds Mix | 200g" data-price="2.49">
+      <img data-group="seedsmix" src="img/seedsmix-1.jpg" alt="Khetika Super Seeds Mix" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/seedsmix-2.jpg" data-group="seedsmix" alt="Khetika Super Seeds Mix" style="display:none"><img src="img/seedsmix-3.jpg" data-group="seedsmix" alt="Khetika Super Seeds Mix" style="display:none">
+      <span class="tag" style="align-self:flex-start">5g protein per serving</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Super Seeds Mix | 200g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.49</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Six everyday seeds — chia, pumpkin, sesame, flax, watermelon and sunflower — in one blend, giving 5g protein and 5g fibre per 25g serving. Sprinkle over yoghurt, salads, dal or smoothies for an easy midday top-up. No oils, preservatives or artificial enhancers.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="khetika-watermelon-seeds-200g" data-name="Khetika Watermelon Seeds | 200g" data-price="3.99">
+      <img data-group="watermelonseed" src="img/watermelonseed-1.jpg" alt="Khetika Watermelon Seeds" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/watermelonseed-2.jpg" data-group="watermelonseed" alt="Khetika Watermelon Seeds" style="display:none"><img src="img/watermelonseed-3.jpg" data-group="watermelonseed" alt="Khetika Watermelon Seeds" style="display:none">
+      <span class="tag" style="align-self:flex-start">16.5g protein per 100g</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Watermelon Seeds | 200g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£3.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Sun-dried and minimally processed, with protein, magnesium, iron and zinc built in — a steady lift through the lunchtime rush. Sprinkle over breakfast or smoothies, or eat straight from the pack. No oils, preservatives or additives.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-id="khetika-pumpkin-seeds-200g" data-name="Khetika Pumpkin Seeds | 200g" data-price="2.99">
+      <img data-group="pumpkinseed" src="img/pumpkinseed-1.jpg" alt="Khetika Pumpkin Seeds" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/pumpkinseed-2.jpg" data-group="pumpkinseed" alt="Khetika Pumpkin Seeds" style="display:none"><img src="img/pumpkinseed-3.jpg" data-group="pumpkinseed" alt="Khetika Pumpkin Seeds" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">Rich in magnesium</span>
+        <span class="tag" style="align-self:flex-start">33g protein per 100g</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Khetika Pumpkin Seeds | 200g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A small handful before bed — pumpkin seeds are one of the best plant-based sources of magnesium, a mineral linked to more restful sleep and muscle relaxation, alongside protein, zinc and antioxidants. 100% natural, nothing added.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+  </div>
+</section>
+
+<!-- EXTRAS -->
+<section id="extras" style="padding-bottom:56px">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#8A6D3A">Extras</h3>
+    <span>Pantry staples to cook good food a little faster</span>
+  </div>
+  <div class="grid" style="grid-template-columns:minmax(240px,380px);justify-content:start">
+    
+    
+    <div class="card" data-id="jaggery-powder" data-name="Jaggery Powder" data-price="4.99">
+      <img data-group="jaggery" src="img/jaggery-1.jpg" alt="Jaggery Powder" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:contain;background:#EAF6FF"><img src="img/jaggery-2.jpg" data-group="jaggery" alt="Jaggery Powder" style="display:none"><img src="img/jaggery-3.jpg" data-group="jaggery" alt="Jaggery Powder" style="display:none">
+      <span class="tag" style="align-self:flex-start">Natural sweetener</span>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Jaggery Powder</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£4.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A traditional, less-refined sugarcane sweetener — naturally rich in iron, calcium and magnesium, and known to support gentler digestion than refined sugar. A straight swap in tea, baking or porridge.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+  </div>
+</section>
+
+<!-- FOR THE LITTLE ONES -->
+<section id="kids">
+  <div class="section-head">
+    <h3 class="sectionTitle" style="font-size:60px;color:#4B3F91">For the Little Ones</h3>
+    <span>You look after them too — a few honest treats for the kids, while you're at it</span>
+  </div>
+  <div class="grid">
+    <div class="card" data-offer="slurrp" data-id="slurrp-farm-blueberry-millet-healthy-pan" data-name="Slurrp Farm Blueberry Millet Healthy Pancake Mix | 150g" data-price="2.99">
+      <img data-group="kidspancake" src="img/kidspancake-1.jpg" alt="Slurrp Farm Blueberry Millet Pancake Mix" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/kidspancake-2.jpg" data-group="kidspancake" alt="Slurrp Farm Blueberry Millet Pancake Mix" style="display:none"><img src="img/kidspancake-3.jpg" data-group="kidspancake" alt="Slurrp Farm Blueberry Millet Pancake Mix" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">No maida, no refined sugar</span>
+        <span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Buy 2 for £5</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Slurrp Farm Blueberry Millet Healthy Pancake Mix | 150g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Made with supergrains and real dried blueberries and cranberries — free from maida, refined sugar, preservatives, stabilisers, emulsifiers and artificial colours or flavours. 100% vegetarian and easy to keep on hand.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+    <div class="card" data-offer="slurrp" data-id="slurrp-farm-classic-millet-healthy-panca" data-name="Slurrp Farm Classic Millet Healthy Pancake Mix | 150g" data-price="2.99">
+      <img data-group="classickids" src="img/classickids-1.jpg" alt="Slurrp Farm Classic Millet Pancake Mix" class="zoomable" style="width:100%;height:200px;border-radius:14px;object-fit:cover;background:#EAF6FF"><img src="img/classickids-2.jpg" data-group="classickids" alt="Slurrp Farm Classic Millet Pancake Mix" style="display:none"><img src="img/classickids-3.jpg" data-group="classickids" alt="Slurrp Farm Classic Millet Pancake Mix" style="display:none">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <span class="tag" style="align-self:flex-start">No maida, no refined sugar</span>
+        <span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Buy 2 for £5</span>
+      </div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Slurrp Farm Classic Millet Healthy Pancake Mix | 150g</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£2.99</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">Made with supergrains, banana powder, natural vanilla and flaxseed — free from maida, refined sugar, preservatives, stabilisers, emulsifiers and artificial colours or flavours. 100% vegetarian and simple to keep on hand.</div>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
+  </div>
+</section>
+
+<!-- CLOSING / CTA -->
+<section style="background:#0D3297;display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;padding:56px 8%">
+  <h2 class="sectionTitle" style="color:#FFFFFF;max-width:640px;font-size:30px">You look after everyone. Let this look after you.</h2>
+  <button class="btn" type="button" data-scroll="#morning" style="background:#FFFFFF;color:#0D3297">Shop the full range</button>
+</section>
+
+<footer id="contact" style="padding:28px 8%;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;color:#CFE0FF;font-size:13px;background:#0D3297;line-height:1.6">
+  <div>Cloudzio Ltd is a company registered in England and Wales, company number 17308005. Registered office: 5 Brayford Square, London, England, E1 0SG.</div>
+  <div>&copy; 2026 Cloudzio Ltd</div>
+  <div>Follow us: <a href="https://www.instagram.com/cloudzio_/" style="color:#FFFFFF">Instagram</a> | <a href="https://www.linkedin.com/company/cloudzio-uk/" style="color:#FFFFFF">LinkedIn</a> | <a href="https://www.facebook.com/profile.php?id=61590996342502" style="color:#FFFFFF">Facebook</a></div>
+  <div>Email us: <a href="mailto:support@cloudzio.co.uk" style="color:#FFFFFF">support@cloudzio.co.uk</a></div>
+  <div><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" style="color:#FFFFFF">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" style="color:#FFFFFF">Terms of Service</a> &nbsp; <a id="chat-to-us-link" href="https://wa.me/447561228288?text=Hi%2C%20I%20have%20a%20question%20about%20Mum%27s%20Healthy%20Bites" target="_blank" rel="noopener" style="color:#FFFFFF;font-weight:700">Any Questions? Chat to us</a></div>
+</footer>
+
+<!-- CHAT TO US -->
+<a id="chat-to-us" href="https://wa.me/447561228288?text=Hi%2C%20I%20have%20a%20question%20about%20Mum%27s%20Healthy%20Bites" target="_blank" rel="noopener" style="position:fixed;bottom:24px;right:24px;background:#00DD5D;color:#FFFFFF;font-weight:800;font-size:15px;padding:12px 22px;border-radius:999px;box-shadow:0 4px 16px rgba(0,0,0,0.25);z-index:999;text-decoration:none;display:inline-flex;align-items:center;gap:8px">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21 16.75 16.97 21 12 21C10.86 21 9.77 20.78 8.77 20.38L4 21L5.28 17.1C4.47 15.76 4 14.19 4 12.5C4 7.25 8.03 3 13 3C17.97 3 21 7.25 21 11.5Z" fill="#FFFFFF"/></svg>
+  Any questions, chat with us
+</a>
+
+
+<!-- BASKET -->
+<div id="basket-overlay">
+  <div id="basket-drawer">
+    <div class="basket-head">
+      <h3>Your Basket</h3>
+      <button id="basket-close" aria-label="Close basket">&times;</button>
+    </div>
+    <div id="basket-items">
+      <div class="basket-empty">Your basket is empty — add something tasty!</div>
+    </div>
+    <div class="basket-foot">
+      <div class="basket-delivery-msg" id="basket-delivery-msg">Add £25.00 more for free delivery</div>
+      <div class="basket-row"><span>Subtotal</span><span id="basket-subtotal">£0.00</span></div>
+      <div class="basket-row saving" id="basket-saving-row" style="display:none"><span>Multi-buy savings</span><span id="basket-saving">-£0.00</span></div>
+      <div class="basket-row"><span>UK delivery</span><span id="basket-delivery">£0.00</span></div>
+      <div class="basket-total"><span>Total</span><span id="basket-total">£0.00</span></div>
+      <div class="basket-error" id="basket-error" role="alert"></div>
+      <button type="button" class="checkout-btn" id="basket-checkout">Checkout</button>
+      <div class="basket-note">You'll enter your delivery address and pay securely by card on the next page. UK delivery only.</div>
+    </div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox-overlay">
+  <button id="lightbox-close" aria-label="Close">&times;</button>
+  <button id="lightbox-prev" aria-label="Previous photo">&#8249;</button>
+  <img id="lightbox-img" src="" alt="">
+  <button id="lightbox-next" aria-label="Next photo">&#8250;</button>
+  <div id="lightbox-dots"></div>
+</div>
+<style>
+  #lightbox-prev,#lightbox-next{position:absolute;top:50%;transform:translateY(-50%);background:#FFFFFF;color:var(--navy);width:44px;height:44px;border-radius:50%;border:none;font-size:26px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1}
+  #lightbox-prev{left:16px}
+  #lightbox-next{right:16px}
+  #lightbox-dots{position:absolute;bottom:20px;left:0;right:0;display:flex;justify-content:center;gap:8px}
+  #lightbox-dots span{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.45);display:inline-block;cursor:pointer}
+  #lightbox-dots span.active{background:#FFFFFF}
+</style>
+<script>
+(function(){
+  var overlay = document.getElementById('lightbox-overlay');
+  var img = document.getElementById('lightbox-img');
+  var closeBtn = document.getElementById('lightbox-close');
+  var prevBtn = document.getElementById('lightbox-prev');
+  var nextBtn = document.getElementById('lightbox-next');
+  var dotsWrap = document.getElementById('lightbox-dots');
+  var gallery = [];
+  var current = 0;
+
+  function renderDots(){
+    dotsWrap.innerHTML = '';
+    if (gallery.length <= 1) return;
+    gallery.forEach(function(_, i){
+      var dot = document.createElement('span');
+      if (i === current) dot.classList.add('active');
+      dot.addEventListener('click', function(ev){ ev.stopPropagation(); show(i); });
+      dotsWrap.appendChild(dot);
+    });
+  }
+  function show(i){
+    current = (i + gallery.length) % gallery.length;
+    img.src = gallery[current].src;
+    img.alt = gallery[current].alt;
+    renderDots();
+    var multi = gallery.length > 1;
+    prevBtn.style.display = multi ? 'flex' : 'none';
+    nextBtn.style.display = multi ? 'flex' : 'none';
+  }
+  document.addEventListener('click', function(e){
+    if (e.target.classList && e.target.classList.contains('zoomable')) {
+      var group = e.target.getAttribute('data-group');
+      if (group) {
+        gallery = Array.prototype.slice.call(document.querySelectorAll('img[data-group="' + group + '"]'));
+      } else {
+        gallery = [e.target];
+      }
+      var idx = gallery.indexOf(e.target);
+      overlay.classList.add('open');
+      show(idx === -1 ? 0 : idx);
+    }
+  });
+  function close(){ overlay.classList.remove('open'); img.src=''; gallery = []; }
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', function(ev){ ev.stopPropagation(); show(current - 1); });
+  nextBtn.addEventListener('click', function(ev){ ev.stopPropagation(); show(current + 1); });
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) close(); });
+  document.addEventListener('keydown', function(e){
+    if (!overlay.classList.contains('open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
+</script>
+
+<script>
+(function(){
+  // These numbers must match the PRICING block in
+  // supabase/functions/create-mhb-checkout/index.ts (the server is the one
+  // that really decides what is charged; this page only shows the sums).
+  var FREE_DELIVERY_THRESHOLD = 25;   // free delivery when the total after offers reaches £25
+  var DELIVERY_FEE = 3.99;            // delivery charge below that
+  var OFFERS = { flaxchia: 4, slurrp: 5 };  // any 2 products from the group cost this much
+  var CHECKOUT_URL = 'https://pyljmukjqnckkogmregm.supabase.co/functions/v1/create-mhb-checkout';
+  var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var STORAGE_KEY = 'mhb_basket';
+  var basket = {}; // id -> {name, price, qty}
+
+  function loadBasket(){
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) basket = JSON.parse(raw);
+    } catch(e) { basket = {}; }
+    // Keep only products that are still on sale, with today's name and price.
+    var clean = {};
+    Object.keys(basket || {}).forEach(function(id){
+      var card = document.querySelector('.card[data-id="' + id + '"][data-price]');
+      var qty = parseInt(basket[id] && basket[id].qty, 10);
+      if (!card || !(qty > 0)) return;
+      clean[id] = {
+        name: card.getAttribute('data-name'),
+        price: parseFloat(card.getAttribute('data-price')),
+        qty: Math.min(qty, 20),
+        offer: card.getAttribute('data-offer') || ''
+      };
+    });
+    basket = clean;
+  }
+  function saveBasket(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(basket)); } catch(e) {}
+  }
+  function money(n){ return '£' + n.toFixed(2); }
+
+  function getItemCount(){
+    var count = 0;
+    for (var id in basket) { count += basket[id].qty; }
+    return count;
+  }
+  function getSubtotal(){
+    var sum = 0;
+    for (var id in basket) { sum += basket[id].qty * basket[id].price; }
+    return sum;
+  }
+  // Multi-buy: within each offer group, pair up the dearest items first.
+  function getSavings(){
+    var saving = 0;
+    Object.keys(OFFERS).forEach(function(group){
+      var prices = [];
+      for (var id in basket) {
+        if (basket[id].offer === group) {
+          for (var i = 0; i < basket[id].qty; i++) prices.push(Math.round(basket[id].price * 100));
+        }
+      }
+      prices.sort(function(a, b){ return b - a; });
+      for (var j = 0; j + 1 < prices.length; j += 2) {
+        saving += Math.max(0, prices[j] + prices[j + 1] - Math.round(OFFERS[group] * 100));
+      }
+    });
+    return saving / 100;
+  }
+  function getTotals(){
+    var subtotal = getSubtotal();
+    var saving = getSavings();
+    var after = Math.round((subtotal - saving) * 100) / 100;
+    var empty = Object.keys(basket).length === 0;
+    var delivery = empty ? 0 : (after >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE);
+    return { subtotal: subtotal, saving: saving, after: after, delivery: delivery,
+             total: Math.round((after + delivery) * 100) / 100 };
+  }
+
+  function renderBadge(){
+    var countEl = document.getElementById('basket-count');
+    var count = getItemCount();
+    countEl.textContent = count;
+    countEl.style.display = count > 0 ? 'flex' : 'none';
+  }
+
+  function renderDrawer(){
+    var itemsWrap = document.getElementById('basket-items');
+    var ids = Object.keys(basket);
+    if (ids.length === 0) {
+      itemsWrap.innerHTML = '<div class="basket-empty">Your basket is empty — add something tasty!</div>';
+    } else {
+      itemsWrap.innerHTML = '';
+      ids.forEach(function(id){
+        var item = basket[id];
+        var row = document.createElement('div');
+        row.className = 'basket-item';
+        row.innerHTML =
+          '<div style="flex:1">' +
+            '<div class="basket-item-name">' + item.name + '</div>' +
+            '<div class="basket-item-price">' + money(item.price) + ' each</div>' +
+          '</div>' +
+          '<div class="basket-item-qty">' +
+            '<button type="button" class="qty-btn" data-basket-action="dec" data-id="' + id + '" aria-label="Decrease quantity">&minus;</button>' +
+            '<span class="qty-val">' + item.qty + '</span>' +
+            '<button type="button" class="qty-btn" data-basket-action="inc" data-id="' + id + '" aria-label="Increase quantity">+</button>' +
+          '</div>' +
+          '<button type="button" class="basket-item-remove" data-basket-action="remove" data-id="' + id + '">Remove</button>';
+        itemsWrap.appendChild(row);
+      });
+    }
+
+    var t = getTotals();
+    document.getElementById('basket-subtotal').textContent = money(t.subtotal);
+    document.getElementById('basket-saving-row').style.display = t.saving > 0 ? 'flex' : 'none';
+    document.getElementById('basket-saving').textContent = '-' + money(t.saving);
+    document.getElementById('basket-delivery').textContent = ids.length === 0 ? '-' : (t.delivery === 0 ? 'Free' : money(t.delivery));
+    document.getElementById('basket-total').textContent = money(t.total);
+
+    var msgEl = document.getElementById('basket-delivery-msg');
+    if (ids.length > 0 && t.after >= FREE_DELIVERY_THRESHOLD) {
+      msgEl.textContent = "You've got free delivery!";
+    } else {
+      var remaining = FREE_DELIVERY_THRESHOLD - t.after;
+      msgEl.textContent = 'Add ' + money(remaining) + ' more for free delivery';
+    }
+  }
+
+  function renderAll(){
+    renderBadge();
+    renderDrawer();
+    saveBasket();
+  }
+
+  function addToBasket(id, name, price, qty){
+    if (!basket[id]) {
+      var c = document.querySelector('.card[data-id="' + id + '"]');
+      basket[id] = { name: name, price: price, qty: 0, offer: (c && c.getAttribute('data-offer')) || '' };
+    }
+    basket[id].qty = Math.min(basket[id].qty + qty, 20);
+    renderAll();
+  }
+  function changeBasketQty(id, delta){
+    if (!basket[id]) return;
+    basket[id].qty += delta;
+    if (basket[id].qty <= 0) delete basket[id];
+    renderAll();
+  }
+  function removeFromBasket(id){
+    delete basket[id];
+    renderAll();
+  }
+
+  function openDrawer(){ document.getElementById('basket-overlay').classList.add('open'); }
+  function closeDrawer(){ document.getElementById('basket-overlay').classList.remove('open'); }
+
+  function initAddButtons(){
+    document.querySelectorAll('.card').forEach(function(card){
+      var addBtn = card.querySelector('.add-btn');
+      var qtyEl = card.querySelector('.qty-val');
+      if (addBtn && qtyEl) addBtn.disabled = (parseInt(qtyEl.textContent, 10) || 0) === 0;
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    loadBasket();
+    renderAll();
+    initAddButtons();
+  });
+
+  document.getElementById('basket-toggle').addEventListener('click', function(){
+    renderDrawer();
+    openDrawer();
+  });
+  document.getElementById('basket-close').addEventListener('click', closeDrawer);
+  document.getElementById('basket-overlay').addEventListener('click', function(e){
+    if (e.target.id === 'basket-overlay') closeDrawer();
+  });
+  document.getElementById('basket-checkout').addEventListener('click', function(){
+    var btn = document.getElementById('basket-checkout');
+    var errEl = document.getElementById('basket-error');
+    var ids = Object.keys(basket);
+    if (ids.length === 0) return;
+    function fail(msg){
+      errEl.textContent = msg || "Sorry, we couldn't start checkout. Please try again, or email support@cloudzio.co.uk.";
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Checkout';
+    }
+    errEl.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Taking you to secure payment…';
+    // Only the product ids and quantities are sent; the server works out the prices.
+    var items = ids.map(function(id){ return { id: id, qty: basket[id].qty }; });
+    fetch(CHECKOUT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+      body: JSON.stringify({ items: items })
+    }).then(function(res){
+      return res.json().catch(function(){ return {}; });
+    }).then(function(data){
+      if (data && data.url) { window.location.href = data.url; }
+      else { fail(data && data.error); }
+    }).catch(function(){ fail(); });
+  });
+
+  // "Shop" buttons scroll down to the products
+  document.addEventListener('click', function(e){
+    var go = e.target.closest('[data-scroll]');
+    if (!go) return;
+    var target = document.querySelector(go.getAttribute('data-scroll'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+
+  // Quantity steppers on product cards (data-action) and basket drawer rows (data-basket-action)
+  document.addEventListener('click', function(e){
+    var cardQtyBtn = e.target.closest('.card .qty-btn');
+    if (cardQtyBtn) {
+      var card0 = cardQtyBtn.closest('.card');
+      var stepper = cardQtyBtn.closest('.qty-stepper');
+      var valEl = stepper.querySelector('.qty-val');
+      var val = parseInt(valEl.textContent, 10) || 0;
+      if (cardQtyBtn.getAttribute('data-action') === 'inc') val += 1;
+      else val = Math.max(0, val - 1);
+      valEl.textContent = val;
+      var addBtn0 = card0.querySelector('.add-btn');
+      if (addBtn0) addBtn0.disabled = (val === 0);
+      return;
+    }
+
+    var addBtn = e.target.closest('.add-btn');
+    if (addBtn) {
+      if (addBtn.disabled) return;
+      var card = addBtn.closest('.card');
+      var id = card.getAttribute('data-id');
+      var name = card.getAttribute('data-name');
+      var price = parseFloat(card.getAttribute('data-price'));
+      var qtyEl = card.querySelector('.qty-val');
+      var qty = parseInt(qtyEl.textContent, 10) || 0;
+      if (qty <= 0) return;
+      addToBasket(id, name, price, qty);
+      qtyEl.textContent = '0';
+      addBtn.disabled = true;
+      addBtn.textContent = 'Added!';
+      addBtn.classList.add('added');
+      setTimeout(function(){
+        addBtn.textContent = 'Add to basket';
+        addBtn.classList.remove('added');
+      }, 1200);
+      return;
+    }
+
+    var basketBtn = e.target.closest('[data-basket-action]');
+    if (basketBtn) {
+      var bid = basketBtn.getAttribute('data-id');
+      var action = basketBtn.getAttribute('data-basket-action');
+      if (action === 'inc') changeBasketQty(bid, 1);
+      else if (action === 'dec') changeBasketQty(bid, -1);
+      else if (action === 'remove') removeFromBasket(bid);
+      return;
+    }
+  });
+
+  // init immediately in case DOMContentLoaded already fired
+  loadBasket();
+  renderAll();
+  initAddButtons();
+})();
+</script>
+
+</body>
+</html>
