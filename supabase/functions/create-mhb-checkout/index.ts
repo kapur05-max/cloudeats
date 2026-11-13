@@ -164,7 +164,7 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
 
 const SITE = "https://www.cloudzio.co.uk";
 
-// 20% off the first order (goods only, after multi-buy offers) plus free delivery.
+// 20% off the first order (goods only, after multi-buy offers). Delivery is charged as normal.
 // "First order" = no earlier order in mhb_orders for the same email address.
 const FIRST_ORDER_PERCENT = 20;
 const supabaseAdmin = createClient(Deno.env.get("SB_URL")!, Deno.env.get("SB_SECRET_KEY")!);
@@ -228,8 +228,7 @@ Deno.serve(async (req) => {
       firstOrderOff = Math.round((priced.subtotal - priced.discount) * FIRST_ORDER_PERCENT / 100);
     }
     const totalOff = priced.discount + firstOrderOff;
-    // First orders also get free delivery.
-    const delivery = firstOrderOff > 0 ? 0 : priced.delivery;
+    const delivery = priced.delivery;
 
     let discounts: { coupon: string }[] | undefined;
     if (totalOff > 0) {
