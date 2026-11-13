@@ -134,6 +134,16 @@
     <span>Ready-made boxes, priced lower than buying separately</span>
   </div>
   <div class="grid">
+    <div class="card" data-id="hamper-christmas-treat" data-name="Christmas Treat Hamper" data-price="15.00">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><img src="img/huchoc-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/hualmond-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/pancake-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/kidspancake-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/toastedpops-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"></div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag" style="align-self:flex-start">Christmas</span><span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Save £2.07 vs buying separately</span></div>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+        <div style="font-weight:700;font-size:16px">Christmas Treat Hamper</div>
+        <div style="font-weight:800;font-size:16px;color:var(--pink-deep);white-space:nowrap">£15.00</div>
+      </div>
+      <div style="font-size:14px;color:var(--grey);line-height:1.5">A little festive box of chocolate, pancake mixes and a crunchy snack. A lovely gift, or a treat for yourself.</div>
+      <ul style="font-size:13px;color:var(--grey);line-height:1.5;margin:0;padding-left:18px"><li>Hu Hazelnut Butter Dark Chocolate Bar | 60g</li><li>Hu Almond Butter & Quinoa Dark Chocolate Bar | 60g</li><li>Mille Banana Choco Chip Millet Pancake Mix | 250g</li><li>Slurrp Farm Blueberry Millet Pancake Mix | 150g</li><li>THF Toasted Pops | Cinnamon Rush | 35g</li></ul>
+    <div class="qty-row"><div class="qty-stepper"><button type="button" class="qty-btn" data-action="dec" aria-label="Decrease quantity">&minus;</button><span class="qty-val">0</span><button type="button" class="qty-btn" data-action="inc" aria-label="Increase quantity">+</button></div><button type="button" class="add-btn" data-action="add">Add to basket</button></div></div>
     <div class="card" data-id="hamper-busy-mum-breakfast" data-name="Busy Mum Breakfast Hamper" data-price="16.99">
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px"><img src="img/classicpancake-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/kidspancake-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/alpinooats-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/peanutbutter-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"><img src="img/flaxseed-1.jpg" alt="" loading="lazy" style="width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border-radius:10px"></div>
       <span class="tag" style="align-self:flex-start;background:#1FA62E;color:#FFFFFF">Save £1.46 vs buying separately</span>
@@ -552,6 +562,9 @@
       <div class="basket-row saving" id="basket-saving-row" style="display:none"><span>Multi-buy savings</span><span id="basket-saving">-£0.00</span></div>
       <div class="basket-row"><span>UK delivery</span><span id="basket-delivery">£0.00</span></div>
       <div class="basket-total"><span>Total</span><span id="basket-total">£0.00</span></div>
+      <label for="basket-email" style="display:block;font-size:13px;font-weight:700;margin:4px 0 6px;color:#1FA62E">New here? Get 20% off your first order</label>
+      <input type="email" id="basket-email" autocomplete="email" placeholder="Your email address" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:14px;margin-bottom:4px">
+      <div style="font-size:12px;color:var(--grey);margin-bottom:12px">Enter your email and the discount is applied at secure checkout (first order only, excludes delivery).</div>
       <div class="basket-error" id="basket-error" role="alert"></div>
       <button type="button" class="checkout-btn" id="basket-checkout">Checkout</button>
       <div class="basket-note">You'll enter your delivery address and pay securely by card on the next page. UK delivery only.</div>
@@ -825,7 +838,7 @@
     fetch(CHECKOUT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
-      body: JSON.stringify({ items: items })
+      body: JSON.stringify({ items: items, email: (document.getElementById('basket-email').value || '').trim() })
     }).then(function(res){
       return res.json().catch(function(){ return {}; });
     }).then(function(data){

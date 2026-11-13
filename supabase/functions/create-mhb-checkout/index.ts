@@ -24,6 +24,7 @@
 // matching numbers in healthy-bites/index.html, then redeploy.
 
 import Stripe from "npm:stripe@17.4.0";
+import { createClient } from "npm:@supabase/supabase-js@2.45.4";
 
 // ---- PRICING START
 type Product = { name: string; pence: number; offer?: string };
@@ -53,6 +54,7 @@ const CATALOG: Record<string, Product> = {
   "jaggery-powder": { name: "Jaggery Powder", pence: 499 },
   "slurrp-farm-blueberry-millet-healthy-pan": { name: "Slurrp Farm Blueberry Millet Healthy Pancake Mix | 150g", pence: 299, offer: "slurrp" },
   "slurrp-farm-classic-millet-healthy-panca": { name: "Slurrp Farm Classic Millet Healthy Pancake Mix | 150g", pence: 299, offer: "slurrp" },
+  "hamper-christmas-treat": { name: "Christmas Treat Hamper", pence: 1500 },
   "hamper-busy-mum-breakfast": { name: "Busy Mum Breakfast Hamper", pence: 1699 },
   "hamper-midlife-nutrition": { name: "Midlife Nutrition Hamper", pence: 3399 },
   "hamper-healthy-snack": { name: "Healthy Snack Hamper", pence: 1799 },
@@ -162,6 +164,21 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
 
 const SITE = "https://www.cloudzio.co.uk";
 
+// 20% off the first order (goods only, after multi-buy offers, not delivery).
+// "First order" = no earlier order in mhb_orders for the same email address.
+const FIRST_ORDER_PERCENT = 20;
+const supabaseAdmin = createClient(Deno.env.get("SB_URL")!, Deno.env.get("SB_SECRET_KEY")!);
+
+async function isFirstOrder(email: string): Promise<boolean> {
+  const { data, error } = await supabaseAdmin
+    .from("mhb_orders").select("id").eq("email", email).limit(1);
+  if (error) {
+    console.error("first-order lookup failed:", error);
+    return false; // if unsure, don't give the discount
+  }
+  return (data?.length ?? 0) === 0;
+}
+
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type, x-client-info",
@@ -184,7 +201,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    let body: { items?: unknown } = {};
+    let body: { items?: unknown; email?: unknown } = {};
     try {
       body = await req.json();
     } catch (_) {
@@ -196,14 +213,24 @@ Deno.serve(async (req) => {
 
     // Multi-buy savings are applied as a one-off Stripe coupon so the
     // customer sees them as a line on the Checkout page.
+    const email = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+    const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) && email.length <= 254;
+    let firstOrderOff = 0;
+    if (validEmail && await isFirstOrder(email)) {
+      firstOrderOff = Math.round((priced.subtotal - priced.discount) * FIRST_ORDER_PERCENT / 100);
+    }
+    const totalOff = priced.discount + firstOrderOff;
+
     let discounts: { coupon: string }[] | undefined;
-    if (priced.discount > 0) {
+    if (totalOff > 0) {
       const coupon = await stripe.coupons.create({
-        amount_off: priced.discount,
+        amount_off: totalOff,
         currency: "gbp",
         duration: "once",
         // Stripe shows this name on the Checkout page (40 characters max).
-        name: priced.discountLabels.length === 1 ? priced.discountLabels[0] : "Multi-buy savings",
+        name: firstOrderOff > 0
+          ? (priced.discount > 0 ? "Multi-buy + 20% off first order" : "20% off your first order")
+          : (priced.discountLabels.length === 1 ? priced.discountLabels[0] : "Multi-buy savings"),
         max_redemptions: 1,
       });
       discounts = [{ coupon: coupon.id }];
@@ -221,6 +248,7 @@ Deno.serve(async (req) => {
         },
       })),
       discounts,
+      ...(validEmail ? { customer_email: email } : {}),
       shipping_address_collection: { allowed_countries: ["GB"] },
       phone_number_collection: { enabled: true },
       shipping_options: [{
