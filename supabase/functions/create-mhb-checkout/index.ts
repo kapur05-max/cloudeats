@@ -53,6 +53,10 @@ const CATALOG: Record<string, Product> = {
   "jaggery-powder": { name: "Jaggery Powder", pence: 499 },
   "slurrp-farm-blueberry-millet-healthy-pan": { name: "Slurrp Farm Blueberry Millet Healthy Pancake Mix | 150g", pence: 299, offer: "slurrp" },
   "slurrp-farm-classic-millet-healthy-panca": { name: "Slurrp Farm Classic Millet Healthy Pancake Mix | 150g", pence: 299, offer: "slurrp" },
+  "hamper-busy-mum-breakfast": { name: "Busy Mum Breakfast Hamper", pence: 1699 },
+  "hamper-midlife-nutrition": { name: "Midlife Nutrition Hamper", pence: 3399 },
+  "hamper-healthy-snack": { name: "Healthy Snack Hamper", pence: 1799 },
+  "hamper-plant-protein": { name: "Plant Protein Hamper", pence: 1649 },
 };
 
 // Multi-buy offers: any two products from the same group cost `pairPence`.
