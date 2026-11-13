@@ -52,4 +52,12 @@
     <loc>https://www.cloudzio.co.uk/healthy-bites/</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://www.cloudzio.co.uk/business-support/</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.cloudzio.co.uk/learn/</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>
