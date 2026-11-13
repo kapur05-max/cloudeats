@@ -201,11 +201,19 @@ Deno.serve(async (req) => {
   }
 
   try {
-    let body: { items?: unknown; email?: unknown } = {};
+    let body: { items?: unknown; email?: unknown; check?: unknown } = {};
     try {
       body = await req.json();
     } catch (_) {
       return json({ error: "Invalid request." }, 400);
+    }
+
+    // The shop page asks "is this email a first order?" so it can show the
+    // right totals in the basket before checkout.
+    if (body.check === true) {
+      const e = typeof body.email === "string" ? body.email.trim().toLowerCase() : "";
+      const ok = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e) && e.length <= 254;
+      return json({ firstOrder: ok && await isFirstOrder(e) });
     }
 
     const priced = priceBasket(body.items);

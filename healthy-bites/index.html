@@ -560,10 +560,12 @@
       <div class="basket-delivery-msg" id="basket-delivery-msg">Add £25.00 more for free delivery</div>
       <div class="basket-row"><span>Subtotal</span><span id="basket-subtotal">£0.00</span></div>
       <div class="basket-row saving" id="basket-saving-row" style="display:none"><span>Multi-buy savings</span><span id="basket-saving">-£0.00</span></div>
+      <div class="basket-row saving" id="basket-first-row" style="display:none"><span>First order 20% off</span><span id="basket-first">-£0.00</span></div>
       <div class="basket-row"><span>UK delivery</span><span id="basket-delivery">£0.00</span></div>
       <div class="basket-total"><span>Total</span><span id="basket-total">£0.00</span></div>
       <label for="basket-email" style="display:block;font-size:13px;font-weight:700;margin:4px 0 6px;color:#1FA62E">New here? Get 20% off + free delivery on your first order</label>
       <input type="email" id="basket-email" autocomplete="email" placeholder="Your email address" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:14px;margin-bottom:4px">
+      <div id="basket-email-msg" style="font-size:12px;color:#B0123E;margin-bottom:4px"></div>
       <div style="font-size:12px;color:var(--grey);margin-bottom:12px">Enter your email and the discount and free delivery are applied at secure checkout (first order only).</div>
       <div class="basket-error" id="basket-error" role="alert"></div>
       <button type="button" class="checkout-btn" id="basket-checkout">Checkout</button>
@@ -655,6 +657,8 @@
   var OFFERS = { flaxchia: 4, slurrp: 5 };  // any 2 products from the group cost this much
   var CHECKOUT_URL = 'https://pyljmukjqnckkogmregm.supabase.co/functions/v1/create-mhb-checkout';
   var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
+  var FIRST_ORDER_PERCENT = 20;       // first order: 20% off goods + free delivery
+  var firstOrder = false;             // set after the server checks the email
   var STORAGE_KEY = 'mhb_basket';
   var basket = {}; // id -> {name, price, qty}
 
@@ -715,9 +719,11 @@
     var saving = getSavings();
     var after = Math.round((subtotal - saving) * 100) / 100;
     var empty = Object.keys(basket).length === 0;
-    var delivery = empty ? 0 : (after >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_FEE);
-    return { subtotal: subtotal, saving: saving, after: after, delivery: delivery,
-             total: Math.round((after + delivery) * 100) / 100 };
+    var first = 0;
+    if (firstOrder && !empty) first = Math.round(after * FIRST_ORDER_PERCENT) / 100;
+    var delivery = empty ? 0 : ((after >= FREE_DELIVERY_THRESHOLD || firstOrder) ? 0 : DELIVERY_FEE);
+    return { subtotal: subtotal, saving: saving, first: first, after: after, delivery: delivery,
+             total: Math.round((after - first + delivery) * 100) / 100 };
   }
 
   function renderBadge(){
@@ -755,13 +761,17 @@
 
     var t = getTotals();
     document.getElementById('basket-subtotal').textContent = money(t.subtotal);
+    document.getElementById('basket-first-row').style.display = t.first > 0 ? 'flex' : 'none';
+    document.getElementById('basket-first').textContent = '-' + money(t.first);
     document.getElementById('basket-saving-row').style.display = t.saving > 0 ? 'flex' : 'none';
     document.getElementById('basket-saving').textContent = '-' + money(t.saving);
     document.getElementById('basket-delivery').textContent = ids.length === 0 ? '-' : (t.delivery === 0 ? 'Free' : money(t.delivery));
     document.getElementById('basket-total').textContent = money(t.total);
 
     var msgEl = document.getElementById('basket-delivery-msg');
-    if (ids.length > 0 && t.after >= FREE_DELIVERY_THRESHOLD) {
+    if (ids.length > 0 && firstOrder) {
+      msgEl.textContent = "First order: 20% off and free delivery!";
+    } else if (ids.length > 0 && t.after >= FREE_DELIVERY_THRESHOLD) {
       msgEl.textContent = "You've got free delivery!";
     } else {
       var remaining = FREE_DELIVERY_THRESHOLD - t.after;
@@ -845,6 +855,30 @@
       if (data && data.url) { window.location.href = data.url; }
       else { fail(data && data.error); }
     }).catch(function(){ fail(); });
+  });
+
+  // Ask the server whether this email is a first order, to show the right totals.
+  var emailTimer = null, emailSeq = 0;
+  function checkEmail(){
+    var email = (document.getElementById('basket-email').value || '').trim();
+    var seq = ++emailSeq;
+    var msg = document.getElementById('basket-email-msg');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+      firstOrder = false; msg.textContent = ""; renderAll(); return;
+    }
+    fetch(CHECKOUT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_KEY },
+      body: JSON.stringify({ check: true, email: email })
+    }).then(function(r){ return r.json(); }).then(function(d){
+      if (seq !== emailSeq) return;
+      firstOrder = !!(d && d.firstOrder);
+      msg.textContent = firstOrder ? '' : 'Welcome back! The first-order offer is for new customers only.';
+      renderAll();
+    }).catch(function(){ if (seq === emailSeq) { firstOrder = false; renderAll(); } });
+  }
+  document.getElementById('basket-email').addEventListener('input', function(){
+    clearTimeout(emailTimer); emailTimer = setTimeout(checkEmail, 500);
   });
 
   // "Shop" buttons scroll down to the products
