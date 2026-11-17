@@ -57,12 +57,27 @@
   .cta h2{margin:0 0 8px}
   .note{font-size:.88rem;color:var(--muted);text-align:center;margin-top:16px}
   footer{text-align:center;font-size:.85rem;color:var(--muted);padding:0 20px 32px}
+
+  .site-header-navy{background:#0b3d91;padding:1.6rem 1.5rem}
+  .header-row{display:flex;align-items:center;gap:1rem;max-width:1100px;margin:0 auto;flex-wrap:wrap}
+  .header-wordmark-box{display:inline-flex;align-items:center;gap:.6rem;background:#fff;border-radius:20px;padding:.9rem 1.8rem;box-shadow:0 8px 20px rgba(0,0,0,.15)}
+  .header-wordmark-box img{width:56px;height:56px;display:block}
+  .header-wordmark-box .wm{font-weight:800;font-size:clamp(1.15rem,4.2vw,2rem);line-height:1.15}
+  .header-tagline-row{max-width:1100px;margin:.9rem auto 0;padding-left:3rem}
+  .header-tagline{font-size:1.1rem;font-weight:700;color:#fff}
+  .header-tagline a{color:#fff}
+  .site-footer-navy{background:#0b3d91;color:#fff;text-align:center;font-size:.82rem;line-height:1.6;padding:1.8rem 1.5rem 5rem;margin-top:2.2rem}
+  .site-footer-navy a{color:#fff}
+  .site-footer-navy p{margin:0 0 .8rem}
+  @media(max-width:600px){.header-tagline-row{padding-left:0}.header-wordmark-box{padding:.7rem 1rem}.header-wordmark-box img{width:44px;height:44px}}
 </style>
 </head>
 <body>
-<header class="top">
-  <a class="brand" href="/"><span class="cz-cloud">Cloud</span><span class="cz-zio">Zio</span></a>
-  <a class="back" href="/">&larr; All CloudZio services</a>
+<header class="site-header-navy">
+  <div class="header-row">
+    <div class="header-wordmark-box"><span class="wm"><span class="cz-cloud">Cloud</span><span class="cz-zio">Zio</span> Children's Digital Learning</span></div>
+  </div>
+  <div class="header-tagline-row"><span class="header-tagline">Printable workbooks for children &nbsp;|&nbsp; <a href="/">&larr; All CloudZio services</a></span></div>
 </header>
 <main>
 <section class="hero">
@@ -104,6 +119,14 @@
   </div>
 </div>
 </main>
-<footer>Cloudzio Ltd is a company registered in England and Wales, company number 17308005. Registered office: 5 Brayford Square, London, England, E1 0SG.<br>&copy; 2026 Cloudzio Ltd</footer>
+<footer class="site-footer-navy">
+  <p><strong>Data Protection &amp; Privacy</strong><br>
+  Cloudzio is committed to protecting your personal data in accordance with UK data protection laws.</p>
+  <p>Cloudzio Ltd is a company registered in England and Wales, company number 17308005. Registered office: 5 Brayford Square, London, England, E1 0SG.</p>
+  <p>&copy; 2026 Cloudzio Ltd</p>
+  <p>Follow us: <a href="https://www.instagram.com/cloudzio_/" target="_blank" rel="noopener">Instagram</a> | <a href="https://www.linkedin.com/company/cloudzio-uk/" target="_blank" rel="noopener">LinkedIn</a> | <a href="https://www.facebook.com/profile.php?id=61590996342502" target="_blank" rel="noopener">Facebook</a></p>
+  <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
+</footer>
+<a href="https://wa.me/447561228288?text=Hi%2C%20I%20have%20a%20question%20about%20CloudZio%20Children%27s%20Digital%20Learning" target="_blank" rel="noopener" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-family:'Manrope',system-ui,sans-serif;font-weight:800;font-size:.95rem;padding:.8rem 1.2rem;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.25);text-decoration:none">&#128172; Any questions, chat with us</a>
 </body>
 </html>
