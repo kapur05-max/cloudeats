@@ -99,9 +99,13 @@
     <button class="btn" id="buy-year3" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
-  <div class="card"><span class="tag soon">Coming soon</span><h3>English Skills Workbook</h3>
-    <p>Reading comprehension, spelling, grammar and punctuation, and vocabulary building.</p>
-    <ul><li>Practice pages for each skill</li><li>Answer sheets for parents</li></ul></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 3 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Spelling, grammar, punctuation, vocabulary, reading and writing.</p>
+    <ul><li>48 printable pages, including two review tests</li><li>Five reading passages with questions</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag soon">Coming soon</span><h3>Holiday Activity Pack</h3>
     <p>A mix of English, Maths, puzzles and brain teasers to keep children learning in the holidays.</p>
     <ul><li>Games and brain teasers</li><li>Reading log and reward chart</li></ul></div>
@@ -136,16 +140,21 @@
 (function(){
   var URL_="https://pyljmukjqnckkogmregm.supabase.co/functions/v1/workbook-store";
   var KEY="sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB";
-  var b=document.getElementById("buy-year3"), m=document.getElementById("buy-msg");
-  if(!b)return;
-  b.addEventListener("click",function(){
-    b.disabled=true; b.textContent="Taking you to secure payment\u2026"; m.textContent="";
-    fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"checkout",id:"year3-maths"})})
-      .then(function(r){return r.json()})
-      .then(function(d){ if(d&&d.url){location.href=d.url;} else {throw new Error((d&&d.error)||"error");} })
-      .catch(function(e){ b.disabled=false; b.innerHTML="Buy now &ndash; &pound;1.99"; m.textContent="Sorry, we couldn\u2019t start checkout. Please try again, or email support@cloudzio.co.uk."; });
-  });
-  window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML="Buy now &ndash; &pound;1.99"; }});
+  function wire(btnId,msgId,id){
+    var b=document.getElementById(btnId), m=document.getElementById(msgId);
+    if(!b)return;
+    var label=b.innerHTML;
+    b.addEventListener("click",function(){
+      b.disabled=true; b.textContent="Taking you to secure payment\u2026"; m.textContent="";
+      fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"checkout",id:id})})
+        .then(function(r){return r.json()})
+        .then(function(d){ if(d&&d.url){location.href=d.url;} else {throw new Error((d&&d.error)||"error");} })
+        .catch(function(){ b.disabled=false; b.innerHTML=label; m.textContent="Sorry, we couldn\u2019t start checkout. Please try again, or email support@cloudzio.co.uk."; });
+    });
+    window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML=label; }});
+  }
+  wire("buy-year3","buy-msg","year3-maths");
+  wire("buy-year3-english","buy-msg-en","year3-english");
 })();
 </script>
 </body>
