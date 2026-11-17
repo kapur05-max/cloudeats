@@ -159,6 +159,13 @@ Deno.serve(async (req) => {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
+      // Children's Digital Learning workbook sale — Stripe already emails the
+      // receipt and the buyer gets their download on the thanks page, so
+      // nothing more to do here (and it must not run the AI-assistant logic).
+      if (session.metadata?.source === "workbook") {
+        return new Response("ok (workbook sale)", { status: 200 });
+      }
+
       // Mum's Healthy Bites shop order — record it and stop here.
       if (session.metadata?.source === "mhb") {
         await recordMhbOrder(session);
