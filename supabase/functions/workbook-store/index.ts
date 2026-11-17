@@ -22,6 +22,11 @@ const WORKBOOKS: Record<string, { name: string; pence: number; file: string }> =
     pence: 199,
     file: "Year3-Maths-Mastery-Workbook.pdf",
   },
+  "year3-english": {
+    name: "Year 3 English Skills Workbook (PDF)",
+    pence: 199,
+    file: "Year3-English-Skills-Workbook.pdf",
+  },
 };
 
 const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
