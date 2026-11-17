@@ -106,9 +106,13 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
-  <div class="card"><span class="tag soon">Coming soon</span><h3>Holiday Activity Pack</h3>
-    <p>A mix of English, Maths, puzzles and brain teasers to keep children learning in the holidays.</p>
-    <ul><li>Games and brain teasers</li><li>Reading log and reward chart</li></ul></div>
+  <div class="card"><span class="tag">Available now</span><h3>Holiday Activity Pack</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Puzzles, games and creative fun to keep children busy and learning in the holidays.</p>
+    <ul><li>28 printable pages for ages 6 to 9</li><li>Word searches, mazes, sudoku, riddles and code breaking</li><li>Reading log, reward chart, holiday diary and answers</li></ul>
+    <button class="btn" id="buy-holiday" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-hol" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
 </div>
 
 <h2>Why parents will like them</h2>
@@ -155,6 +159,7 @@
   }
   wire("buy-year3","buy-msg","year3-maths");
   wire("buy-year3-english","buy-msg-en","year3-english");
+  wire("buy-holiday","buy-msg-hol","holiday-pack");
 })();
 </script>
 </body>
