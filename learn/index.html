@@ -106,6 +106,20 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 4 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Place value to 10,000, times tables to 12, fractions, decimals, money, time, area and word problems.</p>
+    <ul><li>59 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year4" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y4" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 4 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Spelling, grammar, punctuation, vocabulary, reading and writing.</p>
+    <ul><li>39 printable pages, including two review tests</li><li>Five reading texts with questions</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-year4-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y4e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Holiday Activity Pack</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
     <p>Puzzles, games and creative fun to keep children busy and learning in the holidays.</p>
@@ -159,6 +173,8 @@
   }
   wire("buy-year3","buy-msg","year3-maths");
   wire("buy-year3-english","buy-msg-en","year3-english");
+  wire("buy-year4","buy-msg-y4","year4-maths");
+  wire("buy-year4-english","buy-msg-y4e","year4-english");
   wire("buy-holiday","buy-msg-hol","holiday-pack");
 })();
 </script>

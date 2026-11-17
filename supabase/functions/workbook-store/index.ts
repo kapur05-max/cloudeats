@@ -27,6 +27,16 @@ const WORKBOOKS: Record<string, { name: string; pence: number; file: string }> =
     pence: 199,
     file: "Year3-English-Skills-Workbook.pdf",
   },
+  "year4-maths": {
+    name: "Year 4 Maths Mastery Workbook (PDF)",
+    pence: 199,
+    file: "Year4-Maths-Mastery-Workbook.pdf",
+  },
+  "year4-english": {
+    name: "Year 4 English Skills Workbook (PDF)",
+    pence: 199,
+    file: "Year4-English-Skills-Workbook.pdf",
+  },
   "holiday-pack": {
     name: "Holiday Activity Pack (PDF)",
     pence: 199,
