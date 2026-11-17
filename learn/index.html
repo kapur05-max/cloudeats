@@ -92,9 +92,13 @@
 <h2>Our first workbooks</h2>
 <p class="lead">Written for Key Stage 2 and guided by the English National Curriculum. Each workbook is a PDF you can print again and again.</p>
 <div class="grid">
-  <div class="card"><span class="tag soon">Coming soon</span><h3>Year 3 Maths Mastery Workbook</h3>
-    <p>Addition, subtraction, multiplication, division and word problems.</p>
-    <ul><li>Printable worksheets for each topic</li><li>Answer sheets for parents</li></ul></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 3 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Place value, times tables, fractions, money, time, shapes and word problems.</p>
+    <ul><li>44 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year3" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag soon">Coming soon</span><h3>English Skills Workbook</h3>
     <p>Reading comprehension, spelling, grammar and punctuation, and vocabulary building.</p>
     <ul><li>Practice pages for each skill</li><li>Answer sheets for parents</li></ul></div>
@@ -128,5 +132,21 @@
   <p><a href="https://www.cloudzio.co.uk/food/privacy-policy.html" target="_blank" rel="noopener">Privacy Policy</a> | <a href="https://www.cloudzio.co.uk/food/terms-of-service.html" target="_blank" rel="noopener">Terms of Service</a></p>
 </footer>
 <a href="https://wa.me/447561228288?text=Hi%2C%20I%20have%20a%20question%20about%20CloudZio%20Children%27s%20Digital%20Learning" target="_blank" rel="noopener" style="position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;align-items:center;gap:8px;background:#25D366;color:#fff;font-family:'Manrope',system-ui,sans-serif;font-weight:800;font-size:.95rem;padding:.8rem 1.2rem;border-radius:999px;box-shadow:0 8px 20px rgba(0,0,0,.25);text-decoration:none">&#128172; Any questions, chat with us</a>
+<script>
+(function(){
+  var URL_="https://pyljmukjqnckkogmregm.supabase.co/functions/v1/workbook-store";
+  var KEY="sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB";
+  var b=document.getElementById("buy-year3"), m=document.getElementById("buy-msg");
+  if(!b)return;
+  b.addEventListener("click",function(){
+    b.disabled=true; b.textContent="Taking you to secure payment\u2026"; m.textContent="";
+    fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"checkout",id:"year3-maths"})})
+      .then(function(r){return r.json()})
+      .then(function(d){ if(d&&d.url){location.href=d.url;} else {throw new Error((d&&d.error)||"error");} })
+      .catch(function(e){ b.disabled=false; b.innerHTML="Buy now &ndash; &pound;1.99"; m.textContent="Sorry, we couldn\u2019t start checkout. Please try again, or email support@cloudzio.co.uk."; });
+  });
+  window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML="Buy now &ndash; &pound;1.99"; }});
+})();
+</script>
 </body>
 </html>
