@@ -106,6 +106,20 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 2 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Counting, number bonds, adding and subtracting, 2, 5 and 10 times tables, fractions, money, time and shapes.</p>
+    <ul><li>52 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year2" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y2" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 2 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Spelling, grammar, punctuation, reading and writing for ages 6 to 7.</p>
+    <ul><li>35 printable pages, including two review tests</li><li>Four reading texts with questions</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-year2-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y2e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Year 4 Maths Mastery Workbook</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
     <p>Place value to 10,000, times tables to 12, fractions, decimals, money, time, area and word problems.</p>
@@ -191,6 +205,8 @@
     });
     window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML=label; }});
   }
+  wire("buy-year2","buy-msg-y2","year2-maths");
+  wire("buy-year2-english","buy-msg-y2e","year2-english");
   wire("buy-year3","buy-msg","year3-maths");
   wire("buy-year3-english","buy-msg-en","year3-english");
   wire("buy-year4","buy-msg-y4","year4-maths");
