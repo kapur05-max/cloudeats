@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /ai/account.html
+Disallow: /ai/login.html
+Disallow: /ai/signup.html
+
+Sitemap: https://www.cloudzio.co.uk/sitemap.xml
