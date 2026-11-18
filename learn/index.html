@@ -106,6 +106,20 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 1 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Counting to 100, number bonds, adding and subtracting within 20, doubles and halves, coins, time and shapes for ages 5 to 6.</p>
+    <ul><li>43 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year1" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y1" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 1 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Letters and sounds, spelling, capital letters and full stops, simple sentences, reading and writing for ages 5 to 6.</p>
+    <ul><li>28 printable pages, including two review tests</li><li>Three reading texts with questions</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-year1-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y1e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Year 2 Maths Mastery Workbook</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
     <p>Counting, number bonds, adding and subtracting, 2, 5 and 10 times tables, fractions, money, time and shapes.</p>
@@ -205,6 +219,8 @@
     });
     window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML=label; }});
   }
+  wire("buy-year1","buy-msg-y1","year1-maths");
+  wire("buy-year1-english","buy-msg-y1e","year1-english");
   wire("buy-year2","buy-msg-y2","year2-maths");
   wire("buy-year2-english","buy-msg-y2e","year2-english");
   wire("buy-year3","buy-msg","year3-maths");

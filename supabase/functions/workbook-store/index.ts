@@ -17,6 +17,16 @@ const BUCKET = "workbooks";
 
 // Add future workbooks here (id -> name, price in pence, file in the bucket).
 const WORKBOOKS: Record<string, { name: string; pence: number; file: string }> = {
+  "year1-maths": {
+    name: "Year 1 Maths Mastery Workbook (PDF)",
+    pence: 199,
+    file: "Year1-Maths-Mastery-Workbook.pdf",
+  },
+  "year1-english": {
+    name: "Year 1 English Skills Workbook (PDF)",
+    pence: 199,
+    file: "Year1-English-Skills-Workbook.pdf",
+  },
   "year2-maths": {
     name: "Year 2 Maths Mastery Workbook (PDF)",
     pence: 199,
