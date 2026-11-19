@@ -106,6 +106,27 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Times Tables Mastery Pack</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Every times table from 2 to 12, division facts, missing numbers, speed rounds and a times table grid, for ages 6 to 11.</p>
+    <ul><li>32 printable pages, including two review tests</li><li>Speed rounds to beat your own time</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-times-tables" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-tt" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 7 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Decimals, fractions, percentages, ratio, algebra, equations, angles, area, averages and probability for ages 11 to 12.</p>
+    <ul><li>44 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year7" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y7" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 7 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Spelling, grammar, punctuation, vocabulary, reading and writing for ages 11 to 12.</p>
+    <ul><li>34 printable pages, including two review tests</li><li>Four reading texts with questions</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-year7-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y7e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Year 1 Maths Mastery Workbook</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
     <p>Counting to 100, number bonds, adding and subtracting within 20, doubles and halves, coins, time and shapes for ages 5 to 6.</p>
@@ -219,6 +240,9 @@
     });
     window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML=label; }});
   }
+  wire("buy-times-tables","buy-msg-tt","times-tables");
+  wire("buy-year7","buy-msg-y7","year7-maths");
+  wire("buy-year7-english","buy-msg-y7e","year7-english");
   wire("buy-year1","buy-msg-y1","year1-maths");
   wire("buy-year1-english","buy-msg-y1e","year1-english");
   wire("buy-year2","buy-msg-y2","year2-maths");
