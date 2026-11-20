@@ -32,6 +32,26 @@ const WORKBOOKS: Record<string, { name: string; pence: number; file: string }> =
     pence: 199,
     file: "Year7-English-Skills-Workbook.pdf",
   },
+  "year8-maths": {
+    name: "Year 8 Maths Mastery Workbook (PDF)",
+    pence: 199,
+    file: "Year8-Maths-Mastery-Workbook.pdf",
+  },
+  "year8-english": {
+    name: "Year 8 English Skills Workbook (PDF)",
+    pence: 199,
+    file: "Year8-English-Skills-Workbook.pdf",
+  },
+  "year9-maths": {
+    name: "Year 9 Maths Mastery Workbook (PDF)",
+    pence: 199,
+    file: "Year9-Maths-Mastery-Workbook.pdf",
+  },
+  "year9-english": {
+    name: "Year 9 English Skills Workbook (PDF)",
+    pence: 199,
+    file: "Year9-English-Skills-Workbook.pdf",
+  },
   "year1-maths": {
     name: "Year 1 Maths Mastery Workbook (PDF)",
     pence: 199,
