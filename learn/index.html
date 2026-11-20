@@ -106,6 +106,21 @@
     <button class="btn" id="buy-year3-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-en" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Bundle</span><h3>Maths + English Bundle</h3>
+    <div class="price">&pound;2.99<small> / 2 PDF downloads</small></div>
+    <p>Get both the Maths and the English workbook for one year, and save &pound;0.99 compared with buying them separately.</p>
+    <label for="bundle-year" style="display:block;margin-top:12px;font-weight:700">Choose a year</label>
+    <select id="bundle-year" style="width:100%;margin-top:6px;padding:10px;border:1px solid var(--line);border-radius:10px;font:inherit"><option value="bundle-year1">Year 1 (ages 5 to 6)</option><option value="bundle-year2">Year 2 (ages 6 to 7)</option><option value="bundle-year3">Year 3 (ages 7 to 8)</option><option value="bundle-year4">Year 4 (ages 8 to 9)</option><option value="bundle-year5">Year 5 (ages 9 to 10)</option><option value="bundle-year6">Year 6 (ages 10 to 11)</option><option value="bundle-year7">Year 7 (ages 11 to 12)</option><option value="bundle-year8">Year 8 (ages 12 to 13)</option><option value="bundle-year9">Year 9 (ages 13 to 14)</option><option value="bundle-year10">Year 10 (ages 14 to 15)</option><option value="bundle-year11">Year 11 (ages 15 to 16)</option></select>
+    <button class="btn" id="buy-bundle" type="button" style="margin-top:14px;width:100%">Buy bundle &ndash; &pound;2.99</button>
+    <p class="note" id="buy-msg-bundle" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Phonics Starter Pack</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Letter sounds, blending, digraphs, magic e, tricky words, decodable stories and dictation for ages 4 to 6.</p>
+    <ul><li>28 printable pages, including two review tests</li><li>Two short stories and dictation sentences</li><li>Full answer pages and a certificate</li></ul>
+    <button class="btn" id="buy-phonics" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-ph" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Times Tables Mastery Pack</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
     <p>Every times table from 2 to 12, division facts, missing numbers, speed rounds and a times table grid, for ages 6 to 11.</p>
@@ -284,12 +299,12 @@
   var URL_="https://pyljmukjqnckkogmregm.supabase.co/functions/v1/workbook-store";
   var KEY="sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB";
   function wire(btnId,msgId,id){
-    var b=document.getElementById(btnId), m=document.getElementById(msgId);
+    var b=document.getElementById(btnId), m=document.getElementById(msgId); var idv=id;
     if(!b)return;
     var label=b.innerHTML;
     b.addEventListener("click",function(){
       b.disabled=true; b.textContent="Taking you to secure payment\u2026"; m.textContent="";
-      fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"checkout",id:id})})
+      fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"checkout",id:(typeof idv==="function"?idv():idv)})})
         .then(function(r){return r.json()})
         .then(function(d){ if(d&&d.url){location.href=d.url;} else {throw new Error((d&&d.error)||"error");} })
         .catch(function(){ b.disabled=false; b.innerHTML=label; m.textContent="Sorry, we couldn\u2019t start checkout. Please try again, or email support@cloudzio.co.uk."; });
@@ -297,6 +312,8 @@
     window.addEventListener("pageshow",function(e){ if(e.persisted){ b.disabled=false; b.innerHTML=label; }});
   }
   wire("buy-times-tables","buy-msg-tt","times-tables");
+  wire("buy-phonics","buy-msg-ph","phonics-starter");
+  wire("buy-bundle","buy-msg-bundle",function(){return document.getElementById("bundle-year").value;});
   wire("buy-year7","buy-msg-y7","year7-maths");
   wire("buy-year7-english","buy-msg-y7e","year7-english");
   wire("buy-year8","buy-msg-y8m","year8-maths");

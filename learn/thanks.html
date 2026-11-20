@@ -33,7 +33,8 @@
   fetch(URL_,{method:"POST",headers:{"Content-Type":"application/json","apikey":KEY},body:JSON.stringify({action:"download",session_id:sid})})
     .then(function(r){return r.json()})
     .then(function(d){
-      if(d&&d.url){ st.textContent="Your payment has gone through. Your workbook is ready."; ac.innerHTML='<a class="btn" href="'+d.url.replace(/"/g,"&quot;")+'">Download your workbook (PDF)</a>'; }
+      if(d&&d.urls&&d.urls.length>1){ st.textContent="Your payment has gone through. Your workbooks are ready."; ac.innerHTML=d.urls.map(function(u){return '<a class="btn" style="display:block;margin:8px 0" href="'+String(u.url).replace(/"/g,"&quot;")+'">Download: '+String(u.name).replace(/[<>&"]/g,"")+' (PDF)</a>';}).join(""); }
+      else if(d&&d.url){ st.textContent="Your payment has gone through. Your workbook is ready."; ac.innerHTML='<a class="btn" href="'+d.url.replace(/"/g,"&quot;")+'">Download your workbook (PDF)</a>'; }
       else { st.textContent=(d&&d.error)||"Sorry, something went wrong."; }
     })
     .catch(function(){ st.textContent="Sorry, we couldn\u2019t load your download. Please refresh, or email support@cloudzio.co.uk."; });

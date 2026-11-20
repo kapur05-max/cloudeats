@@ -16,7 +16,78 @@ const SITE = "https://www.cloudzio.co.uk";
 const BUCKET = "workbooks";
 
 // Add future workbooks here (id -> name, price in pence, file in the bucket).
-const WORKBOOKS: Record<string, { name: string; pence: number; file: string }> = {
+const WORKBOOKS: Record<string, { name: string; pence: number; file: string; files?: string[] }> = {
+  "phonics-starter": {
+    name: "Phonics Starter Pack (PDF)",
+    pence: 199,
+    file: "Phonics-Starter-Pack.pdf",
+  },
+  "bundle-year1": {
+    name: "Year 1 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year1-Maths-Mastery-Workbook.pdf",
+    files: ["Year1-Maths-Mastery-Workbook.pdf", "Year1-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year2": {
+    name: "Year 2 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year2-Maths-Mastery-Workbook.pdf",
+    files: ["Year2-Maths-Mastery-Workbook.pdf", "Year2-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year3": {
+    name: "Year 3 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year3-Maths-Mastery-Workbook.pdf",
+    files: ["Year3-Maths-Mastery-Workbook.pdf", "Year3-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year4": {
+    name: "Year 4 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year4-Maths-Mastery-Workbook.pdf",
+    files: ["Year4-Maths-Mastery-Workbook.pdf", "Year4-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year5": {
+    name: "Year 5 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year5-Maths-Mastery-Workbook.pdf",
+    files: ["Year5-Maths-Mastery-Workbook.pdf", "Year5-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year6": {
+    name: "Year 6 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year6-Maths-Mastery-Workbook.pdf",
+    files: ["Year6-Maths-Mastery-Workbook.pdf", "Year6-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year7": {
+    name: "Year 7 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year7-Maths-Mastery-Workbook.pdf",
+    files: ["Year7-Maths-Mastery-Workbook.pdf", "Year7-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year8": {
+    name: "Year 8 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year8-Maths-Mastery-Workbook.pdf",
+    files: ["Year8-Maths-Mastery-Workbook.pdf", "Year8-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year9": {
+    name: "Year 9 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year9-Maths-Mastery-Workbook.pdf",
+    files: ["Year9-Maths-Mastery-Workbook.pdf", "Year9-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year10": {
+    name: "Year 10 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year10-Maths-Mastery-Workbook.pdf",
+    files: ["Year10-Maths-Mastery-Workbook.pdf", "Year10-English-Skills-Workbook.pdf"],
+  },
+  "bundle-year11": {
+    name: "Year 11 Maths and English Bundle (2 PDFs)",
+    pence: 299,
+    file: "Year11-Maths-Mastery-Workbook.pdf",
+    files: ["Year11-Maths-Mastery-Workbook.pdf", "Year11-English-Skills-Workbook.pdf"],
+  },
   "times-tables": {
     name: "Times Tables Mastery Pack (PDF)",
     pence: 199,
@@ -203,14 +274,19 @@ Deno.serve(async (req) => {
       if (session.payment_status !== "paid") {
         return json({ error: "Payment hasn't been completed yet." }, 402);
       }
-      const { data, error } = await supabaseAdmin.storage
-        .from(BUCKET)
-        .createSignedUrl(wb.file, 600, { download: wb.file });
-      if (error || !data?.signedUrl) {
-        console.error("signed url failed:", error);
-        return json({ error: "Sorry, we couldn't prepare your download. Please email support@cloudzio.co.uk with your receipt." }, 500);
+      const names = wb.files ?? [wb.file];
+      const links: { name: string; url: string }[] = [];
+      for (const fname of names) {
+        const { data, error } = await supabaseAdmin.storage
+          .from(BUCKET)
+          .createSignedUrl(fname, 600, { download: fname });
+        if (error || !data?.signedUrl) {
+          console.error("signed url failed:", error);
+          return json({ error: "Sorry, we couldn't prepare your download. Please email support@cloudzio.co.uk with your receipt." }, 500);
+        }
+        links.push({ name: fname.replace(/-Workbook\.pdf$|-Pack\.pdf$/, "").replace(/-/g, " "), url: data.signedUrl });
       }
-      return json({ url: data.signedUrl });
+      return json({ url: links[0].url, urls: links });
     }
 
     return json({ error: "Unknown request." }, 400);
