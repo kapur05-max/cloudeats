@@ -10,12 +10,12 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CloudZio Children's Digital Learning | Printable English & Maths Workbooks, Years 1 to 6</title>
-<meta name="description" content="Printable English and Maths workbooks for Years 1 to 6 (ages 5 to 11), with answer sheets for parents. Instant PDF download, just £1.99 each.">
+<title>CloudZio Children's Digital Learning | Printable English & Maths Workbooks, Years 1 to 11</title>
+<meta name="description" content="Printable English and Maths workbooks for Years 1 to 11 (ages 5 to 16), with answer sheets for parents. Instant PDF download, just £1.99 each.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://www.cloudzio.co.uk/learn/">
 <meta property="og:title" content="CloudZio Children's Digital Learning | Printable English & Maths Workbooks">
-<meta property="og:description" content="Printable English and Maths workbooks for Years 1 to 6 (ages 5 to 11), with answer sheets for parents. Instant PDF download, just £1.99 each.">
+<meta property="og:description" content="Printable English and Maths workbooks for Years 1 to 11 (ages 5 to 16), with answer sheets for parents. Instant PDF download, just £1.99 each.">
 <link rel="canonical" href="https://www.cloudzio.co.uk/learn/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -126,6 +126,34 @@
     <ul><li>34 printable pages, including two review tests</li><li>Four reading texts with questions</li><li>Full answer pages and a certificate</li></ul>
     <button class="btn" id="buy-year7-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
     <p class="note" id="buy-msg-y7e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 10 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Quadratic formula, completing the square, sine and cosine rules, circle theorems, vectors, histograms and algebraic proof for ages 14 to 15.</p>
+    <ul><li>31 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year10" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y10m" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 10 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>Spelling, vocabulary, punctuation for effect, analysing language and structure, reading and writing practice for the first year of GCSE for ages 14 to 15.</p>
+    <ul><li>28 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year10-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y10e" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 11 Maths Mastery Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>GCSE revision on every main topic, with challenge pages and three mixed practice papers for ages 15 to 16.</p>
+    <ul><li>32 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year11" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y11m" role="status" style="margin-top:8px"></p>
+    <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
+  <div class="card"><span class="tag">Available now</span><h3>Year 11 English Skills Workbook</h3>
+    <div class="price">&pound;1.99<small> / PDF download</small></div>
+    <p>GCSE English revision with exam technique, fiction and non-fiction practice papers and writing tasks for ages 15 to 16.</p>
+    <ul><li>27 printable pages, including two review tests</li><li>Full answer pages for parents</li><li>Certificate of achievement</li></ul>
+    <button class="btn" id="buy-year11-english" type="button" style="margin-top:14px;width:100%">Buy now &ndash; &pound;1.99</button>
+    <p class="note" id="buy-msg-y11e" role="status" style="margin-top:8px"></p>
     <p class="note" style="margin-top:6px">Secure payment by Stripe. Instant download after payment. Digital product, so it can&rsquo;t be returned once downloaded.</p></div>
   <div class="card"><span class="tag">Available now</span><h3>Year 8 Maths Mastery Workbook</h3>
     <div class="price">&pound;1.99<small> / PDF download</small></div>
@@ -275,6 +303,10 @@
   wire("buy-year8-english","buy-msg-y8e","year8-english");
   wire("buy-year9","buy-msg-y9m","year9-maths");
   wire("buy-year9-english","buy-msg-y9e","year9-english");
+  wire("buy-year10","buy-msg-y10m","year10-maths");
+  wire("buy-year10-english","buy-msg-y10e","year10-english");
+  wire("buy-year11","buy-msg-y11m","year11-maths");
+  wire("buy-year11-english","buy-msg-y11e","year11-english");
   wire("buy-year1","buy-msg-y1","year1-maths");
   wire("buy-year1-english","buy-msg-y1e","year1-english");
   wire("buy-year2","buy-msg-y2","year2-maths");
