@@ -114,6 +114,8 @@
       </form>
     </div>
 
+    <p class="alt-link" id="magic-wrap">Bought a plan or forgot your password? <a href="#" id="magic-link">Email me a sign-in link</a></p>
+
     <p class="alt-link">New to CloudZio AI? <a href="/ai/signup.html">Create an account</a></p>
 
     <a class="back" href="/ai/index.html">&larr; Back to CloudZio AI</a>
@@ -165,6 +167,31 @@
           return;
         }
         window.location.href = '/ai/account.html';
+      });
+    });
+    // "Email me a sign-in link": passwordless login for people who have paid
+    // (or forgot their password). Supabase emails a one-click link.
+    document.getElementById('magic-link').addEventListener('click', function(e){
+      e.preventDefault();
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
+      var email = document.getElementById('email').value.trim();
+      if (!email){
+        errorMsg.textContent = 'Please type your email address in the box above first, then click the link again.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+      sb.auth.signInWithOtp({
+        email: email,
+        options: { emailRedirectTo: 'https://www.cloudzio.co.uk/ai/account.html', shouldCreateUser: false }
+      }).then(function(result){
+        if (result.error){
+          errorMsg.textContent = 'We could not send a link to that address. Check it is the email you used, or create an account.';
+          errorMsg.style.display = 'block';
+          return;
+        }
+        successMsg.textContent = 'Check your email: we have sent you a sign-in link. It can take a minute, and please look in spam too.';
+        successMsg.style.display = 'block';
       });
     });
   })();

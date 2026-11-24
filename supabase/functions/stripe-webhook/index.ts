@@ -209,6 +209,26 @@ Deno.serve(async (req) => {
       });
 
       if (error) console.error("Upsert failed:", error);
+
+      // After a successful purchase, email the customer a one-click sign-in
+      // ("magic") link so they can open their assistants straight away.
+      // Supabase sends it using the Zoho SMTP already set up for auth emails.
+      // A failure here must never make the webhook fail (Stripe would retry
+      // and the payment record is already saved), so it is only logged.
+      if (!error && assistants.length > 0) {
+        try {
+          const { error: linkError } = await supabaseAdmin.auth.signInWithOtp({
+            email: email.toLowerCase(),
+            options: {
+              emailRedirectTo: "https://www.cloudzio.co.uk/ai/account.html",
+              shouldCreateUser: true,
+            },
+          });
+          if (linkError) console.error("Magic link email failed:", linkError.message);
+        } catch (e) {
+          console.error("Magic link email threw:", e);
+        }
+      }
     }
 
     if (
