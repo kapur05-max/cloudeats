@@ -67,7 +67,7 @@ const OFFERS: Record<string, { label: string; pairPence: number }> = {
   slurrp: { label: "Pancake mix multi-buy: 2 for £5", pairPence: 500 },
 };
 
-const FREE_DELIVERY_PENCE = 2500; // free delivery when the total after offers reaches £25
+const FREE_DELIVERY_PENCE = 3000; // free delivery when the total after offers reaches £30
 const DELIVERY_FEE_PENCE = 399; // delivery charge below that (£3.99)
 const MAX_QTY_PER_ITEM = 20;
 const MAX_DISTINCT_ITEMS = 40;
@@ -164,11 +164,11 @@ const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY")!, {
 
 const SITE = "https://www.cloudzio.co.uk";
 
-// Introduction offer: 20% off the first order when the goods come to £25 or more
-// (after multi-buy offers). Orders of £25+ already get free delivery.
+// Introduction offer: 10% off the first order when the goods come to £30 or more
+// (after multi-buy offers). Orders of £30+ already get free delivery.
 // "First order" = no earlier order in mhb_orders for the same email address.
-const FIRST_ORDER_PERCENT = 20;
-const FIRST_ORDER_MIN_PENCE = 2500; // minimum goods total for the first-order discount
+const FIRST_ORDER_PERCENT = 10;
+const FIRST_ORDER_MIN_PENCE = 3000; // minimum goods total for the first-order discount
 const supabaseAdmin = createClient(Deno.env.get("SB_URL")!, Deno.env.get("SB_SECRET_KEY")!);
 
 async function isFirstOrder(email: string): Promise<boolean> {
@@ -230,7 +230,7 @@ Deno.serve(async (req) => {
       firstOrderOff = Math.round((priced.subtotal - priced.discount) * FIRST_ORDER_PERCENT / 100);
     }
     const totalOff = priced.discount + firstOrderOff;
-    const delivery = priced.delivery; // free at £25+ after multi-buy offers, otherwise £3.99
+    const delivery = priced.delivery; // free at £30+ after multi-buy offers, otherwise £3.99
 
     let discounts: { coupon: string }[] | undefined;
     if (totalOff > 0) {
@@ -240,7 +240,7 @@ Deno.serve(async (req) => {
         duration: "once",
         // Stripe shows this name on the Checkout page (40 characters max).
         name: firstOrderOff > 0
-          ? (priced.discount > 0 ? "Multi-buy + 20% off first order" : "20% off your first order")
+          ? (priced.discount > 0 ? "Multi-buy + 10% off first order" : "10% off your first order")
           : (priced.discountLabels.length === 1 ? priced.discountLabels[0] : "Multi-buy savings"),
         max_redemptions: 1,
       });

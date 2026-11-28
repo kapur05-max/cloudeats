@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mum's Healthy Bites</title>
-<meta name="description" content="Healthy, plant-based pantry food for busy mums, stocked and posted by CloudZio. Free UK delivery on orders over £25.">
+<meta name="description" content="Healthy, plant-based pantry food for busy mums, stocked and posted by CloudZio. Free UK delivery on orders over £30.">
 <link rel="icon" href="img/logo-1.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,7 +94,7 @@
 
 <nav>
   <div class="brand"><img src="img/logo-1.png" alt="Mum's Healthy Bites" style="height:56px;width:56px;border-radius:50%;display:block"></div>
-  <div class="freedelivery" style="flex:1;text-align:center;color:#FFD400;font-weight:800;font-size:15px;letter-spacing:.2px">Free delivery for orders over £25<div style="font-size:12px;font-weight:700;color:#FFFFFF;margin-top:2px">Delivery within 3 to 5 working days</div></div>
+  <div class="freedelivery" style="flex:1;text-align:center;color:#FFD400;font-weight:800;font-size:15px;letter-spacing:.2px">Free delivery for orders over £30<div style="font-size:12px;font-weight:700;color:#FFFFFF;margin-top:2px">Delivery within 3 to 5 working days</div></div>
   <div class="navlinks">
     <a href="#contact">Contact</a>
   </div>
@@ -125,7 +125,7 @@
 <section style="padding:40px 8% 8px;text-align:center">
   <h2 class="sectionTitle" style="font-size:26px">A little looking-after, built around your whole day</h2>
   <p style="margin:8px auto 0;max-width:620px;color:var(--grey);font-size:15px;line-height:1.6">From the first cup of tea to the moment your head hits the pillow — something for every part of your day, chosen with real mums in mind.</p>
-  <p style="margin:12px auto 0;font-weight:700;color:#0D3297;font-size:15px">UK delivery within 3 to 5 working days &bull; Free over £25</p>
+  <p style="margin:12px auto 0;font-weight:700;color:#0D3297;font-size:15px">UK delivery within 3 to 5 working days &bull; Free over £30</p>
 </section>
 
 <!-- HAMPERS -->
@@ -558,16 +558,16 @@
       <div class="basket-empty">Your basket is empty — add something tasty!</div>
     </div>
     <div class="basket-foot">
-      <div class="basket-delivery-msg" id="basket-delivery-msg">Add £25.00 more for free delivery</div>
+      <div class="basket-delivery-msg" id="basket-delivery-msg">Add £30.00 more for free delivery</div>
       <div class="basket-row"><span>Subtotal</span><span id="basket-subtotal">£0.00</span></div>
       <div class="basket-row saving" id="basket-saving-row" style="display:none"><span>Multi-buy savings</span><span id="basket-saving">-£0.00</span></div>
-      <div class="basket-row saving" id="basket-first-row" style="display:none"><span>First order 20% off</span><span id="basket-first">-£0.00</span></div>
+      <div class="basket-row saving" id="basket-first-row" style="display:none"><span>First order 10% off</span><span id="basket-first">-£0.00</span></div>
       <div class="basket-row"><span>UK delivery</span><span id="basket-delivery">£0.00</span></div>
       <div class="basket-total"><span>Total</span><span id="basket-total">£0.00</span></div>
-      <label for="basket-email" style="display:block;font-size:13px;font-weight:700;margin:4px 0 6px;color:#1FA62E">New here? Get 20% off your first order of £25 or more (plus free delivery)</label>
+      <label for="basket-email" style="display:block;font-size:13px;font-weight:700;margin:4px 0 6px;color:#1FA62E">New here? Get 10% off your first order of £30 or more (plus free delivery)</label>
       <input type="email" id="basket-email" autocomplete="email" placeholder="Your email address" style="width:100%;box-sizing:border-box;padding:10px 12px;border:1px solid #ccc;border-radius:10px;font-size:14px;margin-bottom:4px">
       <div id="basket-email-msg" style="font-size:12px;color:#B0123E;margin-bottom:4px"></div>
-      <div style="font-size:12px;color:var(--grey);margin-bottom:12px">Introduction offer: enter your email and 20% off is applied at secure checkout when your first order comes to £25 or more.</div>
+      <div style="font-size:12px;color:var(--grey);margin-bottom:12px">Introduction offer: enter your email and 10% off is applied at secure checkout when your first order comes to £30 or more.</div>
       <div class="basket-error" id="basket-error" role="alert"></div>
       <button type="button" class="checkout-btn" id="basket-checkout">Checkout</button>
       <div class="basket-note">Delivery within 3 to 5 working days (UK only). You'll enter your delivery address and pay securely by card on the next page.</div>
@@ -653,13 +653,13 @@
   // These numbers must match the PRICING block in
   // supabase/functions/create-mhb-checkout/index.ts (the server is the one
   // that really decides what is charged; this page only shows the sums).
-  var FREE_DELIVERY_THRESHOLD = 25;   // free delivery when the total after offers reaches £25
+  var FREE_DELIVERY_THRESHOLD = 30;   // free delivery when the total after offers reaches £30
   var DELIVERY_FEE = 3.99;            // delivery charge below that
   var OFFERS = { flaxchia: 4, slurrp: 5 };  // any 2 products from the group cost this much
   var CHECKOUT_URL = 'https://pyljmukjqnckkogmregm.supabase.co/functions/v1/create-mhb-checkout';
   var SUPABASE_KEY = 'sb_publishable_qv3MZTjYzg23Y2H2-jbIuw_z6NbnxfB';
-  var FIRST_ORDER_PERCENT = 20;       // first order: 20% off goods
-  var FIRST_ORDER_MIN = 25;            // first-order 20% off needs £25+ of goods (after offers)
+  var FIRST_ORDER_PERCENT = 10;       // first order: 10% off goods
+  var FIRST_ORDER_MIN = 30;            // first-order 10% off needs £30+ of goods (after offers)
   var firstOrder = false;             // set after the server checks the email
   var STORAGE_KEY = 'mhb_basket';
   var basket = {}; // id -> {name, price, qty}
@@ -772,13 +772,13 @@
 
     var msgEl = document.getElementById('basket-delivery-msg');
     if (ids.length > 0 && firstOrder && t.after >= FIRST_ORDER_MIN) {
-      msgEl.textContent = "First order: 20% off and free delivery!";
+      msgEl.textContent = "First order: 10% off and free delivery!";
     } else if (ids.length > 0 && t.after >= FREE_DELIVERY_THRESHOLD) {
       msgEl.textContent = "You've got free delivery!";
     } else {
       var remaining = FREE_DELIVERY_THRESHOLD - t.after;
       msgEl.textContent = (ids.length > 0 && firstOrder)
-        ? 'Add ' + money(remaining) + ' more to get 20% off your first order + free delivery'
+        ? 'Add ' + money(remaining) + ' more to get 10% off your first order + free delivery'
         : 'Add ' + money(remaining) + ' more for free delivery';
     }
   }
